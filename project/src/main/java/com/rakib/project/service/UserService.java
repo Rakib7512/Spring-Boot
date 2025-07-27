@@ -1,38 +1,58 @@
 package com.rakib.project.service;
 
 import com.rakib.project.entity.User;
+import com.rakib.project.repository.IUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
 
     @Autowired
-    private UserService userService;
+    private IUserRepo userRepo;
 
     @Autowired
     private EmailService emailService;
 
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    @Value("src/main/resources/static/images")
+    private String uploadDir;
+
+    public void saveOrUpdate(User user, MultipartFile imagefile) {
+
+        if (imagefile != null && !imagefile.isEmpty()) {
+            String fileName = saveImage(imagefile, user);
+            user.setPhoto(fileName);
+        }
+
+        userRepo.save(user);
+        sendActivationEmail(user);
+    }
+    public List<User> findAll() {
+        return userRepo.findAll();
     }
 
-    public User getUserById(int id) {
-        return userService.getUserById(id);
+
+
+    public User findById(int id) {
+        return userRepo.findById(id).get();
     }
 
-    public void saveOrUpdateUser(User user) {
-        userService.saveOrUpdateUser(user);
+    public void delete(User user) {
+        userRepo.delete(user);
     }
 
-    public void deleteUserById(int id) {
-        userService.deleteUserById(id);
-    }
 
-    public void sendActivationEmail(User user ) {
+    private void sendActivationEmail(User user) {
         String subject = "Welcome to Our Service – Confirm Your Registration";
 
         String mailText = "<!DOCTYPE html>"
@@ -52,7 +72,7 @@ public class UserService {
                 + "      <h2>Welcome to Our Platform</h2>"
                 + "    </div>"
                 + "    <div class='content'>"
-                + "      <p>Dear " + user.getUsername()+ ",</p>"
+                + "      <p>Dear " + user.getUsername() + ",</p>"
                 + "      <p>Thank you for registering with us. We are excited to have you on board!</p>"
                 + "      <p>Please confirm your email address to activate your account and get started.</p>"
                 + "      <p>If you have any questions or need help, feel free to reach out to our support team.</p>"
@@ -68,9 +88,32 @@ public class UserService {
 
         try {
             emailService.sendSimpleMail(user.getEmail(), subject, mailText);
-        } catch   (MessagingException e) {
+        } catch (MessagingException e) {
             throw new RuntimeException("Failed to send activation email", e);
         }
-        }
     }
+
+    public String saveImage(MultipartFile file, User user) {
+        Path uploadPath = Paths.get(uploadDir + "/users");
+        if (!Files.exists(uploadPath)) {
+            try {
+                Files.createDirectories(uploadPath);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        String fileName = user.getUsername() + "_" + UUID.randomUUID();
+
+
+        try {
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(file.getInputStream(), filePath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return fileName;
+    }
+}
 
