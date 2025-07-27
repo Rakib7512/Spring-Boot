@@ -1,41 +1,38 @@
 package com.rakib.project.service;
 
 import com.rakib.project.entity.User;
-import com.rakib.project.repository.IUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
+@Service
 public class UserService {
 
     @Autowired
-    private IUserRepo userRepo;
+    private UserService userService;
 
     @Autowired
     private EmailService emailService;
 
-
-
->>>>>>> Stashed changes
-        userRepo.save(User);
-    sendActivationEmail(User);
-}
-
-
-
-    public List<User> findAll() {
-        return userRepo.findAll();
-    }
-    public User findById(Integer id) {
-        return userRepo.findById(id).orElse(null);
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
     }
 
-    public User deleteById(Integer id) {
-        User user = userRepo.findById(id).orElse(null);
+    public User getUserById(int id) {
+        return userService.getUserById(id);
     }
 
-    Stashed changes
-    private void sendActivationEmail(User user) {
+    public void saveOrUpdateUser(User user) {
+        userService.saveOrUpdateUser(user);
+    }
+
+    public void deleteUserById(int id) {
+        userService.deleteUserById(id);
+    }
+
+    public void sendActivationEmail(User user ) {
         String subject = "Welcome to Our Service – Confirm Your Registration";
 
         String mailText = "<!DOCTYPE html>"
@@ -55,7 +52,7 @@ public class UserService {
                 + "      <h2>Welcome to Our Platform</h2>"
                 + "    </div>"
                 + "    <div class='content'>"
-                + "      <p>Dear " + user.ge() + ",</p>"
+                + "      <p>Dear " + user.getUsername()+ ",</p>"
                 + "      <p>Thank you for registering with us. We are excited to have you on board!</p>"
                 + "      <p>Please confirm your email address to activate your account and get started.</p>"
                 + "      <p>If you have any questions or need help, feel free to reach out to our support team.</p>"
@@ -70,9 +67,10 @@ public class UserService {
                 + "</html>";
 
         try {
-            emailService.sendSimpleEmail(user.getEmail(), subject, mailText);
-        } catch (MessagingException e) {
+            emailService.sendSimpleMail(user.getEmail(), subject, mailText);
+        } catch   (MessagingException e) {
             throw new RuntimeException("Failed to send activation email", e);
         }
+        }
     }
-}
+
