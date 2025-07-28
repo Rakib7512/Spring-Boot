@@ -72,7 +72,7 @@ public class UserService {
                 + "      <h2>Welcome to Our Platform</h2>"
                 + "    </div>"
                 + "    <div class='content'>"
-                + "      <p>Dear " + user.getUsername() + ",</p>"
+                + "      <p>Dear " + user.getName() + ",</p>"
                 + "      <p>Thank you for registering with us. We are excited to have you on board!</p>"
                 + "      <p>Please confirm your email address to activate your account and get started.</p>"
                 + "      <p>If you have any questions or need help, feel free to reach out to our support team.</p>"
@@ -103,7 +103,7 @@ public class UserService {
             }
         }
 
-        String fileName = user.getUsername() + "_" + UUID.randomUUID();
+        String fileName = user.getName() + "_" + UUID.randomUUID();
 
 
         try {

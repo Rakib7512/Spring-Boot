@@ -47,33 +47,31 @@ export class AuthService {
     );
   }
 
-login(credentials: { email: string; password: string }): Observable<AuthResponse> {
-  let params = new HttpParams().append('email', credentials.email);
+  login(credentials: { email: string; password: string }): Observable<AuthResponse> {
+    let params = new HttpParams().append('email', credentials.email);
 
-  return this.http.get<User[]>(`${this.baseUrl}`, { params }).pipe(
-    map(users => {
-      if (users.length > 0) {
-        const user = users[0];
-        if (user.password === credentials.password) {
-          const token = btoa(`${user.email}:${user.password}`);
-          this.storeToken(token);
-          this.setCurrentUser(user);
-          return { token, user } as AuthResponse;
+    return this.http.get<User[]>(`${this.baseUrl}`, { params }).pipe(
+      map(users => {
+        if (users.length > 0) {
+          const user = users[0];
+          if (user.password === credentials.password) {
+            const token = btoa(`${user.email}:${user.password}`);
+            this.storeToken(token);
+            this.setCurrentUser(user);
+            return { token, user } as AuthResponse;
+          } else {
+            throw new Error('Invalid password');
+          }
         } else {
-          throw new Error('Invalid password');
+          throw new Error('User not found');
         }
-      } else {
-        throw new Error('User not found');
-      }
-    }),
-    catchError(error => {
-      console.error('Login error:', error);
-      throw error;
-    })
-  );
-}
-
-
+      }),
+      catchError(error => {
+        console.error('Login error:', error);
+        throw error;
+      })
+    );
+  }
 
 
   storeToken(token: string): void {
