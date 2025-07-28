@@ -22,6 +22,8 @@ import { ViewReceiveParcel } from './view-receive-parcel/view-receive-parcel';
 import { CreateHub } from './create-hub/create-hub';
 import { ViewHub } from './view-hub/view-hub';
 import { Userprofile } from './auth/userprofile/userprofile';
+import { AllUser } from './user/all-user/all-user';
+
 
 
 const routes: Routes = [
@@ -46,7 +48,8 @@ const routes: Routes = [
   {path:'view_RecParcel', component:ViewReceiveParcel},
   {path:'creatHub', component:CreateHub},
   {path:'view_hub',component:ViewHub},
-  {path:'user_profile', component:Userprofile}
+  {path:'user_profile', component:Userprofile},
+   {path:'allUser', component:AllUser}
 
 
 

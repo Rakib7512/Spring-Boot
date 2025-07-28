@@ -13,7 +13,7 @@
       <div class="card-body row row-cols-1 row-cols-md-2 g-4">
         <!-- Profile Picture -->
         <div class="col-md-4 text-center">
-          <img [src]="user.profilePic || defaultImage" class="img-thumbnail rounded-circle shadow mb-3" alt="Profile Picture" width="150" height="150">
+          <img [src]="user.photo || defaultImage" class="img-thumbnail rounded-circle shadow mb-3" alt="Profile Picture" width="150" height="150">
           <input type="file" class="form-control" (change)="onFileSelected($event)" accept="image/*">
           <button class="btn btn-outline-primary mt-2" (click)="saveProfilePic()">Save Picture</button>
         </div>

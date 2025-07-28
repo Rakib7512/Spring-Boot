@@ -64,7 +64,7 @@ export class Userprofile implements OnInit {
 
   saveProfilePic(): void {
     if (this.selectedImage && this.user) {
-      this.user.profilePic = this.selectedImage;
+      this.user.photo = this.selectedImage;
       localStorage.setItem('loggedInUser', JSON.stringify(this.user));
       alert('Profile picture updated!');
     }

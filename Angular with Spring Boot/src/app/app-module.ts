@@ -29,6 +29,7 @@ import { Contact } from './contact/contact';
 import { ViewReceiveParcel } from './view-receive-parcel/view-receive-parcel';
 import { ViewHub } from './view-hub/view-hub';
 import { CreateHub } from './create-hub/create-hub';
+import { AllUser } from './user/all-user/all-user';
 
 
 @NgModule({
@@ -59,6 +60,7 @@ import { CreateHub } from './create-hub/create-hub';
     ViewReceiveParcel,
     ViewHub,
     CreateHub,
+    AllUser,
     
     
     

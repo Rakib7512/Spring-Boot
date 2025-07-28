@@ -1,7 +1,7 @@
 export interface User {
     id?: string;
-   profilePic?: string; // ✅ Add this line
     name: string;
+    photo:string;
     phone: string;
     email: string;
     nid:string;
