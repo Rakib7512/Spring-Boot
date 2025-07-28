@@ -1,0 +1,60 @@
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2> Parcel List</h2>
+    <!-- <button class="btn btn-primary" [routerLink]="['/add-parcel']"> Add New Parcel</button> -->
+  </div>
+
+  <div class="">
+    <table class="table table-bordered text-center ">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tracking Id</th>
+          <th>Sender</th>
+          <th>Sender Phone No</th>
+          <th>Sender's Address</th>
+          <th>Recipient </th>
+          <th>Recipient  Phone No</th>
+          <th>Address</th>
+          <th>From Hub</th>
+          <th>Current</th>
+          <th>To hub</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of parcel |async">
+          <td>{{ item.id }}</td>
+          <td>{{ item.trackingId }}</td>
+          <td>{{ item.senderName }}</td>
+          <td>{{ item.senderPhone }}</td>
+          <td>{{ item.senderAddress }}</td>
+          <td>{{ item.receiverName }}</td>
+          <td>{{ item.receiverPhone }}</td>
+          <td>{{ item.receiverAddress }}</td>
+          <td>{{ item.fromHub }}</td>
+          <td>{{ item.currentHub }}</td>
+          <td>{{ item.toHub }}</td>
+          <td>
+            <span [ngClass]="{
+              'badge bg-success': item.status === 'Delivered',
+              'badge bg-warning text-dark': item.status === 'Pending',
+              'badge bg-danger': item.status === 'Cancelled'
+            }">
+              {{ item.status }}
+            </span>
+          </td>
+          <td class="text-center">
+            <button class="btn btn-sm btn-info m-1" (click)="updateParcel(item.id)">
+              Update
+            </button>
+            <button class="btn btn-sm btn-danger m-1" (click)="deleteParcel(item.id)">
+               Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

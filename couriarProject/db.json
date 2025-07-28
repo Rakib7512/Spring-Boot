@@ -1,0 +1,765 @@
+{
+  "user": [
+    {
+      "id": "3660",
+      "userId": "",
+      "name": "Parvej",
+      "phone": "ggg",
+      "email": "parvej@gmail.com",
+      "nid": "123258",
+      "password": "123456",
+      "role": "user",
+      "currentHub": "Dhaka"
+    },
+    {
+      "id": "74ac",
+      "userId": "",
+      "name": "Rakib",
+      "phone": "01607005625",
+      "email": "rakib@gmail.com",
+      "nid": "135642",
+      "password": "123456",
+      "role": "emp",
+      "currentHub": "Dhanmondi"
+    },
+    {
+      "id": "161a",
+      "userId": "",
+      "name": "Eiasin Prodhan",
+      "phone": "01666666666",
+      "email": "eiasin@gmail.com",
+      "nid": "756987412",
+      "password": "1234567",
+      "role": "admin",
+      "currentHub": "Mohammadpur"
+    },
+    {
+      "id": "468f",
+      "userId": "",
+      "name": "Atique",
+      "phone": "01233333",
+      "email": "atique@gmail.com",
+      "nid": "123258",
+      "password": "123456",
+      "role": "user"
+    },
+    {
+      "id": "dc4a",
+      "userId": "",
+      "name": "Emran Sir",
+      "phone": "56567567",
+      "email": "emran@gmail.com",
+      "nid": "64566",
+      "password": "1234",
+      "role": "user"
+    }
+  ],
+  "countries": [
+    {
+      "id": "8848",
+      "name": "Bangladesh",
+      "divisions": [
+        "4dca",
+        "c189",
+        "d153",
+        "40b8"
+      ]
+    },
+    {
+      "id": "f381",
+      "name": "India",
+      "divisions": [
+        "efbf"
+      ]
+    }
+  ],
+  "policeStations": [
+    {
+      "id": "37ca",
+      "name": "Khilgaon-1219"
+    },
+    {
+      "id": "9b59",
+      "name": "Lalbagh-1205"
+    },
+    {
+      "id": "f481",
+      "name": "Dhanmondi-1209"
+    },
+    {
+      "id": "ab1c",
+      "name": "Mohammadpur-1207"
+    },
+    {
+      "id": "08b2",
+      "name": "Barishal Shadar"
+    },
+    {
+      "id": "84bc",
+      "name": "Baker Gonj"
+    },
+    {
+      "id": "0df3",
+      "name": "Moladi"
+    },
+    {
+      "id": "9359",
+      "name": "ChorFasion"
+    },
+    {
+      "id": "3f19",
+      "name": "Lalmohon"
+    },
+    {
+      "id": "3613",
+      "name": "Borhanuddin"
+    },
+    {
+      "id": "e251",
+      "name": "Jajira"
+    },
+    {
+      "id": "26b4",
+      "name": "Noria"
+    },
+    {
+      "id": "843c",
+      "name": "Shokhipur"
+    },
+    {
+      "id": "e222",
+      "name": "Vedergong"
+    },
+    {
+      "id": "c9c8",
+      "name": "Bhaluka"
+    },
+    {
+      "id": "3c8a",
+      "name": "Muktagachha"
+    },
+    {
+      "id": "0755",
+      "name": "Goforgaon"
+    },
+    {
+      "id": "efa7",
+      "name": "Kosba"
+    },
+    {
+      "id": "a6c5",
+      "name": "Sonaimuri"
+    },
+    {
+      "id": "7cce",
+      "name": "Maijdi"
+    },
+    {
+      "id": "3c63",
+      "name": "Begomgonj"
+    },
+    {
+      "id": "f739",
+      "name": "Damdam"
+    },
+    {
+      "id": "ad0e",
+      "name": "Esplanet"
+    },
+    {
+      "id": "655c",
+      "name": "MGroad"
+    },
+    {
+      "id": "ddb6",
+      "name": "Krisno Nogar"
+    }
+  ],
+  "districts": [
+    {
+      "id": "01a7",
+      "name": "Dhaka",
+      "policeStations": [
+        "37ca",
+        "9b59",
+        "f481",
+        "ab1c"
+      ]
+    },
+    {
+      "id": "4c92",
+      "name": "Barishal",
+      "policeStations": [
+        "08b2",
+        "84bc",
+        "0df3"
+      ]
+    },
+    {
+      "id": "2437",
+      "name": "Bhola",
+      "policeStations": [
+        "9359",
+        "3f19",
+        "3613"
+      ]
+    },
+    {
+      "id": "7925",
+      "name": "Shariatpur",
+      "policeStations": [
+        "e251",
+        "26b4",
+        "843c",
+        "e222"
+      ]
+    },
+    {
+      "id": "62c6",
+      "name": "Nowakhali",
+      "policeStations": [
+        "a6c5",
+        "7cce",
+        "3c63"
+      ]
+    },
+    {
+      "id": "74f0",
+      "name": "Mymensingh",
+      "policeStations": [
+        "c9c8",
+        "3c8a",
+        "0755"
+      ]
+    },
+    {
+      "id": "9c06",
+      "name": "B. Bariya",
+      "policeStations": [
+        "efa7"
+      ]
+    },
+    {
+      "id": "d73b",
+      "name": "Kolkata",
+      "policeStations": [
+        "f739",
+        "ad0e",
+        "655c",
+        "ddb6"
+      ]
+    }
+  ],
+  "divisions": [
+    {
+      "id": "4dca",
+      "name": "Dhaka",
+      "districts": [
+        "01a7",
+        "7925"
+      ]
+    },
+    {
+      "id": "c189",
+      "name": "Chottogram",
+      "districts": [
+        "62c6",
+        "9c06"
+      ]
+    },
+    {
+      "id": "d153",
+      "name": "Barishal",
+      "districts": [
+        "4c92",
+        "2437"
+      ]
+    },
+    {
+      "id": "40b8",
+      "name": "Mymensingh",
+      "districts": [
+        "74f0"
+      ]
+    },
+    {
+      "id": "efbf",
+      "name": "Westbengal",
+      "districts": [
+        "d73b"
+      ]
+    }
+  ],
+  "employees": [
+    {
+      "id": "935c",
+      "name": "Kuddus",
+      "salary": 25000,
+      "email": "kuddus@gmail.com",
+      "phoneNo": "01607005625",
+      "gender": "Male",
+      "designation": "Area Manager",
+      "joindate": "2025-07-05",
+      "image": "ffff",
+      "country": "f381",
+      "division": "efbf",
+      "district": "d73b",
+      "policeStation": "ad0e"
+    },
+    {
+      "id": "d296",
+      "name": "Reza",
+      "salary": 30000,
+      "email": "reza@gmail.com",
+      "phoneNo": "01555555",
+      "gender": "Male",
+      "designation": "Programmer",
+      "joindate": "2025-07-23",
+      "image": "ssss",
+      "country": "8848",
+      "division": "4dca",
+      "district": "01a7",
+      "policeStation": "9b59",
+      "empOnHub": "9b59"
+    }
+  ],
+  "parcel": [
+    {
+      "id": "1175",
+      "trackingId": "51e60b9e-b613-40ad-9b6b-df87120ee750",
+      "senderName": "Masud",
+      "senderPhone": "01607005625",
+      "senderAddress": "Agargaon",
+      "sendCountry": "f381",
+      "sendDivision": "efbf",
+      "sendDistrict": "d73b",
+      "sendPoliceStation": "f739",
+      "receiverName": "Imran",
+      "receiverPhone": "016000000",
+      "receiverAddress": "ss",
+      "receiveCountry": "8848",
+      "receiveDivision": "4dca",
+      "receiveDistrict": "7925",
+      "receivePoliceStation": "26b4",
+      "currentHub": "",
+      "bookingAgent": "",
+      "deliveryPerson": "",
+      "weight": 5,
+      "squareFeet": 0,
+      "fee": 860,
+      "paymentMethod": "bkash",
+      "confirmationCode": "",
+      "enteredConfirmationCode": ""
+    },
+    {
+      "id": "e1a5",
+      "trackingId": "a6b088fa-bf5f-49ea-bdf8-0d8d2c3d09a2",
+      "senderName": "aaa",
+      "senderPhone": "aaa",
+      "senderAddress": "aaa",
+      "sendCountry": "8848",
+      "sendDivision": "d153",
+      "sendDistrict": "2437",
+      "sendPoliceStation": "3f19",
+      "receiverName": "aaa",
+      "receiverPhone": "aa",
+      "receiverAddress": "aaa",
+      "receiveCountry": "8848",
+      "receiveDivision": "40b8",
+      "receiveDistrict": "74f0",
+      "receivePoliceStation": "c9c8",
+      "currentHub": "",
+      "bookingAgent": "",
+      "deliveryPerson": "",
+      "weight": 5,
+      "squareFeet": -1,
+      "fee": 460,
+      "paymentMethod": "bkash",
+      "confirmationCode": "",
+      "enteredConfirmationCode": ""
+    },
+    {
+      "id": "0644",
+      "trackingId": "b02e31c3-8e5d-4503-abb6-b0503f6a7f17",
+      "senderName": "Rahmat",
+      "senderPhone": "011111",
+      "senderAddress": "wwww",
+      "sendCountry": "8848",
+      "sendDivision": "d153",
+      "sendDistrict": "4c92",
+      "sendPoliceStation": "08b2",
+      "receiverName": "Atique",
+      "receiverPhone": "022222",
+      "receiverAddress": "www",
+      "receiveCountry": "8848",
+      "receiveDivision": "4dca",
+      "receiveDistrict": "01a7",
+      "receivePoliceStation": "37ca",
+      "currentHub": "",
+      "bookingAgent": "",
+      "deliveryPerson": "",
+      "weight": 6,
+      "squareFeet": 3,
+      "fee": 560,
+      "paymentMethod": "bkash",
+      "confirmationCode": "",
+      "enteredConfirmationCode": ""
+    },
+    {
+      "id": "e1b2",
+      "trackingId": "908b69dd-e533-4c76-b504-a5a122939eb0",
+      "senderName": "Parvej",
+      "senderPhone": "01607005625",
+      "senderAddress": "Agargaon",
+      "sendCountry": "8848",
+      "sendDivision": "c189",
+      "sendDistrict": "62c6",
+      "sendPoliceStation": "",
+      "receiverName": "Md Rakib Islam",
+      "receiverPhone": "01607005625",
+      "receiverAddress": "aaa",
+      "receiveCountry": "8848",
+      "receiveDivision": "4dca",
+      "receiveDistrict": "01a7",
+      "receivePoliceStation": "9b59",
+      "currentHub": "",
+      "bookingAgent": "",
+      "deliveryPerson": "",
+      "weight": 5,
+      "squareFeet": 1,
+      "fee": 760,
+      "paymentMethod": "bkash",
+      "confirmationCode": "",
+      "enteredConfirmationCode": ""
+    },
+    {
+      "id": "a8dc",
+      "trackingId": "67f43d60-503c-411d-bf41-547ad89b4c58",
+      "senderName": "aaaaa",
+      "senderPhone": "01607005625",
+      "senderAddress": "Agargaon",
+      "sendCountry": "8848",
+      "sendDivision": "4dca",
+      "sendDistrict": "01a7",
+      "sendPoliceStation": "9b59",
+      "receiverName": "Md Rakib Islam",
+      "receiverPhone": "01607005625",
+      "receiverAddress": "Agargaon",
+      "receiveCountry": "8848",
+      "receiveDivision": "4dca",
+      "receiveDistrict": "01a7",
+      "receivePoliceStation": "37ca",
+      "currentHub": "",
+      "bookingAgent": "",
+      "deliveryPerson": "",
+      "weight": 1,
+      "squareFeet": 1,
+      "fee": 60,
+      "paymentMethod": "bkash",
+      "confirmationCode": "",
+      "enteredConfirmationCode": ""
+    },
+    {
+      "id": "2f17",
+      "trackingId": "80e016a6-2270-4d5d-aec5-e76caf5b8fdd",
+      "senderPhone": "01607005625",
+      "senderAddress": "Agargaon",
+      "sendCountry": "8848",
+      "sendDivision": "4dca",
+      "sendDistrict": "01a7",
+      "sendPoliceStation": "ab1c",
+      "receiverName": "Md Rakib Islam",
+      "receiverPhone": "01607005625",
+      "receiverAddress": "aaa",
+      "receiveCountry": "8848",
+      "receiveDivision": "4dca",
+      "receiveDistrict": "01a7",
+      "receivePoliceStation": "f481",
+      "currentHub": "",
+      "bookingAgent": "",
+      "deliveryPerson": "",
+      "weight": 5,
+      "squareFeet": 4,
+      "fee": 260,
+      "paymentMethod": "bkash",
+      "confirmationCode": "",
+      "enteredConfirmationCode": ""
+    }
+  ],
+  "transfer_Hub": [
+    {
+      "id": "8ad6",
+      "parcelId": "b02e31c3-8e5d-4503-abb6-b0503f6a7f17",
+      "fromHub": "Mohammadpur",
+      "toHub": "Khilgaon",
+      "departedAt": "2025-07-23T11:53:26.000Z",
+      "currentHub": "Khilgaon",
+      "courierBy": "Asad"
+    },
+    {
+      "id": "ccfd",
+      "parcelId": "b02e31c3-8e5d-4503-abb6-b0503f6a7f17",
+      "fromHub": "Mohammadpur",
+      "toHub": "Khilgaon",
+      "departedAt": "2025-07-23T11:53:28.879Z",
+      "currentHub": "Khilgaon",
+      "courierBy": "Asad"
+    },
+    {
+      "id": "7b80",
+      "parcelId": "b02e31c3-8e5d-4503-abb6-b0503f6a7f17",
+      "fromHub": "Mohammadpur",
+      "toHub": "Khilgaon",
+      "departedAt": "2025-07-23T11:54:12.808Z",
+      "currentHub": "Khilgaon",
+      "courierBy": "Asad"
+    },
+    {
+      "id": "d121",
+      "parcelId": "b02e31c3-8e5d-4503-abb6-b0503f6a7f17",
+      "fromHub": "Mohammadpur",
+      "toHub": "Sonaimuri",
+      "departedAt": "2025-07-23T11:57:37.188Z",
+      "currentHub": "Sonaimuri",
+      "courierBy": "Rana"
+    },
+    {
+      "id": "0b65",
+      "parcelId": "b02e31c3-8e5d-4503-abb6-b0503f6a7f17",
+      "fromHub": "Mohammadpur",
+      "toHub": "Sonaimuri",
+      "departedAt": "2025-07-23T11:57:59.793Z",
+      "currentHub": "Sonaimuri",
+      "courierBy": "Rana"
+    },
+    {
+      "id": "d7e8",
+      "parcelId": "b02e31c3-8e5d-4503-abb6-b0503f6a7f17",
+      "fromHub": "Mohammadpur",
+      "toHub": "Sonaimuri",
+      "departedAt": "2025-07-23T11:59:07.378Z",
+      "currentHub": "Sonaimuri",
+      "courierBy": "Rana"
+    },
+    {
+      "id": "de24",
+      "parcelId": "b02e31c3-8e5d-4503-abb6-b0503f6a7f17",
+      "fromHub": "Mohammadpur",
+      "toHub": "Sonaimuri",
+      "departedAt": "2025-07-23T12:06:19.346Z",
+      "currentHub": "Sonaimuri",
+      "courierBy": "sdfsdfsdfd"
+    },
+    {
+      "id": "dcc7",
+      "parcelId": "b02e31c3-8e5d-4503-abb6-b0503f6a7f17",
+      "fromHub": "Mohammadpur",
+      "toHub": "Sonaimuri",
+      "departedAt": "2025-07-23T12:06:24.077Z",
+      "currentHub": "Sonaimuri",
+      "courierBy": "sdfsdfsdfd"
+    },
+    {
+      "id": "e968",
+      "parcelId": "b02e31c3-8e5d-4503-abb6-b0503f6a7f17",
+      "fromHub": "Mohammadpur",
+      "toHub": "Sonaimuri",
+      "departedAt": "2025-07-23T12:08:07.019Z",
+      "currentHub": "Sonaimuri",
+      "courierBy": "Rana"
+    },
+    {
+      "id": "e435",
+      "parcelId": "b02e31c3-8e5d-4503-abb6-b0503f6a7f17",
+      "fromHub": "Mohammadpur",
+      "toHub": "Khilgaon",
+      "departedAt": "2025-07-23T12:15:32.198Z",
+      "currentHub": "Khilgaon",
+      "courierBy": "sfdsdsfds"
+    },
+    {
+      "id": "382a",
+      "parcelId": "b02e31c3-8e5d-4503-abb6-b0503f6a7f17",
+      "fromHub": "Mohammadpur",
+      "toHub": "Khilgaon",
+      "departedAt": "2025-07-23T12:20:08.619Z",
+      "currentHub": "Khilgaon",
+      "courierBy": "sfgh"
+    },
+    {
+      "id": "",
+      "parcelId": "b02e31c3-8e5d-4503-abb6-b0503f6a7f17",
+      "fromHub": "Mohammadpur",
+      "toHub": "Khilgaon",
+      "departedAt": "2025-07-23T12:23:18.519Z",
+      "currentHub": "Khilgaon",
+      "courierBy": "fdgdgdf"
+    },
+    {
+      "id": "",
+      "parcelId": "b02e31c3-8e5d-4503-abb6-b0503f6a7f17",
+      "fromHub": "Mohammadpur",
+      "toHub": "Khilgaon",
+      "departedAt": "2025-07-23T12:28:05.628Z",
+      "currentHub": "Khilgaon",
+      "courierBy": "fdsfdsfsd"
+    },
+    {
+      "id": "",
+      "parcelId": "b02e31c3-8e5d-4503-abb6-b0503f6a7f17",
+      "fromHub": "Mohammadpur",
+      "toHub": "Khilgaon",
+      "departedAt": "2025-07-23T12:29:04.888Z",
+      "currentHub": "Khilgaon",
+      "courierBy": "sdgfdgh"
+    },
+    {
+      "id": "",
+      "parcelId": "b02e31c3-8e5d-4503-abb6-b0503f6a7f17",
+      "fromHub": "Mohammadpur",
+      "toHub": "Khilgaon",
+      "departedAt": "2025-07-23T12:31:43.336Z",
+      "currentHub": "Khilgaon",
+      "courierBy": "dfgd"
+    },
+    {
+      "id": "",
+      "parcelId": "b02e31c3-8e5d-4503-abb6-b0503f6a7f17",
+      "fromHub": "Mohammadpur",
+      "toHub": "Khilgaon",
+      "departedAt": "2025-07-23T12:32:45.313Z",
+      "currentHub": "Khilgaon",
+      "courierBy": "asfdgfh"
+    }
+  ],
+  "orderList": [],
+  "recParcvelEmpDec": [
+    {
+      "id": "b769",
+      "parcelId": "b02e31c3-8e5d-4503-abb6-b0503f6a7f17",
+      "employeeId": "161a",
+      "employeeName": "Eiasin Prodhan",
+      "currentHub": "Mohammadpur",
+      "receivedAt": "2025-07-23T11:24:55.669Z",
+      "senderName": "Rahmat",
+      "senderPhone": "011111",
+      "senderCountry": "Bangladesh",
+      "senderDivision": "Barishal",
+      "senderDistrict": "Barishal",
+      "senderPoliceStation": "Barishal Shadar",
+      "senderAddress": "wwww",
+      "receiverName": "Atique",
+      "receiverPhone": "022222",
+      "receiveCountry": "Bangladesh",
+      "receiveDivision": "Dhaka",
+      "receiveDistrict": "Dhaka",
+      "receivePoliceStation": "Khilgaon-1219",
+      "receiveAddress": "www"
+    },
+    {
+      "id": "7052",
+      "parcelId": "a6b088fa-bf5f-49ea-bdf8-0d8d2c3d09a2",
+      "employeeId": "161a",
+      "employeeName": "Eiasin Prodhan",
+      "currentHub": "Mohammadpur",
+      "receivedAt": "2025-07-23T11:25:12.877Z",
+      "senderName": "aaa",
+      "senderPhone": "aaa",
+      "senderCountry": "Bangladesh",
+      "senderDivision": "Barishal",
+      "senderDistrict": "Bhola",
+      "senderPoliceStation": "Lalmohon",
+      "senderAddress": "aaa",
+      "receiverName": "aaa",
+      "receiverPhone": "aa",
+      "receiveCountry": "Bangladesh",
+      "receiveDivision": "Mymensingh",
+      "receiveDistrict": "Mymensingh",
+      "receivePoliceStation": "Bhaluka",
+      "receiveAddress": "aaa"
+    },
+    {
+      "id": "d0c0",
+      "parcelId": "80e016a6-2270-4d5d-aec5-e76caf5b8fdd",
+      "employeeId": "161a",
+      "employeeName": "Eiasin Prodhan",
+      "currentHub": "Mohammadpur",
+      "receivedAt": "2025-07-24T12:40:49.602Z",
+      "senderPhone": "01607005625",
+      "senderCountry": "Bangladesh",
+      "senderDivision": "Dhaka",
+      "senderDistrict": "Dhaka",
+      "senderPoliceStation": "Mohammadpur-1207",
+      "senderAddress": "Agargaon",
+      "receiverName": "Md Rakib Islam",
+      "receiverPhone": "01607005625",
+      "receiveCountry": "Bangladesh",
+      "receiveDivision": "Dhaka",
+      "receiveDistrict": "Dhaka",
+      "receivePoliceStation": "Dhanmondi-1209",
+      "receiveAddress": "aaa"
+    }
+  ],
+  "contact": [
+    {
+      "id": "8a69",
+      "sender": "Eiasin Prodhan",
+      "content": "hello",
+      "timestamp": "2025-07-22T10:34:25.283Z"
+    },
+    {
+      "id": "3ffa",
+      "sender": "Rakib",
+      "content": "hi",
+      "timestamp": "2025-07-22T10:56:32.383Z"
+    },
+    {
+      "id": "3444",
+      "sender": "Eiasin Prodhan",
+      "content": "ki khor",
+      "timestamp": "2025-07-22T10:56:47.337Z"
+    },
+    {
+      "id": "9a89",
+      "sender": "Parvej",
+      "content": "ffff",
+      "timestamp": "2025-07-23T07:05:38.205Z"
+    },
+    {
+      "id": "bd44",
+      "sender": "Atique",
+      "content": "w",
+      "timestamp": "2025-07-23T12:45:14.821Z"
+    },
+    {
+      "id": "b998",
+      "sender": "Eiasin Prodhan",
+      "content": "hello",
+      "timestamp": "2025-07-24T09:04:24.164Z"
+    },
+    {
+      "id": "34d5",
+      "sender": "Rakib",
+      "content": "aa",
+      "timestamp": "2025-07-24T12:44:10.619Z"
+    }
+  ],
+  "hubList": [
+    {
+      "id": "d027",
+      "hubName": "Khilgaon",
+      "countryId": "8848",
+      "divisionId": "4dca",
+      "districtId": "01a7",
+      "policeStationId": "37ca"
+    },
+    {
+      "id": "ac25",
+      "hubName": "Sonaimuri",
+      "countryId": "8848",
+      "divisionId": "c189",
+      "districtId": "62c6",
+      "policeStationId": "a6c5"
+    }
+  ]
+}

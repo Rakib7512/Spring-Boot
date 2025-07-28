@@ -23,16 +23,6 @@ public class UserRestController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
-    public ResponseEntity<String> saveOrUpdate(@RequestBody User user
-    ) {
-        try {
-            userService.saveOrUpdate(user);
-            return ResponseEntity.ok("Data Saved");
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }}
-
 
     @PostMapping
     public ResponseEntity<Map<String, String>> saveUser(

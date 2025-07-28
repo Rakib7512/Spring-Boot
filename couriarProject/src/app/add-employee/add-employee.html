@@ -1,0 +1,105 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Add Employee</h2>
+
+  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label">Name</label>
+      <input formControlName="name" class="form-control" placeholder="Full Name" />
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Email</label>
+      <input formControlName="email" type="email" class="form-control" placeholder="Email" />
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label class="form-label d-block">Gender</label>
+
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="gender" formControlName="gender" value="Male" />
+        <label class="form-check-label">Male</label>
+      </div>
+
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="gender" formControlName="gender" value="Female" />
+        <label class="form-check-label">Female</label>
+      </div>
+    </div>
+
+
+    <div class="row">
+
+      <div class="col-md-4">
+        <label class="form-label">Designation</label>
+        <input formControlName="designation" type="text" class="form-control" placeholder="Designation" />
+      </div>
+      <div class="col-md-4">
+        <label for="date" class="form-label">Join Date</label>
+        <input formControlName="joindate" type="date" class="form-control" id="date" name="date">
+      </div>
+      <div class="col-md-4">
+        <label for="phoneNo">Phone No</label>
+        <input type="text" formControlName="phoneNo" class="form-control" placeholder="Phone Number">
+      </div>
+
+    </div>
+
+
+
+
+
+    <div class="col-md-6">
+      <label class="form-label">Salary</label>
+      <input type="number" formControlName="salary" class="form-control" placeholder="Salary" />
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Country</label>
+      <select formControlName="country" class="form-select" (change)="onCountryChange()">
+        <option value="">Select Country</option>
+        <option *ngFor="let country of countries" [value]="country.id">{{ country.name }}</option>
+      </select>
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Division</label>
+      <select formControlName="division" class="form-select" (change)="onDivisionChange()">
+        <option value="">Select Division</option>
+        <option *ngFor="let division of filteredDivisions" [value]="division.id">{{ division.name}}</option>
+      </select>
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">District</label>
+      <select formControlName="district" class="form-select" (change)="onDistrictChange()">
+        <option value="">Select District</option>
+        <option *ngFor="let district of filteredDistricts" [value]="district.id">{{ district.name }}</option>
+      </select>
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Police Station</label>
+      <select formControlName="policeStation" class="form-select">
+        <option value="">Select Police Station</option>
+        <option *ngFor="let ps of filteredPoliceStations" [value]="ps.id">{{ ps.name }}</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Employee On Hub</label>
+      <select formControlName="empOnHub" class="form-select">
+        <option value="">Select Empolly On Hub Station</option>
+        <option *ngFor="let ps of filteredPoliceStations" [value]="ps.id">{{ ps.name }}</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label for="image">Add Image</label>
+     <input type="text" formControlName="image" class="form-control" id="image" name="image" placeholder="Image" />
+    </div>
+
+    <div class="col-md-12">
+      <button class="btn btn-success" type="" [disabled]="employeeForm.invalid">
+        Add Employee
+      </button>
+    </div>
+  </form>
+</div>

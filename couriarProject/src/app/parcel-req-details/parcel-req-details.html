@@ -1,0 +1,106 @@
+<div class="container mt-4">
+  <div class="col-md-3">
+    <div class="container mt-4">
+      <h4>📢 Parcel Notifications</h4>
+
+      <div *ngIf="notifications.length === 0" class="text-muted">
+        No new parcels yet.
+      </div>
+
+      <ul class="list-group" *ngIf="notifications.length> 0">
+        <li class="list-group-item" *ngFor="let note of notifications">
+          <strong>{{ note.message }}</strong><br>
+          <span class="text-muted">🆔 Tracking ID: {{ note.parcelId }}</span><br>
+          <small class="text-muted">🕓 {{ note.time }}</small><br>
+          <a class="btn btn-sm btn-outline-primary mt-1" [routerLink]="['/parcelReqDetails']"
+            [queryParams]="{ trackingId: note.parcelId }">View Parcel</a>
+
+      </ul>
+
+      <button class="btn btn-sm btn-danger mt-3" (click)="clearNotifications()" *ngIf="notifications.length > 0">
+        Clear All
+      </button>
+    </div>
+
+
+  </div>
+
+  <h4>Search Parcel Details by Tracking ID</h4>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" [(ngModel)]="parcelId" placeholder="Enter Tracking ID"
+      [ngClass]="{ 'highlight-box': highlightInput }" />
+    <button class="btn btn-primary" (click)="fetchParcel()">Search</button>
+  </div>
+
+
+  <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+
+  <!-- Show only when parcel found -->
+  <div *ngIf="parcel">
+
+    <!-- ✅ Sender & Receiver Info -->
+    <h5 class="mt-3">Sender & Receiver Information</h5>
+    <table class="table table-bordered">
+      <thead class="table-secondary">
+        <tr>
+          <th>Type</th>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Address</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Sender</td>
+          <td>{{ parcel.senderName }}</td>
+          <td>{{ parcel.senderPhone }}</td>
+          <td>{{ parcel.senderAddress }}</td>
+        </tr>
+        <tr>
+          <td>Receiver</td>
+          <td>{{ parcel.receiverName }}</td>
+          <td>{{ parcel.receiverPhone }}</td>
+          <td>{{ parcel.receiverAddress }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- ✅ Location Route Info -->
+    <h5 class="mt-3">Parcel Route Information</h5>
+    <table class="table table-bordered">
+      <thead class="table-dark text-white">
+        <tr>
+          <th>From</th>
+          <th>To</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <strong>Country:</strong> {{ getCountryName(parcel.sendCountry) }}<br>
+            <strong>Division:</strong> {{ getDivisionName(parcel.sendDivision) }}<br>
+            <strong>District:</strong> {{ getDistrictName(parcel.sendDistrict) }}<br>
+            <strong>Police Station:</strong> {{ getPoliceStationName(parcel.sendPoliceStation) }}
+          </td>
+          <td>
+            <strong>Country:</strong> {{ getCountryName(parcel.receiveCountry) }}<br>
+            <strong>Division:</strong> {{ getDivisionName(parcel.receiveDivision) }}<br>
+            <strong>District:</strong> {{ getDistrictName(parcel.receiveDistrict) }}<br>
+            <strong>Police Station:</strong> {{ getPoliceStationName(parcel.receivePoliceStation) }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="mt-4 border p-3 bg-light rounded">
+  <h5>📦 Parcel Receive</h5>
+
+<div *ngIf="user">
+  <p><strong>Logged in Employee:</strong> {{ user.name }}</p>
+  <p><strong>Employee Id:</strong> {{ user.id }}</p>
+  <p><strong>Current Hub:</strong> {{ user.currentHub }}</p>
+</div>
+
+  <button class="btn btn-success" (click)="saveReceivedParcel()">✅ Receive Parcel</button>
+</div>
+
+
+  </div>

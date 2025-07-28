@@ -1,0 +1,39 @@
+<div class="container mt-5">
+  <h2 class="mb-4">Police Stations</h2>
+
+  <form [formGroup]="psForm" (ngSubmit)="onSubmit()" class="row g-3">
+    <div class="col-md-6">
+      <label for="name" class="form-label">Name:</label>
+      <input id="name" formControlName="name" class="form-control" placeholder="Police Station Name" />
+    </div>
+
+    <div class="col-md-12">
+      <button type="submit" class="btn btn-primary me-2" [disabled]="psForm.invalid">
+        {{ editing ? 'Update' : 'Add' }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="cancelEdit()" *ngIf="editing">Cancel</button>
+    </div>
+  </form>
+
+  <hr class="my-4" />
+
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th style="width: 150px;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ps of policeStations">
+        <td>{{ ps.id}}</td>
+        <td>{{ ps.name}}</td>
+        <td>
+          <button class="btn btn-sm btn-warning me-2" (click)="editPoliceStation(ps)">Edit</button>
+          <button class="btn btn-sm btn-danger" >Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

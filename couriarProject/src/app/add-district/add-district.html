@@ -1,0 +1,26 @@
+<div class="container mt-5">
+  <h2 class="mb-4">Add District</h2>
+
+  <form [formGroup]="districtForm" (ngSubmit)="onSubmit()" class="row g-3">
+    <div class="col-md-6">
+      <label for="name" class="form-label">District Name</label>
+      <input id="name" formControlName="name" class="form-control" placeholder="Enter District Name" />
+    </div>
+
+    <div class="col-md-6">
+      <label for="policeStation" class="form-label">Select Police Stations</label>
+      <select id="policeStation" formControlName="policeStation" class="form-select" multiple size="5">
+        <option *ngFor="let ps of policeStations" [value]="ps.id">
+          {{ ps.name }}
+        </option>
+      </select>
+      <small class="text-muted">Hold Ctrl (Windows) or Cmd (Mac) to select multiple.</small>
+    </div>
+
+    <div class="col-md-12">
+      <button type="submit" class="btn btn-primary" [disabled]="districtForm.invalid">
+        Add District
+      </button>
+    </div>
+  </form>
+</div>
