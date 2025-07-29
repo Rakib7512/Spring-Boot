@@ -49,7 +49,7 @@ const routes: Routes = [
   {path:'creatHub', component:CreateHub},
   {path:'view_hub',component:ViewHub},
   {path:'user_profile', component:Userprofile},
-   {path:'allUser', component:AllUser}
+   {path:'allusers', component:AllUser}
 
 
 

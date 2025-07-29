@@ -1,37 +1,35 @@
 <div class="container mt-4">
-  <h3 class="text-center mb-3">All Users</h3>
+  <h3 class="text-center mb-4">All Users</h3>
 
-  <table class="table table-bordered table-striped table-hover">
-    <thead class="table-dark">
-      <tr>
-        <th>#</th>
-        <th>Photo</th>
-        <th>Name</th>
-        <th>Phone</th>
-        <th>Email</th>
-        <th>NID</th>
-       
-        
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of users; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>
-          <img [src]="user.photo" alt="User Photo" width="50" height="50" style="object-fit: cover; border-radius: 50%;" />
-        </td>
-        <td>{{ user.name }}</td>
-        <td>{{ user.phone }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.nid }}</td>
-         <p><img [src]="'http://localhost:8085/images/users/'+user.photo" height="100" width="100"></p>
-        
-        
-      </tr>
-    </tbody>
-  </table>
+  <div *ngIf="users.length > 0; else noUsers">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <div class="col" *ngFor="let user of users">
+        <div class="card shadow-sm h-100">
+          <div class="card-body text-center">
+            <img
+              [src]="'http://localhost:8085/images/users/' + user.photo"
+              alt="User Photo"
+              class="rounded-circle mb-3"
+              width="100"
+              height="100"
+              style="object-fit: cover; border: 3px solid #ddd;"
+            />
 
-  <div *ngIf="users.length === 0" class="alert alert-warning text-center">
-    No users found.
+            <h5 class="card-title mb-1">{{ user.name }}</h5>
+            <p class="text-muted mb-2">{{ user.email }}</p>
+
+            <div class="text-start mt-3">
+              <p><strong>Phone:</strong> {{ user.phone }}</p>
+              <p><strong>NID:</strong> {{ user.nid }}</p>
+              <p><strong>Role:</strong> {{ user.role }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <ng-template #noUsers>
+    <div class="alert alert-warning text-center">No users found.</div>
+  </ng-template>
 </div>
