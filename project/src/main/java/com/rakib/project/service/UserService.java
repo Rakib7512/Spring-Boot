@@ -24,7 +24,7 @@ public class UserService {
     @Autowired
     private EmailService emailService;
 
-    @Value("src/main/resources/static/images")
+//    @Value("src/main/resources/static/images")
     private String uploadDir;
 
     public void saveOrUpdate(User user, MultipartFile imagefile) {
