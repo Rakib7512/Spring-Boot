@@ -12,16 +12,16 @@
 </head>
 <body>
 <div class="container">
-    <div class="text-center"><a href="/empForm">Add New Employee</a></div>
+    <div class="text-center"><a href="/empForm">Add New Student</a></div>
 
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>ID</th>
+            <th>Roll</th>
             <th>Name</th>
-            <th>Salary</th>
-            <th>Designation</th>
-            <th>email</th>
+            <th>Marks</th>
+            <th>Subject</th>
+
             <th>Action</th>
 
         </tr>
@@ -35,7 +35,7 @@
             <td th:text="${e.name}"></td>
             <td th:text="${e.salary}"></td>
             <td th:text="${e.designation}"></td>
-            <td th:text="${e.email}"></td>
+
             <td>
                 <a th:href="@{'/edit/' + ${e.id}}" class="btn btn-warning">Edit</a>
                 <a th:href="@{'/delete/' + ${e.id}}" class="btn btn-danger">Delete</a>

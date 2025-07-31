@@ -24,7 +24,7 @@ public class EmployeeController {
         return "home";
     }
 
-    @GetMapping("/empForm")
+    @GetMapping("/stuForm")
     public String empForm(Model model){
         model.addAttribute("employee", new Employee());
         return "addemployee";
