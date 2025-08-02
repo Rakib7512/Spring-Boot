@@ -18,7 +18,7 @@ public class User {
     private String phone;
     private String photo;
 
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated( EnumType.STRING)
     private Role role;
 
     public User() {

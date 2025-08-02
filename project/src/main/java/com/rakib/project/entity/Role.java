@@ -1,7 +1,9 @@
 package com.rakib.project.entity;
 
 public enum Role {
-    JOBSEEKER,
+
+  JOBSEEKER,
     EMPLOYEE,
-    ADMIN
+    ADMIN,
+
 }

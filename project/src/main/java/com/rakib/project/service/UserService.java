@@ -1,5 +1,6 @@
 package com.rakib.project.service;
 
+import com.rakib.project.entity.Role;
 import com.rakib.project.entity.User;
 import com.rakib.project.repository.IUserRepo;
 import jakarta.mail.MessagingException;
@@ -24,7 +25,7 @@ public class UserService {
     @Autowired
     private EmailService emailService;
 
-//    @Value("src/main/resources/static/images")
+  @Value("src/main/resources/static/images")
     private String uploadDir;
 
     public void saveOrUpdate(User user, MultipartFile imagefile) {
@@ -32,7 +33,11 @@ public class UserService {
         if (imagefile != null && !imagefile.isEmpty()) {
             String fileName = saveImage(imagefile, user);
             user.setPhoto(fileName);
+            throw new RuntimeException("Email already registered!");
         }
+
+        user.setRole(Role.JOBSEEKER);
+
 
         userRepo.save(user);
         sendActivationEmail(user);
@@ -115,5 +120,7 @@ public class UserService {
 
         return fileName;
     }
+
+
 }
 
