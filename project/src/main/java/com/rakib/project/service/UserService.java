@@ -1,5 +1,6 @@
 package com.rakib.project.service;
 
+import com.rakib.project.entity.Consumer;
 import com.rakib.project.entity.Role;
 import com.rakib.project.entity.User;
 import com.rakib.project.repository.IUserRepo;
@@ -27,6 +28,8 @@ public class UserService {
 
   @Value("src/main/resources/static/images")
     private String uploadDir;
+    @Autowired
+    private ConsumerService consumerService;
 
     public void saveOrUpdate(User user, MultipartFile imageFile) {
         if (imageFile != null && !imageFile.isEmpty()) {
@@ -115,6 +118,54 @@ public class UserService {
         }
 
         return fileName;
+    }
+
+    // for User folder
+    public String saveImageForJobSeeker(MultipartFile file, Consumer consumer) {
+
+        Path uploadPath = Paths.get(uploadDir + "/consumer");
+        if (!Files.exists(uploadPath)) {
+            try {
+                Files.createDirectory(uploadPath);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        String consumerName = consumer.getName() ;
+        String fileName = consumerName.trim().replaceAll("\\s+", "_") ;
+
+        String savedFileName = fileName+ "_" + UUID.randomUUID().toString();
+
+        try {
+            Path filePath = uploadPath.resolve(savedFileName);
+            Files.copy(file.getInputStream(), filePath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return savedFileName;
+
+    }
+
+
+    public void registerConsumer(User user, MultipartFile imageFile, Consumer consumerData) {
+        if (imageFile != null && !imageFile.isEmpty()) {
+            String filename = saveImage(imageFile, user);
+            String consumerPhoto = saveImageForJobSeeker(imageFile, consumerData);
+            consumerData.setPhoto(consumerPhoto);
+            user.setPhoto(filename);
+        }
+
+        user.setRole(Role.CONSUMER);
+        User savedUser = userRepo.save(user); // Save User first
+
+        // Set user to jobSeeker and save it
+        consumerData.setUser(savedUser);
+
+        consumerService.save(consumerData);
+
+        sendActivationEmail(savedUser);
     }
 
 
