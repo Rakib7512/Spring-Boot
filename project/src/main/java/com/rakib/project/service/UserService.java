@@ -28,17 +28,13 @@ public class UserService {
   @Value("src/main/resources/static/images")
     private String uploadDir;
 
-    public void saveOrUpdate(User user, MultipartFile imagefile) {
-
-        if (imagefile != null && !imagefile.isEmpty()) {
-            String fileName = saveImage(imagefile, user);
-            user.setPhoto(fileName);
-            throw new RuntimeException("Email already registered!");
+    public void saveOrUpdate(User user, MultipartFile imageFile) {
+        if (imageFile != null && !imageFile.isEmpty()) {
+            String filename = saveImage(imageFile, user);
+            user.setPhoto(filename);
         }
 
-        user.setRole(Role.JOBSEEKER);
-
-
+        user.setRole(Role.ADMIN);
         userRepo.save(user);
         sendActivationEmail(user);
     }
