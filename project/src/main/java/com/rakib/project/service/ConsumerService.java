@@ -21,9 +21,11 @@ public class ConsumerService {
     public Optional<Consumer> getById(Long id) {
         return consumerRepo.findById(id);
     }
-    public  Consumer save(Consumer consumer) {
-        return consumerRepo.save(consumer);
+
+    public void save(Consumer consumer) {
+        consumerRepo.save(consumer);
     }
+
     public void deleteById(Long id) {
         consumerRepo.deleteById(id);
     }

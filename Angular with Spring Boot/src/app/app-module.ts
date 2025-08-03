@@ -30,6 +30,7 @@ import { ViewReceiveParcel } from './view-receive-parcel/view-receive-parcel';
 import { ViewHub } from './view-hub/view-hub';
 import { CreateHub } from './create-hub/create-hub';
 import { AllUser } from './user/all-user/all-user';
+import { AddConsumer } from './add-consumer/add-consumer';
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import { AllUser } from './user/all-user/all-user';
     ViewHub,
     CreateHub,
     AllUser,
+    AddConsumer,
     
     
     

@@ -18,8 +18,10 @@ public class User {
     private String phone;
     private String photo;
 
-    @Enumerated( EnumType.STRING)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
     private Role role;
+
 
     public User() {
     }
