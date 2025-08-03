@@ -23,6 +23,7 @@ import { CreateHub } from './create-hub/create-hub';
 import { ViewHub } from './view-hub/view-hub';
 import { Userprofile } from './auth/userprofile/userprofile';
 import { AllUser } from './user/all-user/all-user';
+import { AddConsumer } from './add-consumer/add-consumer';
 
 
 
@@ -49,7 +50,8 @@ const routes: Routes = [
   {path:'creatHub', component:CreateHub},
   {path:'view_hub',component:ViewHub},
   {path:'user_profile', component:Userprofile},
-   {path:'allusers', component:AllUser}
+   {path:'allusers', component:AllUser},
+   {path:'registerConsumer', component:AddConsumer}
 
 
 

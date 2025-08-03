@@ -1,1 +1,109 @@
-<p>add-consumer works!</p>
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow border-0 rounded-4 p-4">
+        <h2 class="text-center text-primary fw-bold mb-4">
+          <i class="bi bi-person-plus-fill me-2"></i>Consumer Registration
+        </h2>
+
+        <!-- User Info -->
+        <form [formGroup]="userForm" class="mb-4">
+          <h5 class="text-secondary border-bottom pb-2 mb-3">
+            <i class="bi bi-info-circle-fill me-1"></i>Basic Information
+          </h5>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Full Name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="name"
+                placeholder="Enter your full name"
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Email Address</label>
+              <input
+                type="email"
+                class="form-control"
+                formControlName="email"
+                placeholder="Enter your email"
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Phone Number</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="phone"
+                placeholder="Enter your phone number"
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                formControlName="password"
+                placeholder="Create a secure password"
+              />
+            </div>
+          </div>
+        </form>
+
+        <!-- Job Seeker Info -->
+        <form [formGroup]="consumerForm" class="mb-4">
+         
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Gender</label>
+              <select class="form-select" formControlName="gender">
+                <option value="">Select Gender</option>
+                <option value="MALE">Male</option>
+                <option value="FEMALE">Female</option>
+                <option value="OTHER">Other</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">NID Number</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="nid"
+                placeholder="Enter your NID number"
+              />
+            </div>
+          </div>
+        </form>
+
+        <!-- Photo Upload -->
+        <div class="mb-4">
+          <label class="form-label">
+            <i class="bi bi-image-fill me-1"></i>Upload Profile Photo
+          </label>
+          <input type="file" class="form-control" (change)="onPhotoSelected($event)" />
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+          <button type="submit" class="btn btn-lg btn-primary px-5 shadow-sm" (click)="onSubmit()">
+            <i class="bi bi-check2-circle me-1"></i>Register
+          </button>
+        </div>
+
+        <!-- Message -->
+        <div class="mt-4" *ngIf="message">
+          <div
+            class="alert text-center"
+            [ngClass]="{
+              'alert-success': message.includes('Success'),
+              'alert-danger': !message.includes('Success')
+            }"
+          >
+            {{ message }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
