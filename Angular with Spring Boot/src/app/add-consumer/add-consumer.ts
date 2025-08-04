@@ -65,7 +65,6 @@ export class AddConsumer {
       name: this.userForm.value.name,
       email: this.userForm.value.email,
       phone: this.userForm.value.phone,
-      gender: this.consumerForm.value.gender,
       nid: this.consumerForm.value.nid
     };
 
