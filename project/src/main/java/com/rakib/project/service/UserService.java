@@ -2,7 +2,10 @@ package com.rakib.project.service;
 
 import com.rakib.project.entity.Consumer;
 import com.rakib.project.entity.Role;
+import com.rakib.project.entity.Token;
 import com.rakib.project.entity.User;
+import com.rakib.project.jwt.JwtService;
+import com.rakib.project.repository.ITokenRepository;
 import com.rakib.project.repository.IUserRepo;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,8 +29,15 @@ import java.util.UUID;
 public class UserService implements UserDetailsService {
 
 
+
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
     private IUserRepo userRepo;
+
+    @Autowired
+    private ITokenRepository tokenRepository;
+
 
     @Autowired
     private EmailService emailService;
@@ -34,6 +45,15 @@ public class UserService implements UserDetailsService {
   @Value("src/main/resources/static/images")
     private String uploadDir;
 
+    @Autowired
+    private JwtService jwtService;
+
+
+
+
+    public UserService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -167,23 +187,45 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public void registerConsumer(User user, MultipartFile imageFile, Consumer consumerData) {
+    public void registerJobSeeker(User user, MultipartFile imageFile, Consumer jobSeekerData) {
         if (imageFile != null && !imageFile.isEmpty()) {
+            // Save image for both User and JobSeeker
             String filename = saveImage(imageFile, user);
-            String consumerPhoto = saveImageForJobSeeker(imageFile, consumerData);
-            consumerData.setPhoto(consumerPhoto);
+            String jobSeekerPhoto = saveImageForJobSeeker(imageFile, jobSeekerData);
+            jobSeekerData.setPhoto(jobSeekerPhoto);
             user.setPhoto(filename);
         }
 
+        // Encode password before saving User
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.CONSUMER);
-        User savedUser = userRepo.save(user); // Save User first
 
-        // Set user to jobSeeker and save it
-        consumerData.setUser(savedUser);
+        // Save User FIRST and get persisted instance
+        User savedUser = userRepo.save(user);
 
-        consumerService.save(consumerData);
+        // Now, associate saved User with JobSeeker and save JobSeeker
 
+//        jobSeekerData.setUser(savedUser);
+//        ConsumerService.save(jobSeekerData);
+
+        // Now generate token and save Token associated with savedUser
+
+
+//        String jwt = jwtService.generateToken(savedUser);
+//        saveUserToken(jwt, savedUser);
+
+        // Send Activation Email
         sendActivationEmail(savedUser);
+    }
+
+    private void saveUserToken(String jwt, User user) {
+        Token token = new Token();
+        token.setToken(jwt);
+        token.setLogout(false);
+        token.setUser(user);
+
+        tokenRepository.save(token);
+
     }
 
 

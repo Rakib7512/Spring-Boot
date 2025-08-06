@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.function.Function;
 
 @Service
-public class jwtService {
+public class JwtService {
     @Autowired
     private ITokenRepository tokenRepository;
 
