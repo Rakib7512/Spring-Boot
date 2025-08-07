@@ -7,33 +7,24 @@ import jakarta.persistence.*;
 public class Token {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     private String token;
-
     @Column(name = "is_log_out")
     private boolean logout;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private  User user;
 
     public Token() {
     }
 
-    public User getUser() {
-        return user;
+    public long getId() {
+        return id;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public boolean isLogout() {
-        return logout;
-    }
-
-    public void setLogout(boolean logout) {
-        this.logout = logout;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getToken() {
@@ -44,11 +35,19 @@ public class Token {
         this.token = token;
     }
 
-    public Long getId() {
-        return id;
+    public boolean isLogout() {
+        return logout;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setLogout(boolean logout) {
+        this.logout = logout;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

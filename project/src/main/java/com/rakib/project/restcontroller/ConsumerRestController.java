@@ -28,7 +28,7 @@ public class ConsumerRestController {
     private UserService userService;
 
     @PostMapping("")
-    public ResponseEntity<Map<String, String>> registerJobSeeker(
+    public ResponseEntity<Map<String, String>> registerConsumer(
             @RequestPart(value = "user") String userJson,
             @RequestPart(value = "consumer") String consumerJson,
             @RequestParam(value = "photo") MultipartFile file
@@ -39,6 +39,7 @@ public class ConsumerRestController {
 
         try {
             userService.saveOrUpdate(user, file);
+            consumerService.save(consumer);
             Map<String, String> response = new HashMap<>();
             response.put("Message", "User Added Successfully ");
 

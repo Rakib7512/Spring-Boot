@@ -17,19 +17,19 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private String password;
 
     @Column(unique = true)
     private String email;
     private String phone;
+    private String password;
     private String photo;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role")
+    @Enumerated(value = EnumType.STRING)
     private Role role;
 
     @OneToMany
     private List<Token> tokens;
+
     // for user details +++++++++++++++++++++++++++++++++++++++++
 
     @Column(nullable = false)
@@ -40,12 +40,13 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(int id, String name, String password, String email, String phone, String photo, Role role) {
+
+    public User(int id, String name, String email, String phone, String password, String photo, Role role) {
         this.id = id;
         this.name = name;
-        this.password = password;
         this.email = email;
         this.phone = phone;
+        this.password = password;
         this.photo = photo;
         this.role = role;
     }
@@ -62,14 +63,8 @@ public class User implements UserDetails {
         return name;
     }
 
-    public void setName(String username) {
-        this.name = username;
-    }
-
-
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -88,6 +83,14 @@ public class User implements UserDetails {
         this.phone = phone;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getPhoto() {
         return photo;
     }
@@ -104,15 +107,34 @@ public class User implements UserDetails {
         this.role = role;
     }
 
+    public List<Token> getTokens() {
+        return tokens;
+    }
 
-// impliment method
+    public void setTokens(List<Token> tokens) {
+        this.tokens = tokens;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isLock() {
+        return isLock;
+    }
+
+    public void setLock(boolean lock) {
+        isLock = lock;
+    }
+
+    // implements Methods ----------------------------------------------------
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     @Override
@@ -132,12 +154,10 @@ public class User implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true ;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-
-        return isEnabled();
-    }
-}
+        return true;
+    }}

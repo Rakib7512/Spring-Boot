@@ -10,6 +10,10 @@ import com.rakib.project.repository.IUserRepo;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,22 +39,25 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private IUserRepo userRepo;
-
     @Autowired
     private ITokenRepository tokenRepository;
-
 
     @Autowired
     private EmailService emailService;
 
-  @Value("src/main/resources/static/images")
-    private String uploadDir;
+    @Autowired
+    private ConsumerService consumerService;
 
     @Autowired
     private JwtService jwtService;
 
+    @Autowired
+    @Lazy
+    private AuthenticationManager authenticationManager;
 
 
+    @Value("src/main/resources/static/images")
+    private String uploadDir;
 
     public UserService(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
@@ -59,15 +67,15 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
+
+        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()));
+
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),
-                new ArrayList<>()
+                authorities
         );
     }
-
-    @Autowired
-    private ConsumerService consumerService;
 
     public void saveOrUpdate(User user, MultipartFile imageFile) {
         if (imageFile != null && !imageFile.isEmpty()) {
@@ -75,15 +83,15 @@ public class UserService implements UserDetailsService {
             user.setPhoto(filename);
         }
 
+
         user.setRole(Role.ADMIN);
         userRepo.save(user);
         sendActivationEmail(user);
     }
+
     public List<User> findAll() {
         return userRepo.findAll();
     }
-
-
 
     public User findById(int id) {
         return userRepo.findById(id).get();
@@ -96,6 +104,8 @@ public class UserService implements UserDetailsService {
 
     private void sendActivationEmail(User user) {
         String subject = "Welcome to Our Service – Confirm Your Registration";
+
+        String activationLink="http://localhost:8085/api/user/active/"+user.getId();
 
         String mailText = "<!DOCTYPE html>"
                 + "<html>"
@@ -120,6 +130,8 @@ public class UserService implements UserDetailsService {
                 + "      <p>If you have any questions or need help, feel free to reach out to our support team.</p>"
                 + "      <br>"
                 + "      <p>Best regards,<br>The Support Team</p>"
+                + "      <p>To Activate Your Account, please click the following link:</p>"
+                + "      <p><a href=\"" + activationLink + "\">Activate Account</a></p>"
                 + "    </div>"
                 + "    <div class='footer'>"
                 + "      &copy; " + java.time.Year.now() + " YourCompany. All rights reserved."
@@ -129,23 +141,27 @@ public class UserService implements UserDetailsService {
                 + "</html>";
 
         try {
-            emailService.sendSimpleMail(user.getEmail(), subject, mailText);
+            emailService.sendSimpleEmail(user.getEmail(), subject, mailText);
         } catch (MessagingException e) {
             throw new RuntimeException("Failed to send activation email", e);
         }
     }
 
+
+    // for User folder
     public String saveImage(MultipartFile file, User user) {
+
         Path uploadPath = Paths.get(uploadDir + "/users");
         if (!Files.exists(uploadPath)) {
             try {
-                Files.createDirectories(uploadPath);
+                Files.createDirectory(uploadPath);
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
 
-        String fileName = user.getName() + "_" + UUID.randomUUID();
+        String fileName = user.getName() + "_" + UUID.randomUUID().toString();
 
 
         try {
@@ -154,8 +170,8 @@ public class UserService implements UserDetailsService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         return fileName;
+
     }
 
     // for User folder
@@ -171,10 +187,10 @@ public class UserService implements UserDetailsService {
             }
         }
 
-        String consumerName = consumer.getName() ;
-        String fileName = consumerName.trim().replaceAll("\\s+", "_") ;
+        String consumerName = consumer.getName();
+        String fileName = consumerName.trim().replaceAll("\\s+", "_");
 
-        String savedFileName = fileName+ "_" + UUID.randomUUID().toString();
+        String savedFileName = fileName + "_" + UUID.randomUUID().toString();
 
         try {
             Path filePath = uploadPath.resolve(savedFileName);
@@ -189,7 +205,7 @@ public class UserService implements UserDetailsService {
 
     public void registerConsumer(User user, MultipartFile imageFile, Consumer consumerData) {
         if (imageFile != null && !imageFile.isEmpty()) {
-            // Save image for both User and consumer
+            // Save image for both User and JobSeeker
             String filename = saveImage(imageFile, user);
             String consumerPhoto = saveImageForConsumer(imageFile, consumerData);
             consumerData.setPhoto(consumerPhoto);
@@ -199,24 +215,24 @@ public class UserService implements UserDetailsService {
         // Encode password before saving User
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.CONSUMER);
+        user.setActive(false);
 
         // Save User FIRST and get persisted instance
         User savedUser = userRepo.save(user);
 
         // Now, associate saved User with JobSeeker and save JobSeeker
-
-         consumerData.setUser(savedUser);
+        consumerData.setUser(savedUser);
         consumerService.save(consumerData);
 
         // Now generate token and save Token associated with savedUser
-
-
         String jwt = jwtService.generateToken(savedUser);
         saveUserToken(jwt, savedUser);
 
         // Send Activation Email
         sendActivationEmail(savedUser);
     }
+
+
 
     private void saveUserToken(String jwt, User user) {
         Token token = new Token();
@@ -228,6 +244,67 @@ public class UserService implements UserDetailsService {
 
     }
 
+    private void removeAllTokenByUser(User user) {
+
+        List<Token> validTokens = tokenRepository.findAllTokenByUser(user.getId());
+
+        if (validTokens.isEmpty()) {
+            return;
+        }
+        validTokens.forEach(t -> {
+            t.setLogout(true);
+        });
+
+        tokenRepository.saveAll(validTokens);
+
+    }
+
+
+    // It is Login Method
+//    public AuthenticationResponse authencate(User request){
+//
+//        authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        request.getUsername(),
+//                        request.getPassword()
+//                )
+//        );
+//
+//        User user=userRepo.findByEmail(request.getEmail()).orElseThrow();
+//
+//        if (!user.isActive()) {
+//            throw new RuntimeException("Account is not activated. Please check your email for activation link.");
+//        }
+//
+//        // Generate Token for Current User
+//        String jwt=jwtService.generateToken(user);
+//
+//        //Remove all existing toke for this user
+//        removeAllTokenByUser(user);
+//
+//        saveUserToken(jwt, user);
+//
+//        return  new AuthenticationResponse(jwt, "User Login Successful");
+//
+//    }
+
+
+    public  String activeUser(int id){
+
+        User user=userRepo.findById(id)
+                .orElseThrow(()-> new RuntimeException("User not Found with this ID "+id));
+
+        if(user !=null){
+            user.setActive(true);
+
+            userRepo.save(user);
+            return "User Activated Successfully!";
+
+        }else {
+            return  "Invalid Activation Token!";
+        }
+
+    }
+
 
 }
-

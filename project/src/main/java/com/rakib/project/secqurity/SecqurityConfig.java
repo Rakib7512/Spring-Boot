@@ -37,7 +37,7 @@ public class SecqurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers("/api/user/**", "/images/**", "/api/jobseeker/","/api/user/active/**", "/api/user/login").permitAll()
+                        req.requestMatchers("/api/user/**", "/images/**","/api/user/active/**", "/api/user/login", "/api/consumer/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .userDetailsService(userService)

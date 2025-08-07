@@ -16,7 +16,8 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    @Autowired
+
+   @Autowired
     private ITokenRepository tokenRepository;
 
     private final  String SECURITY_KEY="EUoPux96NIyor8rPXHMMqH6DDho75xruneBeo0SwAJkUbdR5Ie";
@@ -100,6 +101,4 @@ public class JwtService {
 
         return extractClaim(token, claims -> claims.get("role", String.class));
     }
-
-
 }

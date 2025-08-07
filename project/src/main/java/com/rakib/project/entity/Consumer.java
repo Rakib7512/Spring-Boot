@@ -3,6 +3,7 @@ package com.rakib.project.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "consumers")
 public class Consumer {
 
     @Id
@@ -12,22 +13,27 @@ public class Consumer {
     private String name;
     private String email;
     private String phone;
-    private String nid;
+    private String gender;
+    private String address;
+
     private String photo;
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+
     public Consumer() {
+
     }
 
-    public Consumer(Long id, String name, String email, String phone, String nid, String photo, User user) {
+    public Consumer(Long id, String name, String email, String phone, String gender, String address,  String photo, User user) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.nid = nid;
+        this.gender = gender;
+        this.address = address;
         this.photo = photo;
         this.user = user;
     }
@@ -40,20 +46,20 @@ public class Consumer {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPhone() {
@@ -64,13 +70,22 @@ public class Consumer {
         this.phone = phone;
     }
 
-    public String getNid() {
-        return nid;
+    public String getGender() {
+        return gender;
     }
 
-    public void setNid(String nid) {
-        this.nid = nid;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
 
     public String getPhoto() {
         return photo;

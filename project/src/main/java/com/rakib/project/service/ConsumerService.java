@@ -12,21 +12,21 @@ import java.util.Optional;
 public class ConsumerService {
 
     @Autowired
-    private IConsumerRepo consumerRepo;
+    private IConsumerRepo consumerRepository;
 
     public List<Consumer> getAll() {
-        return consumerRepo.findAll();
+        return consumerRepository.findAll();
     }
 
     public Optional<Consumer> getById(Long id) {
-        return consumerRepo.findById(id);
+        return consumerRepository.findById(id);
     }
 
-    public void save(Consumer consumer) {
-        consumerRepo.save(consumer);
+    public Consumer save(Consumer consumer) {
+        return consumerRepository.save(consumer);
     }
 
-    public void deleteById(Long id) {
-        consumerRepo.deleteById(id);
+    public void delete(Long id) {
+        consumerRepository.deleteById(id);
     }
 }
