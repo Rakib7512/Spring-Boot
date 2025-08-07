@@ -159,7 +159,7 @@ public class UserService implements UserDetailsService {
     }
 
     // for User folder
-    public String saveImageForJobSeeker(MultipartFile file, Consumer consumer) {
+    public String saveImageForConsumer(MultipartFile file, Consumer consumer) {
 
         Path uploadPath = Paths.get(uploadDir + "/consumer");
         if (!Files.exists(uploadPath)) {
@@ -187,12 +187,12 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public void registerJobSeeker(User user, MultipartFile imageFile, Consumer jobSeekerData) {
+    public void registerConsumer(User user, MultipartFile imageFile, Consumer consumerData) {
         if (imageFile != null && !imageFile.isEmpty()) {
-            // Save image for both User and JobSeeker
+            // Save image for both User and consumer
             String filename = saveImage(imageFile, user);
-            String jobSeekerPhoto = saveImageForJobSeeker(imageFile, jobSeekerData);
-            jobSeekerData.setPhoto(jobSeekerPhoto);
+            String consumerPhoto = saveImageForConsumer(imageFile, consumerData);
+            consumerData.setPhoto(consumerPhoto);
             user.setPhoto(filename);
         }
 
@@ -205,14 +205,14 @@ public class UserService implements UserDetailsService {
 
         // Now, associate saved User with JobSeeker and save JobSeeker
 
-//        jobSeekerData.setUser(savedUser);
-//        ConsumerService.save(jobSeekerData);
+         consumerData.setUser(savedUser);
+        consumerService.save(consumerData);
 
         // Now generate token and save Token associated with savedUser
 
 
-//        String jwt = jwtService.generateToken(savedUser);
-//        saveUserToken(jwt, savedUser);
+        String jwt = jwtService.generateToken(savedUser);
+        saveUserToken(jwt, savedUser);
 
         // Send Activation Email
         sendActivationEmail(savedUser);
