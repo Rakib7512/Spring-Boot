@@ -9,9 +9,7 @@ import { ConsumerService } from '../service/consumer.service';
   styleUrl: './add-consumer.css'
 })
 export class AddConsumer {
-
-  
-  userForm!: FormGroup;
+ userForm!: FormGroup;
   consumerForm!: FormGroup;
   photoFile!: File;
   message: string = '';
@@ -19,10 +17,7 @@ export class AddConsumer {
   constructor(
     private fb: FormBuilder,
     private consumerService: ConsumerService
-  ) {}
-
-  ngOnInit(): void {
-    this.userForm = this.fb.group({
+  ) { this.userForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
@@ -30,8 +25,10 @@ export class AddConsumer {
     });
 
     this.consumerForm = this.fb.group({
+      nid:['',Validators.required],
       gender: ['', Validators.required],
-      nid: ['', Validators.required]
+      address: ['', Validators.required],
+     
     });
   }
 
@@ -47,7 +44,6 @@ export class AddConsumer {
       this.message = 'Please upload a photo.';
       return;
     }
-
     if (this.userForm.invalid || this.consumerForm.invalid) {
       this.message = 'Please fill out all required fields.';
       return;
@@ -58,14 +54,16 @@ export class AddConsumer {
       email: this.userForm.value.email,
       phone: this.userForm.value.phone,
       password: this.userForm.value.password,
-      role: 'CONSUMER'
+      role: 'CONSUMER' // adjust if necessary
     };
 
     const consumer = {
       name: this.userForm.value.name,
       email: this.userForm.value.email,
       phone: this.userForm.value.phone,
-      nid: this.consumerForm.value.nid
+      gender: this.consumerForm.value.gender,
+      address: this.consumerForm.value.address,
+      dateOfBirth: this.consumerForm.value.dateOfBirth
     };
 
     this.consumerService.registerConsumer(user, consumer, this.photoFile).subscribe({
@@ -80,8 +78,6 @@ export class AddConsumer {
       }
     });
   }
-  }
-
-  
 
 
+}

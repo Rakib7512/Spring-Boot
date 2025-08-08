@@ -6,6 +6,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -17,10 +18,11 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-   @Autowired
+
+@Autowired
     private ITokenRepository tokenRepository;
 
-    private final  String SECURITY_KEY="EUoPux96NIyor8rPXHMMqH6DDho75xruneBeo0SwAJkUbdR5Ie";
+    private final String SECURITY_KEY = "6SeHdW3EuWkwbT0PxoJJRt9YOH1uvppoz4C5uhmv0O3zF30YaD";
 
 
     // get all part from token
@@ -101,4 +103,6 @@ public class JwtService {
 
         return extractClaim(token, claims -> claims.get("role", String.class));
     }
+
+
 }

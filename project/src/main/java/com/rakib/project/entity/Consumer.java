@@ -15,7 +15,7 @@ public class Consumer {
     private String phone;
     private String gender;
     private String address;
-
+    private String nid;
     private String photo;
 
     @OneToOne
@@ -27,13 +27,14 @@ public class Consumer {
 
     }
 
-    public Consumer(Long id, String name, String email, String phone, String gender, String address,  String photo, User user) {
+    public Consumer(Long id, String name, String email, String phone, String gender, String address, String nid, String photo, User user) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.gender = gender;
         this.address = address;
+        this.nid = nid;
         this.photo = photo;
         this.user = user;
     }
@@ -86,6 +87,13 @@ public class Consumer {
         this.address = address;
     }
 
+    public String getNid() {
+        return nid;
+    }
+
+    public void setNid(String nid) {
+        this.nid = nid;
+    }
 
     public String getPhoto() {
         return photo;
