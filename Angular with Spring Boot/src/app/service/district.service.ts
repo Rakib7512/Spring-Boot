@@ -3,29 +3,30 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { District } from '../../model/district.model';
 import { PoliceStation } from '../../model/policeStation.model';
+import { environment } from '../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DistrictService {
-  private apiUrl = 'http://localhost:3000/districts'
+private baseUrl=environment.apiBaseUrl+'/district/';
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<District[]> {
-    return this.http.get<District[]>(this.apiUrl);
+    return this.http.get<District[]>(this.baseUrl);
   }
 
   add(policeStation: PoliceStation): Observable<District> {
-    return this.http.post<District>(this.apiUrl, policeStation);
+    return this.http.post<District>(this.baseUrl, policeStation);
 
   }
 
   update(policeStation: District): Observable<District> {
-    return this.http.put<District>(`${this.apiUrl}/${policeStation.id}`, policeStation);
+    return this.http.put<District>(`${this.baseUrl}/${policeStation.id}`, policeStation);
 
   }
   delete(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
 
 
   }

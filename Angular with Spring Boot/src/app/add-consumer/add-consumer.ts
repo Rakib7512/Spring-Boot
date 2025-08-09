@@ -6,29 +6,25 @@ import { ConsumerService } from '../service/consumer.service';
   selector: 'app-add-consumer',
   standalone: false,
   templateUrl: './add-consumer.html',
-  styleUrl: './add-consumer.css'
+  styleUrls: ['./add-consumer.css']
 })
 export class AddConsumer {
- userForm!: FormGroup;
-  consumerForm!: FormGroup;
+  registrationForm!: FormGroup;
   photoFile!: File;
   message: string = '';
 
   constructor(
     private fb: FormBuilder,
     private consumerService: ConsumerService
-  ) { this.userForm = this.fb.group({
+  ) {
+    this.registrationForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
-      password: ['', Validators.required]
-    });
-
-    this.consumerForm = this.fb.group({
-      nid:['',Validators.required],
+      password: ['', Validators.required],
       gender: ['', Validators.required],
-      address: ['', Validators.required],
-     
+      nid: ['', Validators.required],
+      address: ['', Validators.required]
     });
   }
 
@@ -41,43 +37,37 @@ export class AddConsumer {
 
   onSubmit(): void {
     if (!this.photoFile) {
-      this.message = 'Please upload a photo.';
+      this.message = 'Fail: Please upload a photo.';
       return;
     }
-    if (this.userForm.invalid || this.consumerForm.invalid) {
-      this.message = 'Please fill out all required fields.';
+    if (this.registrationForm.invalid) {
+      this.message = 'Fail: Please fill out all required fields.';
       return;
     }
 
     const user = {
-      name: this.userForm.value.name,
-      email: this.userForm.value.email,
-      phone: this.userForm.value.phone,
-      password: this.userForm.value.password,
-      role: 'CONSUMER' // adjust if necessary
+      name: this.registrationForm.value.name,
+      email: this.registrationForm.value.email,
+      phone: this.registrationForm.value.phone,
+      password: this.registrationForm.value.password,
+      role: 'CONSUMER'
     };
 
     const consumer = {
-      name: this.userForm.value.name,
-      email: this.userForm.value.email,
-      phone: this.userForm.value.phone,
-      gender: this.consumerForm.value.gender,
-      address: this.consumerForm.value.address,
-      dateOfBirth: this.consumerForm.value.dateOfBirth
+      gender: this.registrationForm.value.gender,
+      nid: this.registrationForm.value.nid,
+      address: this.registrationForm.value.address
     };
 
     this.consumerService.registerConsumer(user, consumer, this.photoFile).subscribe({
       next: res => {
-        this.message = res.Message || 'Registration successful!';
-        this.userForm.reset();
-        this.consumerForm.reset();
+        this.message = 'Success: ' + (res.Message || 'Registration successful!');
+        this.registrationForm.reset();
         this.photoFile = undefined!;
       },
       error: err => {
-        this.message = 'Registration failed: ' + (err.error?.Message || err.message);
+        this.message = 'Fail: ' + (err.error?.Message || err.message);
       }
     });
   }
-
-
 }

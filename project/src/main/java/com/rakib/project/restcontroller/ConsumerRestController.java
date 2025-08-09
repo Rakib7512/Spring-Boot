@@ -38,17 +38,18 @@ public class ConsumerRestController {
         Consumer consumer = objectMapper.readValue(consumerJson, Consumer.class);
 
         try {
-            userService.saveOrUpdate(user, file);
-            consumerService.save(consumer);
+            userService.registerConsumer(user, file, consumer);
             Map<String, String> response = new HashMap<>();
             response.put("Message", "User Added Successfully ");
-
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
+
             Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("Message", "User Add Failed " + e);
+            errorResponse.put("Message", "User Add Faild " + e);
             return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+
     }
 
     @GetMapping("")
