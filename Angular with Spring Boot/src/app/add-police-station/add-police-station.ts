@@ -14,6 +14,8 @@ export class AddPoliceStation implements OnInit {
   policeStations: PoliceStation[] = [];
   psForm!: FormGroup;
   editing: boolean = false;
+  message: string = '';
+  
   constructor(
     private formBuildere: FormBuilder,
     private psService: PoliceStationService
