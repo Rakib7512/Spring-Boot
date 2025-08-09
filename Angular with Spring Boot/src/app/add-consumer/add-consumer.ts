@@ -28,12 +28,13 @@ export class AddConsumer {
     });
   }
 
-  onPhotoSelected(event: any): void {
-    if (event.target.files.length > 0) {
-      this.photoFile = event.target.files[0];
-      console.log('Selected file:', this.photoFile);
-    }
+onPhotoSelected(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files.length > 0) {
+    this.photoFile = input.files[0];
+    console.log('Selected file:', this.photoFile);
   }
+}
 
   onSubmit(): void {
     if (!this.photoFile) {
