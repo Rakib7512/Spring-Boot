@@ -31,9 +31,9 @@ export class Userprofile implements OnInit {
     const loggedInUser = localStorage.getItem('loggedInUser');
     if (loggedInUser) {
       this.user = JSON.parse(loggedInUser);
-      if (this.user?.id) {
-        this.loadUserParcels(this.user.id);  // ✅ This line is key
-      }
+      // if (this.user?.id) {
+      //   this.loadUserParcels(this.user.id);  // ✅ This line is key
+      // }
     } else {
       console.error('User not logged in.');
     }

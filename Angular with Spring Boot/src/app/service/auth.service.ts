@@ -4,53 +4,55 @@ import { User } from '../../model/user.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { AuthResponse } from '../../model/authRespone.model';
+import { environment } from '../../environment/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
-  private baseUrl: string = "http://localhost:3000/user";
+ private baseUrl = environment.apiBaseUrl + '/users'; 
+  // Spring Boot API: e.g. http://localhost:8085/api/users
 
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser$: Observable<User | null>;
 
   constructor(
-    
     private http: HttpClient,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
-
-    const storedUser = this.isBrowser() ? JSON.parse(localStorage.getItem('currentUser') || 'null') : null;
+    const storedUser = this.isBrowser()
+      ? JSON.parse(localStorage.getItem('currentUser') || 'null')
+      : null;
     this.currentUserSubject = new BehaviorSubject<User | null>(storedUser);
     this.currentUser$ = this.currentUserSubject.asObservable();
-
   }
 
   private isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
   }
 
+  // Registration
   registration(user: User): Observable<AuthResponse> {
     return this.http.post<User>(this.baseUrl, user).pipe(
       map((newUser: User) => {
-
-        // create token by username and password 
-        const token = btoa(`${newUser.email}${newUser.password}`);
+        const token = btoa(`${newUser.email}:${newUser.password}`);
+        this.storeToken(token);
+        this.setCurrentUser(newUser);
         return { token, user: newUser } as AuthResponse;
       }),
       catchError(error => {
         console.error('Registration error:', error);
-        throw error;
+        return throwError(() => error);
       })
     );
   }
 
+  // Login
   login(credentials: { email: string; password: string }): Observable<AuthResponse> {
     let params = new HttpParams().append('email', credentials.email);
 
-    return this.http.get<User[]>(`${this.baseUrl}`, { params }).pipe(
+    return this.http.get<User[]>(this.baseUrl, { params }).pipe(
       map(users => {
         if (users.length > 0) {
           const user = users[0];
@@ -68,31 +70,39 @@ export class AuthService {
       }),
       catchError(error => {
         console.error('Login error:', error);
-        throw error;
+        return throwError(() => error);
       })
     );
   }
 
-
+  // Token store
   storeToken(token: string): void {
     if (this.isBrowser()) {
       localStorage.setItem('token', token);
     }
   }
 
+  // Set current user in localStorage & BehaviorSubject
+ private setCurrentUser(user: User): void {
+  if (this.isBrowser()) {
+    localStorage.setItem('currentUser', JSON.stringify(user));
 
-  private setCurrentUser(user: User): void {
-    if (this.isBrowser()) {
-      localStorage.setItem('currentUser', JSON.stringify(user));
+    // null-safe check for id
+    if (user.id != null) {  // null এবং undefined দুইটাই চেক করবে
+      localStorage.setItem('userId', user.id.toString());
     }
-    this.currentUserSubject.next(user);
   }
+  this.currentUserSubject.next(user);
+}
 
-// start logout
+  
+
+  // Logout
   logout(): void {
     this.clearCurrentUser();
     if (this.isBrowser()) {
       localStorage.removeItem('token');
+      localStorage.removeItem('userId');
     }
   }
 
@@ -109,64 +119,63 @@ export class AuthService {
     }
   }
 
-  // log out end
-
-  getUserRole(): any {
-    return this.currentUserValue?.role;
+  // Get role
+  getUserRole(): string | null {
+    return this.currentUserValue?.role || null;
   }
-  
+
+  // Get current user value
   public get currentUserValue(): User | null {
     return this.currentUserSubject.value;
   }
 
+  // Token getter
   getToken(): string | null {
     return this.isBrowser() ? localStorage.getItem('token') : null;
   }
 
-
+  // Auth check
   isAuthenticated(): boolean {
     return !!this.getToken();
   }
 
-
-   storeUserProfile(user: User): void {
+  // Store profile
+  storeUserProfile(user: User): void {
     if (this.isBrowser()) {
       localStorage.setItem('currentUser', JSON.stringify(user));
     }
   }
 
+  // Get profile
   getUserProfileFromStorage(): User | null {
     if (this.isBrowser()) {
       const userProfile = localStorage.getItem('currentUser');
-      console.log('User Profile is: ', userProfile);
       return userProfile ? JSON.parse(userProfile) : null;
     }
     return null;
   }
 
-
+  // Role checks
   isAdmin(): boolean {
-    return this.getUserRole() === 'admin';
+    return this.getUserRole() === 'ADMIN';
   }
 
   isUser(): boolean {
-    const role = this.getUserRole();
-    return role === 'user';
+    return this.getUserRole() === 'CONSUMER';
   }
+
   isEmp(): boolean {
-    const role = this.getUserRole();
-    return role === 'emp';
+    return this.getUserRole() === 'EMPLOYEE';
   }
 
- getLoggedInUser(): Observable<User> {
-  if (isPlatformBrowser(this.platformId)) {
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      return this.http.get<User>(`http://localhost:8080/api/users/${userId}`);
+  // Get logged-in user from backend
+  getLoggedInUser(): Observable<User> {
+    if (this.isBrowser()) {
+      const userId = localStorage.getItem('userId');
+      if (userId) {
+        return this.http.get<User>(`${this.baseUrl}/${userId}`);
+      }
     }
+    return throwError(() => new Error('localStorage not available or user not logged in.'));
   }
-  return throwError(() => new Error('localStorage not available or user not logged in.'));
-}
-
-
 }
