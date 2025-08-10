@@ -181,15 +181,17 @@ public class UserService implements UserDetailsService {
         if (!Files.exists(uploadPath)) {
             try {
                 Files.createDirectory(uploadPath);
-
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
 
-        String consumerName = consumer.getName();
-        String fileName = consumerName.trim().replaceAll("\\s+", "_");
+        // Null-safe name handling
+        String consumerName = (consumer.getName() != null && !consumer.getName().isBlank())
+                ? consumer.getName()
+                : "unknown_consumer";
 
+        String fileName = consumerName.trim().replaceAll("\\s+", "_");
         String savedFileName = fileName + "_" + UUID.randomUUID().toString();
 
         try {
@@ -199,7 +201,6 @@ public class UserService implements UserDetailsService {
             throw new RuntimeException(e);
         }
         return savedFileName;
-
     }
 
 
@@ -221,6 +222,9 @@ public class UserService implements UserDetailsService {
         User savedUser = userRepo.save(user);
 
         // Now, associate saved User with JobSeeker and save JobSeeker
+        if (consumerData.getName() == null || consumerData.getName().isBlank()) {
+            consumerData.setName(user.getName());
+        }
         consumerData.setUser(savedUser);
         consumerService.save(consumerData);
 
