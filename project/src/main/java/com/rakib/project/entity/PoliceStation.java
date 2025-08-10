@@ -14,32 +14,14 @@ public class PoliceStation {
     @Column(length = 50, nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "district_id")
-    @JsonIgnore
     private District district;
 
     public PoliceStation() {
     }
 
-    public PoliceStation(int id, String name, District district) {
-        this.id = id;
-        this.name = name;
-        this.district = district;
-    }
-
-    public PoliceStation(String name, District district) {
-        this.name = name;
-        this.district = district;
-    }
-
-    public PoliceStation(String name) {
-        this.name = name;
-    }
-
-    public PoliceStation(District district) {
-        this.district = district;
-    }
+    public PoliceStation(int id, String name) {}
 
     public int getId() {
         return id;
@@ -65,4 +47,3 @@ public class PoliceStation {
         this.district = district;
     }
 }
-

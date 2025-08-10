@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
-
 @Entity
 @Table(name = "districts")
 public class District {
@@ -70,4 +69,3 @@ public class District {
         this.division = division;
     }
 }
-
