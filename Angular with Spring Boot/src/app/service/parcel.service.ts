@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Parcel } from '../../model/parcel.model';
 import { Observable } from 'rxjs';
+import { environment } from '../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ParcelService {
 
- private baseUrl = 'http://localhost:3000/parcel'; // JSON Server expects plural
+  private baseUrl=environment.apiBaseUrl+'/parcels/';
 
   constructor(private http: HttpClient) {}
 

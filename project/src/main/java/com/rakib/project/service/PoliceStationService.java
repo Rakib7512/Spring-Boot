@@ -23,6 +23,8 @@ public class PoliceStationService {
     }
 
 
+
+
     public List<PoliceStationResponseDTO> getAllPoliceStationsDTOs() {
         return policeStationRepo.findAll().stream().map(ps -> {
             PoliceStationResponseDTO dto = new PoliceStationResponseDTO();
@@ -34,7 +36,7 @@ public class PoliceStationService {
                 DistrictResponseDTO districtDTO = new DistrictResponseDTO();
                 districtDTO.setId(district.getId());
                 districtDTO.setName(district.getName());
-                dto.setDistrictId(districtDTO);
+                dto.setDistrict(districtDTO);
             }
 
             return dto;
@@ -64,4 +66,5 @@ public class PoliceStationService {
         }).orElseThrow(() -> new RuntimeException("PoliceStation not found with id " + id));
     }
 }
+
 
