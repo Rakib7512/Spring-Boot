@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
-
 @Entity
 @Table(name = "countries")
 public class Country {
@@ -29,4 +28,3 @@ public class Country {
     public List<Division> getDivisions() { return divisions; }
     public void setDivisions(List<Division> divisions) { this.divisions = divisions; }
 }
-

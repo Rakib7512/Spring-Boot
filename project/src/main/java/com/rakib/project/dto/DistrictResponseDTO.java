@@ -5,12 +5,13 @@ import java.util.List;
 public class DistrictResponseDTO {
     private int id;
     private String name;
-    private List<Integer> policeStations;
+    private DivisionResponseDTO division;
 
-    // Getters and setters
+
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -18,16 +19,16 @@ public class DistrictResponseDTO {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public List<Integer> getPoliceStations() {
-        return policeStations;
-    }
-    public void setPoliceStations(List<Integer> policeStations) {
-        this.policeStations = policeStations;
+    public DivisionResponseDTO getDivision() {
+        return division;
     }
 
+    public void setDivision(DivisionResponseDTO division) {
+        this.division = division;
+    }
 }
-

@@ -3,8 +3,7 @@ package com.rakib.project.dto;
 public class PoliceStationResponseDTO {
     private int id;
     private String name;
-    private int districtId;
-    private String districtName;
+    private DistrictResponseDTO district;
 
 
     public int getId() {
@@ -23,21 +22,11 @@ public class PoliceStationResponseDTO {
         this.name = name;
     }
 
-
-    public int getDistrictId() {
-        return districtId;
+    public DistrictResponseDTO getDistrict() {
+        return district;
     }
 
-    public void setDistrictId(int districtId) {
-        this.districtId = districtId;
-    }
-
-    public String getDistrictName() {
-        return districtName;
-    }
-
-    public void setDistrictName(String districtName) {
-        this.districtName = districtName;
+    public void setDistrict(DistrictResponseDTO district) {
+        this.district = district;
     }
 }
-

@@ -1,6 +1,7 @@
 package com.rakib.project.restcontroller;
 
 
+import com.rakib.project.dto.PoliceStationResponseDTO;
 import com.rakib.project.entity.PoliceStation;
 import com.rakib.project.service.PoliceStationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,37 +16,30 @@ public class PoliceStationRestController {
     @Autowired
     private PoliceStationService policeStationService;
 
-    @PostMapping("")
-    public void save(@RequestBody PoliceStation ps) {
-        policeStationService.saveOrUpdate(ps);
-    }
-
-
     @GetMapping("")
-    public List<PoliceStation> getAll() {
-
-        return policeStationService.findAll();
+    public List<PoliceStationResponseDTO> getAll() {
+        return policeStationService.getAllPoliceStationsDTOs();
     }
 
-    @GetMapping("{id}")
+    @PostMapping("")
+    public PoliceStation save(@RequestBody PoliceStation ps) {
+        return policeStationService.saveOrUpdate(ps);
+    }
+
+    @GetMapping("/{id}")
     public PoliceStation getById(@PathVariable Integer id) {
-
-        return policeStationService.findById(id).get();
+        return policeStationService.findById(id).orElseThrow(() -> new RuntimeException("PoliceStation not found"));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Integer id) {
-
         policeStationService.deleteById(id);
     }
 
     @PutMapping("{id}")
-    public void Update(@RequestBody PoliceStation ps) {
-
-        policeStationService.saveOrUpdate(ps);
-
+    public PoliceStation update(@PathVariable Integer id, @RequestBody PoliceStation ps) {
+        return policeStationService.update(id, ps);
     }
 
 
 }
-

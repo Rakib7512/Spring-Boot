@@ -2,7 +2,6 @@ package com.rakib.project.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
 @Entity
 @Table(name="policestations")
 public class PoliceStation {
@@ -21,7 +20,8 @@ public class PoliceStation {
     public PoliceStation() {
     }
 
-    public PoliceStation(int id, String name) {}
+    public PoliceStation(int id, String name) {
+    }
 
     public int getId() {
         return id;

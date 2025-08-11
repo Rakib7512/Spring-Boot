@@ -1,44 +1,58 @@
 package com.rakib.project.service;
 
 
+import com.rakib.project.dto.CountryResponseDTO;
 import com.rakib.project.dto.DivisionResponseDTO;
+import com.rakib.project.entity.Country;
 import com.rakib.project.entity.Division;
 import com.rakib.project.repository.IDivisionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DivisionService {
 
     @Autowired
     private IDivisionRepo divisionRepository;
+    @Autowired
+    private IDivisionRepo divisionRepo;
 
     public List<Division> getAllDivisions() {
-        return divisionRepository.findAll();
+        return divisionRepo.findAll();
     }
 
     public List<DivisionResponseDTO> getAllDivisionDTOs() {
-        return getAllDivisions().stream().map(div -> {
+        return divisionRepository.findAll().stream().map(d -> {
             DivisionResponseDTO dto = new DivisionResponseDTO();
-            dto.setId(div.getId());
-            dto.setName(div.getName());
+            dto.setId(d.getId());
+            dto.setName(d.getName());
 
-            List<Integer> districtIds = div.getDistricts().stream()
-                    .map(d -> d.getId())
-                    .toList();
-            dto.setDistricts(districtIds);
+            Country c = d.getCountry();
+            if (c != null) {
+                CountryResponseDTO countryDTO = new CountryResponseDTO();
+                countryDTO.setId(c.getId());
+                countryDTO.setName(c.getName());
+                dto.setCountry(countryDTO);
+            }
 
             return dto;
         }).toList();
     }
 
-    public Division saveDivision(Division division) {
-        return divisionRepository.save(division);
+    public Optional<Division> findById(int id) {
+        return divisionRepo.findById(id);
     }
 
+    public Division saveDivision(Division division) {
+        return divisionRepo.save(division);
+    }
 
+    public void deleteById(int id) {
+        divisionRepo.deleteById(id);
+    }
 
 
 }
