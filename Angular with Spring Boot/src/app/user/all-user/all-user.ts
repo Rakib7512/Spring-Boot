@@ -20,20 +20,16 @@ export class AllUser implements OnInit{
     this.loadUsers();
   }
 
-  loadUsers() {
-
-    this.userService.getAllEmp().subscribe({
-      next: (res) => {
+  loadUsers(): void {
+    this.userService.getAllUser().subscribe({
+      next: (res: User[]) => {
         this.users = res;
-
+        console.log('Users loaded:', this.users); // Debug log
       },
-      error: (err)=>{
-        console.log(err);
+      error: (err) => {
+        console.error('Error loading users:', err);
       }
-
     });
-
-
   }
 
 }

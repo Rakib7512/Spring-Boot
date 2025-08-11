@@ -49,7 +49,7 @@ const routes: Routes = [
   {path:'view_RecParcel', component:ViewReceiveParcel},
   {path:'creatHub', component:CreateHub},
   {path:'view_hub',component:ViewHub},
-  {path:'user_profile', component:Userprofile},
+  {path:'user_profile/:id', component:Userprofile},
    {path:'allusers', component:AllUser},
    {path:'registerConsumer', component:AddConsumer}
 

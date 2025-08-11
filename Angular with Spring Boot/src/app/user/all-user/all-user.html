@@ -23,6 +23,16 @@
               <p><strong>NID:</strong> {{ user.nid }}</p>
               <p><strong>Role:</strong> {{ user.role }}</p>
             </div>
+
+            <!-- View Profile Button -->
+            <div class="mt-3">
+              <a
+                class="btn btn-primary btn-sm"
+                [routerLink]="['/user-profile', user.id]"
+              >
+                View Profile
+              </a>
+            </div>
           </div>
         </div>
       </div>

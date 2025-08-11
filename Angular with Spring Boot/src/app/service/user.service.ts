@@ -18,24 +18,24 @@ export class UserService {
   ) { }
 
 
-  getAllEmp():Observable<User[]>{
+  getAllUser():Observable<User[]>{
     return this.http.get<User[]>(this.baseUrl )
   }
 
 
-//   getUserProfile(): Observable<User | null> {
-//     return of(this.authService.getUserProfileFromStorage());
-//   }
+  getUserProfile(): Observable<User | null> {
+    return of(this.authService.getUserProfileFromStorage());
+  }
 
 
-//     updateUserProfile(user: User): Observable<User> {
-//     localStorage.setItem('userProfile', JSON.stringify(user));
-//     return this.http.put<User>(`${this.baseUrl}/${user.id}`, user);
-//   }
+    updateUserProfile(user: User): Observable<User> {
+    localStorage.setItem('userProfile', JSON.stringify(user));
+    return this.http.put<User>(`${this.baseUrl}/${user.id}`, user);
+  }
   
-//   getUserById(id: string): Observable<User> {
-//   return this.http.get<User>(`/api/users/${id}`);
-// }
+  getUserById(id: string): Observable<User> {
+  return this.http.get<User>(`/api/users/${id}`);
+}
 
   
 
