@@ -65,6 +65,10 @@ public class PoliceStationService {
             return policeStationRepo.save(existingPs);
         }).orElseThrow(() -> new RuntimeException("PoliceStation not found with id " + id));
     }
+
+    public List<PoliceStation> getByDistrict(Integer districtId) {
+        return policeStationRepo.findByDistrictId(districtId);
+    }
 }
 
 

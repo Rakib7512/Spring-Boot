@@ -34,5 +34,10 @@ export class DivisionService {
     return this.http.delete<void>(`${this.baseUrl}${id}`);
   }
 
+  getByCountry(countryId: number): Observable<Division[]> {
+  return this.http.get<Division[]>(`${this.baseUrl}?countryId=${countryId}`);
+}
+
+
 
 }

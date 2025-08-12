@@ -41,5 +41,9 @@ public class PoliceStationRestController {
         return policeStationService.update(id, ps);
     }
 
+    @GetMapping("/byDistrict/{districtId}")
+    public List<PoliceStation> getByDistrict(@PathVariable Integer districtId) {
+        return policeStationService.getByDistrict(districtId);
+    }
 
 }

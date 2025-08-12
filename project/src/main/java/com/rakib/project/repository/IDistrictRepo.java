@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface IDistrictRepo extends JpaRepository<District,Integer> {
     public District findByName(String name);
+    List<District> findByDivisionId(Integer divisionId);
 }

@@ -20,7 +20,10 @@ export class AddCountry implements OnInit{
   editMode = false;
   editId?: number;
 
-  constructor(private countryService: CountryService, private fb: FormBuilder, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private countryService: CountryService, 
+    private fb: FormBuilder, 
+    private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.loadCountries();

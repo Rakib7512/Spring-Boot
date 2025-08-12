@@ -4,6 +4,7 @@ import com.rakib.project.dto.DistrictResponseDTO;
 import com.rakib.project.entity.District;
 import com.rakib.project.service.DistrictService;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/district/")
+@RequiredArgsConstructor
 public class DistrictRestController {
 
     @Autowired
@@ -42,6 +44,11 @@ public class DistrictRestController {
     @DeleteMapping("{id}")
     public void deleteDistrict(@PathVariable int id) {
         districtService.deleteDistrictById(id);
+    }
+
+    @GetMapping("/byDivision/{divisionId}")
+    public List<District> getByDivision(@PathVariable Integer divisionId) {
+        return districtService.getByDivision(divisionId);
     }
 
 

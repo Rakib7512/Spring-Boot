@@ -60,4 +60,8 @@ public class DistrictService {
         district.setDivision(division);
         return districtRepo.save(district);
     }
+
+    public List<District> getByDivision(Integer divisionId) {
+        return districtRepo.findByDivisionId(divisionId);
+    }
 }

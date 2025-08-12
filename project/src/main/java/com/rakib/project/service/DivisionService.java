@@ -25,6 +25,8 @@ public class DivisionService {
         return divisionRepo.findAll();
     }
 
+
+
     public List<DivisionResponseDTO> getAllDivisionDTOs() {
         return divisionRepository.findAll().stream().map(d -> {
             DivisionResponseDTO dto = new DivisionResponseDTO();
@@ -53,6 +55,10 @@ public class DivisionService {
 
     public void deleteById(int id) {
         divisionRepo.deleteById(id);
+    }
+
+    public List<Division> getByCountry(Long countryId) {
+        return divisionRepository.findByCountryId(countryId);
     }
 
 

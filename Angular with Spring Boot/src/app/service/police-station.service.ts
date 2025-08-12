@@ -29,4 +29,8 @@ export class PoliceStationService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}${id}`);
   }
+getByDistrict(districtId: number): Observable<PoliceStation[]> {
+  return this.http.get<PoliceStation[]>(`${this.baseUrl}?districtId=${districtId}`);
+
+}
 }

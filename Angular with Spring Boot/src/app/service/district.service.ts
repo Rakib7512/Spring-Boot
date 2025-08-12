@@ -36,4 +36,7 @@ export class DistrictService {
     return this.http.delete<void>(`${this.baseUrl}${id}`);
   }
 
+getByDivision(divisionId: number): Observable<District[]> {
+  return this.http.get<District[]>(`${this.baseUrl}?divisionId=${divisionId}`);
+}
 }

@@ -1,11 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { District } from '../../model/district.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DivisionService } from '../service/division.service';
-import { DistrictService } from '../service/district.service';
 import { Division } from '../../model/division.model';
-import { PoliceStation } from '../../model/policeStation.model';
-import { console } from 'inspector';
 import { Country } from '../../model/country.module';
 import { CountryService } from '../service/country.service';
 
