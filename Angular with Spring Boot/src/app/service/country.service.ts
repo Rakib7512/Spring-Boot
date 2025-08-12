@@ -8,25 +8,28 @@ import { environment } from '../../environment/environment';
   providedIn: 'root'
 })
 export class CountryService {
-     private baseUrl=environment.apiBaseUrl+'/country/';
+     private baseUrl = environment.apiBaseUrl + '/countries/';
 
-  constructor(private http:HttpClient) { }
+
+  constructor(private http: HttpClient) {}
+
   getAll(): Observable<Country[]> {
-      return this.http.get<Country[]>(this.baseUrl);
-    }
-  
-    add(policeStation: Country): Observable<Country> {
-      return this.http.post<Country>(this.baseUrl, policeStation);
-  
-    }
-  
-    update(policeStation: Country): Observable<Country> {
-      return this.http.put<Country>(`${this.baseUrl}/${policeStation.id}`, policeStation);
-  
-    }
-    delete(id: string): Observable<void> {
-      return this.http.delete<void>(`${this.baseUrl }/${id}`);
-  
-  
-    }
+    return this.http.get<Country[]>(this.baseUrl);
+  }
+
+  getById(id: number): Observable<Country> {
+    return this.http.get<Country>(`${this.baseUrl}${id}`);
+  }
+
+  create(country: Country): Observable<Country> {
+    return this.http.post<Country>(this.baseUrl, country);
+  }
+
+  update(id: number, country: Country): Observable<Country> {
+    return this.http.put<Country>(`${this.baseUrl}${id}`, country);
+  }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}${id}`);
+  }
 }

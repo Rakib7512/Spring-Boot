@@ -61,26 +61,26 @@ export class ViewEmp implements OnInit{
   });
 }
 
-  getCountryName(id: string): string {
+  getCountryName(id: number): string {
     return this.countries.find(c => c.id == id)?.name || '';
   }
 
-  getDivisionName(id: string): string {
+  getDivisionName(id: number): string {
     return this.divisions.find(d => d.id == id)?.name || '';
   }
 
-  getDistrictName(id: string): string {
+  getDistrictName(id: number): string {
     return this.districts.find(dist => dist.id == id)?.name || '';
   }
-  getEmpOnHub(id: string){
+  getEmpOnHub(id: number){
  return this.policeStations.find(ps => ps.id == id)?.name || '';
   }
 
-  getPoliceStationName(id: string): string {
+  getPoliceStationName(id: number): string {
     return this.policeStations.find(ps => ps.id == id)?.name || '';
   }
 
-  getEmpByid(id: string) {
+  getEmpByid(id: number) {
     this.employeeService.getEmpById(id).subscribe({
       next: (data) => {
         this.emp = data;
@@ -95,7 +95,7 @@ export class ViewEmp implements OnInit{
   }
 
 
-  deleteEmployee(id: string) {
+  deleteEmployee(id: number) {
   if (confirm('Are you sure you want to delete this employee?')) {
     this.employeeService.deleteEmployee(id).subscribe(() => {
       alert('Deleted!');

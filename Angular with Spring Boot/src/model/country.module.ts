@@ -1,12 +1,5 @@
-
-export class Country {
-  id: string;
+export interface Country {
+  id?: number;         // optional for new countries before saving
   name: string;
-  divisions: string[];
-
-  constructor(id: string, name: string, divisions: string[] = []) {
-    this.id = id;
-    this.name = name;
-    this.divisions = divisions;
-  }
+  divisions?: number[]; // list of division IDs (optional)
 }

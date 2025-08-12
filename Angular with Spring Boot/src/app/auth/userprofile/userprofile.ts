@@ -40,7 +40,7 @@ export class Userprofile implements OnInit {
   }
   }
 
- loadUserParcels(userId: string): void {
+ loadUserParcels(userId: number): void {
  this.parcelService.getParcelsByUserId(userId).subscribe({
     next: (data) => {
       this.userParcels = data;

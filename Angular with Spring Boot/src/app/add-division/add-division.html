@@ -1,43 +1,50 @@
-<div class="container mt-5">
-  <h2 class="mb-4">Add Division</h2>
+<div class="container mt-4">
+    <form [formGroup]="divisionForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+            <label for="name" class="form-label">Division Name</label>
+            <input id="name" type="text" formControlName="name" class="form-control"
+                placeholder="Enter division name" />
+        </div>
 
-  <form [formGroup]="divisionForm" (ngSubmit)="onSubmit()" class="row g-3">
-    <div class="col-md-6">
-      <label for="name" class="form-label">Division Name</label>
-      <input
-        id="name"
-        formControlName="name"
-        class="form-control"
-        placeholder="Enter Division Name"
-      />
-    </div>
+        <div formGroupName="country" class="mb-3">
+            <label for="countryId" class="form-label">Country</label>
+            <select id="countryId" formControlName="id" class="form-select">
+                <option value="" disabled selected>Select a country</option>
+                <option *ngFor="let country of countries" [value]="country.id">
+                    {{ country.name }}
+                </option>
+            </select>
+        </div>
 
-    <div class="col-md-6">
-      <label for="districts" class="form-label">Select Districts</label>
-      <select
-        formControlName="district"
-        class="form-select"
-        multiple
-        size="5"
-      >
-        <option
-          *ngFor="let district of districts"
-          [value]="district.id"
-        >
-          {{ district.name}}
-        </option>
-      </select>
-      <small class="text-muted">Hold Ctrl (Windows) or Cmd (Mac) to select multiple.</small>
-    </div>
+        <button type="submit" class="btn btn-primary me-2">
+            {{ editMode ? 'Update' : 'Create' }}
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="resetForm()" *ngIf="editMode">Cancel</button>
+    </form>
 
-    <div class="col-md-12">
-      <button
-        type="submit"
-        class="btn btn-primary"
-        [disabled]="divisionForm.invalid"
-      >
-        Add Division
-      </button>
-    </div>
-  </form>
+
+    <hr />
+
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Country</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let d of divisions">
+                <td>{{ d.id }}</td>
+                <td>{{ d.name }}</td>
+                <td>{{ d.country?.name || 'N/A' }}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning me-2" (click)="onEdit(d)">Edit</button>
+                    <button class="btn btn-sm btn-danger" (click)="onDelete(d.id!)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
 </div>

@@ -23,13 +23,13 @@ export class EmployeeService {
     return this.http.put<Employee>(`${this.apiUrl}/${Employee.id}`, Employee);
 
   }
-  deleteEmployee(id: string): Observable<void> {
+  deleteEmployee(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
 
 
   }
   
- getEmpById(id: string): Observable<Employee> {
+ getEmpById(id: number): Observable<Employee> {
   return this.http.get<Employee>(`${this.apiUrl}/${id}`);
 }
 }

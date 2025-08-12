@@ -1,6 +1,6 @@
 export class Employee {
 
-    id!: string;
+    id!: number;
     name!: string;
     email!: string;
     gender!: string;
@@ -9,10 +9,10 @@ export class Employee {
     phoneNo!: string
     salary!: number;
     image!: string
-    country!: string;      // ID of selected country
-    division!: string;     // ID of selected division
-    district!: string;     // ID of selected district
-    policeStation!: string; // ID of selected police station
+    country!: number;      // ID of selected country
+    division!: number;     // ID of selected division
+    district!: number;     // ID of selected district
+    policeStation!: number; // ID of selected police station
     empOnHub!:string;
 
 }

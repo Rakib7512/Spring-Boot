@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Division } from '../../model/division.model';
 import { CountryService } from '../service/country.service';
 import { DivisionService } from '../service/division.service';
 import { Directive } from '@angular/compiler';
 import { it } from 'node:test';
+import { Country } from '../../model/country.module';
 
 @Component({
   selector: 'app-add-country',
@@ -14,39 +15,70 @@ import { it } from 'node:test';
 })
 export class AddCountry implements OnInit{
   
-  countryForm!:FormGroup;
-  divisions:Division[]=[];
+   countries: Country[] = [];
+  countryForm!: FormGroup;
+  editMode = false;
+  editId?: number;
 
-  constructor(
-    private fb:FormBuilder,
-    private countryservice:CountryService,
-    private divisionService:DivisionService
-  ){
-    this.countryForm=this.fb.group({
-      name:['',Validators.required],
-      divisions:[[],Validators.required]
-    });
-  }
+  constructor(private countryService: CountryService, private fb: FormBuilder, private cdr: ChangeDetectorRef) {}
+
   ngOnInit(): void {
-   this.loadDivisions();
-  }
-  loadDivisions(){
-    this.divisionService.getAll().subscribe(data =>{
-      this.divisions=data;
-
+    this.loadCountries();
+    this.countryForm = this.fb.group({
+      name: ['', Validators.required]
     });
   }
 
-  onSubmit(){
-    if(this.countryForm.invalid) return;
-    const country=this.countryForm.value;
-    this.countryservice.add(country).subscribe(()=>{
-      alert('Country Add Successful');
-      this.countryForm.reset();
+ loadCountries(): void {
+  this.countryService.getAll().subscribe(data => {
+    this.countries = data;
+    this.cdr.markForCheck();
+  });
+}
 
-    });
+
+  onSubmit(): void {
+    if (this.countryForm.invalid) return;
+
+    const countryData: Country = this.countryForm.value;
+
+    if (this.editMode && this.editId !== undefined) {
+      this.countryService.update(this.editId, countryData).subscribe(() => {
+        this.loadCountries();
+        this.resetForm();
+        this.cdr.markForCheck();
+      });
+    } else {
+      this.countryService.create(countryData).subscribe(() => {
+        this.loadCountries();
+        this.resetForm();
+        this.cdr.markForCheck();
+      });
+    }
   }
 
+  onEdit(country: Country): void {
+    this.editMode = true;
+    this.editId = country.id;
+    this.countryForm.patchValue({
+      name: country.name
+    });
+    this.cdr.markForCheck();
+  }
 
+  onDelete(id?: number): void {
+    if (id && confirm('Are you sure you want to delete this country?')) {
+      this.countryService.delete(id).subscribe(() => {
+        this.loadCountries();
+        this.cdr.markForCheck();
+      });
+    }
+  }
+
+  resetForm(): void {
+    this.editMode = false;
+    this.editId = undefined;
+    this.countryForm.reset();
+  }
 
 }

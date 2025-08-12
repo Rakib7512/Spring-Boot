@@ -1,6 +1,6 @@
 import { ParcelTracking } from "./trackingParcel.model";
 export class Parcel {
-  id?: string;
+  id?: number;
   trackingId?: string;
   senderName!: string;
   receiverName!: string;

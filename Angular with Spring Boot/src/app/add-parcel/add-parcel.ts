@@ -223,51 +223,44 @@ export class AddParcel implements OnInit {
   // Cascading Sender
   onCountryChange() {
     const countryId = this.parcelForm.value.sendCountry;
-    const selectedCountry = this.countries.find(c => c.id === countryId);
-    this.filteredSenderDivisions = selectedCountry ? this.divisions.filter(div => selectedCountry.divisions.includes(div.id)) : [];
-    this.filteredSenderDistricts = [];
-    this.filteredSenderPoliceStations = [];
-    this.parcelForm.patchValue({ sendDivision: '', sendDistrict: '', sendPoliceStation: '' });
+  this.filteredSenderDivisions = this.divisions.filter(d => d.country?.id === countryId);
+  this.filteredSenderDistricts = [];
+  this.filteredSenderPoliceStations = [];
+  this.parcelForm.patchValue({ sendDivision: '', sendDistrict: '', sendPoliceStation: '' });
   }
 
   onDivisionChange() {
     const divisionId = this.parcelForm.value.sendDivision;
-    const selectedDivision = this.divisions.find(div => div.id === divisionId);
-    this.filteredSenderDistricts = selectedDivision ? this.districts.filter(dist => selectedDivision.districts.includes(dist.id)) : [];
-    this.filteredSenderPoliceStations = [];
-    this.parcelForm.patchValue({ sendDistrict: '', sendPoliceStation: '' });
+  this.filteredSenderDistricts = this.districts.filter(dist => dist.division?.id === divisionId);
+  this.filteredSenderPoliceStations = [];
+  this.parcelForm.patchValue({ sendDistrict: '', sendPoliceStation: '' });
   }
 
   onDistrictChange() {
-    const districtId = this.parcelForm.value.sendDistrict;
-    const selectedDistrict = this.districts.find(dist => dist.id === districtId);
-    this.filteredSenderPoliceStations = selectedDistrict ? this.policeStations.filter(ps => selectedDistrict.policeStations.includes(ps.id!)) : [];
-    this.parcelForm.patchValue({ sendPoliceStation: '' });
+   const districtId = this.parcelForm.value.sendDistrict;
+  this.filteredSenderPoliceStations = this.policeStations.filter(ps => ps.district?.id === districtId);
+  this.parcelForm.patchValue({ sendPoliceStation: '' });
   }
 
   // Cascading Receiver
   onCountryChange2() {
-    const countryId = this.parcelForm.value.receiveCountry;
-    const selectedCountry = this.countries.find(c => c.id === countryId);
-    this.filteredReceiverDivisions = selectedCountry ? this.divisions.filter(div => selectedCountry.divisions.includes(div.id)) : [];
-    this.filteredReceiverDistricts = [];
-    this.filteredReceiverPoliceStations = [];
-    this.parcelForm.patchValue({ receiveDivision: '', receiveDistrict: '', receivePoliceStation: '' });
+   const divisionId = this.parcelForm.value.receiveDivision;
+  this.filteredReceiverDistricts = this.districts.filter(dist => dist.division?.id === divisionId);
+  this.filteredReceiverPoliceStations = [];
+  this.parcelForm.patchValue({ receiveDistrict: '', receivePoliceStation: '' });
   }
 
   onDivisionChange2() {
     const divisionId = this.parcelForm.value.receiveDivision;
-    const selectedDivision = this.divisions.find(div => div.id === divisionId);
-    this.filteredReceiverDistricts = selectedDivision ? this.districts.filter(dist => selectedDivision.districts.includes(dist.id)) : [];
-    this.filteredReceiverPoliceStations = [];
-    this.parcelForm.patchValue({ receiveDistrict: '', receivePoliceStation: '' });
+  this.filteredReceiverDistricts = this.districts.filter(dist => dist.division?.id === divisionId);
+  this.filteredReceiverPoliceStations = [];
+  this.parcelForm.patchValue({ receiveDistrict: '', receivePoliceStation: '' });
   }
 
   onDistrictChange2() {
-    const districtId = this.parcelForm.value.receiveDistrict;
-    const selectedDistrict = this.districts.find(dist => dist.id === districtId);
-    this.filteredReceiverPoliceStations = selectedDistrict ? this.policeStations.filter(ps => selectedDistrict.policeStations.includes(ps.id!)) : [];
-    this.parcelForm.patchValue({ receivePoliceStation: '' });
+     const districtId = this.parcelForm.value.receiveDistrict;
+  this.filteredReceiverPoliceStations = this.policeStations.filter(ps => ps.district?.id === districtId);
+  this.parcelForm.patchValue({ receivePoliceStation: '' });
   }
 
   generateConfirmationCode(): string {

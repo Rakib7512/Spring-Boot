@@ -77,7 +77,7 @@ onCountryChange() {
   const selectedCountry = this.countries.find(c => c.id === selectedCountryId);
 
   if (selectedCountry) {
-    this.filteredDivisions = this.allDivisions.filter(d => selectedCountry.divisions.includes(d.id!));
+    // this.filteredDivisions = this.allDivisions.filter(d => selectedCountry.divisions.includes(d.id!));
     this.filteredDistricts = [];
     this.filteredPoliceStations = [];
     this.hubGroup.patchValue({ divisionId: '', districtId: '', policeStationId: '' });
@@ -92,7 +92,7 @@ onCountryChange() {
   const selectedDivision = this.allDivisions.find(d => d.id === selectedDivisionId);
 
   if (selectedDivision) {
-    this.filteredDistricts = this.allDistricts.filter(dist => selectedDivision.districts.includes(dist.id!));
+    // this.filteredDistricts = this.allDistricts.filter(dist => selectedDivision.districts.includes(dist.id!));
     this.filteredPoliceStations = [];
     this.hubGroup.patchValue({ districtId: '', policeStationId: '' });
   }
@@ -106,7 +106,7 @@ onDistrictChange() {
   const selectedDistrict = this.allDistricts.find(dist => dist.id === selectedDistrictId);
 
   if (selectedDistrict) {
-    this.filteredPoliceStations = this.allPoliceStations.filter(ps => selectedDistrict.policeStations.includes(ps.id!));
+    // this.filteredPoliceStations = this.allPoliceStations.filter(ps => selectedDistrict.policeStations.includes(ps.id!));
     this.hubGroup.patchValue({ policeStationId: '' });
   }
 }

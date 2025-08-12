@@ -1,13 +1,8 @@
+import { Country } from "./country.module";
 
-
-export class Division {
-  id: string;
-  name: string;
-  districts: string[];
-
-  constructor(id: string, name: string, districts: string[] = []) {
-    this.id = id;
-    this.name = name;
-    this.districts = districts;
-  }
+export interface Division {
+    id: number;
+    name?: string;   // make optional to fix the error
+    country?: Country;
+    districts?: number[];
 }

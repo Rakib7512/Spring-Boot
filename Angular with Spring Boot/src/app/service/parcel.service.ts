@@ -21,23 +21,23 @@ export class ParcelService {
     return this.http.get<Parcel[]>(this.baseUrl);
   }
 
-  updateParcel(id: string, parcel: Parcel): Observable<Parcel> {
+  updateParcel(id: number, parcel: Parcel): Observable<Parcel> {
     return this.http.put<Parcel>(`${this.baseUrl}/${id}`, parcel);
   }
 
-  patchParcel(id: string, partial: Partial<Parcel>): Observable<Parcel> {
+  patchParcel(id: number, partial: Partial<Parcel>): Observable<Parcel> {
     return this.http.patch<Parcel>(`${this.baseUrl}/${id}`, partial);
   }
 
-  getParcelById(id: string): Observable<Parcel> {
+  getParcelById(id: number): Observable<Parcel> {
     return this.http.get<Parcel>(`${this.baseUrl}/${id}`);
   }
 
-  deleteParcel(id: string): Observable<any> {
+  deleteParcel(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
 
-  updateParcelStatus(id: string, status: string, currentHub: string): Observable<Parcel> {
+  updateParcelStatus(id: number, status: string, currentHub: string): Observable<Parcel> {
     // JSON Server doesn't support custom routes like /status
     return this.http.patch<Parcel>(`${this.baseUrl}/${id}`, { status, currentHub });
   }
@@ -50,7 +50,7 @@ export class ParcelService {
     return this.http.get<Parcel[]>(`${this.baseUrl}?trackingId=${trackingId}`);
   }
 
-getParcelsByUserId(userId: string): Observable<Parcel[]> {
+getParcelsByUserId(userId: number): Observable<Parcel[]> {
   return this.http.get<Parcel[]>(`http://localhost:8080/api/parcels/user/${userId}`);
 }
 

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { PoliceStation } from '../../model/policeStation.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PoliceStationService } from '../service/police-station.service';
+import { District } from '../../model/district.model';
+import { DistrictService } from '../service/district.service';
 
 @Component({
   selector: 'app-add-police-station',
@@ -12,71 +14,87 @@ import { PoliceStationService } from '../service/police-station.service';
 export class AddPoliceStation implements OnInit {
 
   policeStations: PoliceStation[] = [];
-  psForm!: FormGroup;
-  editing: boolean = false;
-  message: string = '';
-  
-  constructor(
-    private formBuildere: FormBuilder,
-    private psService: PoliceStationService
+  districts: District[] = [];
+  policeStationForm!: FormGroup;
+  editMode = false;
+  currentId?: number;
 
-  ) {
-    this.psForm = this.formBuildere.group({
-      id: [''],
-      name: ['', Validators.required]
+  constructor(
+    private psService: PoliceStationService,
+    private districtService: DistrictService,
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
+  ) { }
+
+  ngOnInit(): void {
+    this.loadDistricts();
+    this.loadPoliceStations();
+
+    this.policeStationForm = this.fb.group({
+      name: ['', Validators.required],
+      district: this.fb.group({
+        id: [null, Validators.required]
+      })
     });
   }
-  ngOnInit(): void {
-    this.loadPoliceStation();
+
+  loadDistricts(): void {
+    this.districtService.getAll().subscribe(data => {
+      this.districts = data;
+      this.cdr.markForCheck();
+    });
   }
-  loadPoliceStation() {
+
+  loadPoliceStations(): void {
     this.psService.getAll().subscribe(data => {
       this.policeStations = data;
-
-    })
+      this.cdr.markForCheck();
+    });
   }
-  onSubmit() {
-    if (this.psForm.invalid) return;
 
-    if (this.editing) {
-      this.psService.update(this.psForm.value).subscribe(() => {
-        alert('Updated Successful');
-        this.loadPoliceStation();
-        this.cancelEdit();
+  onSubmit(): void {
+    if (this.policeStationForm.invalid) return;
+
+    const formValue = this.policeStationForm.value;
+    const policeStation: PoliceStation = {
+      name: formValue.name,
+      district: { id: formValue.district.id }
+    };
+
+    if (this.editMode && this.currentId != null) {
+      this.psService.update(this.currentId, policeStation).subscribe(() => {
+        this.loadPoliceStations();
+        this.resetForm();
       });
-
     } else {
-      const { name } = this.psForm.value;
-      this.psService.add({ name }).subscribe(() => {
-        alert('Added successfully!');
-        this.loadPoliceStation();
-        this.psForm.reset();
-        this.editing = false;
+      this.psService.create(policeStation).subscribe(() => {
+        this.loadPoliceStations();
+        this.resetForm();
       });
     }
   }
-    getPoliceStationById(id:string){
-    this.psService.delete(id);
-  }
 
-
-  editPoliceStation(ps: PoliceStation) {
-    this.editing = true;
-    this.psForm.patchValue({
-      id: ps.id,
-      name: ps.name
+  onEdit(ps: PoliceStation): void {
+    this.editMode = true;
+    this.currentId = ps.id;
+    this.policeStationForm.patchValue({
+      name: ps.name,
+      district: { id: ps.district?.id }
     });
   }
 
-  deletePoliceStation(id: string) {
-      this.psService.delete(id).subscribe(()=>{
-        this.loadPoliceStation
-
+  onDelete(id: number | undefined): void {
+    if (id && confirm('Are you sure to delete this police station?')) {
+      this.psService.delete(id).subscribe(() => {
+        this.loadPoliceStations();
       });
+    }
   }
 
-  cancelEdit() {
-    this.editing = false;
-    this.psForm.reset();
+  resetForm(): void {
+    this.policeStationForm.reset();
+    this.editMode = false;
+    this.currentId = undefined;
   }
+
 }

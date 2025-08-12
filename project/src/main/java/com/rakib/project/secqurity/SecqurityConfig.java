@@ -37,7 +37,7 @@ public class SecqurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers("/api/user/**", "/images/**","/api/user/active/**", "/api/user/login", "/api/consumer/**","/api/policestation/**","/api/district**/", "/api/policestation**/", "/api/parcels**/","/api/division**/","/api/countries/**").permitAll()
+                        req.requestMatchers("/api/user/**", "/api/user/", "/images/**","/api/user/active/**", "/api/user/login", "/api/consumer/**","/api/policestation/**","/api/district**/", "/api/policestation**/", "/api/parcels**/","/api/division**/","/api/countries/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .userDetailsService(userService)

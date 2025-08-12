@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { District } from '../../model/district.model';
@@ -9,25 +9,31 @@ import { environment } from '../../environment/environment';
   providedIn: 'root'
 })
 export class DistrictService {
-private baseUrl=environment.apiBaseUrl+'/district/';
+ private baseUrl = environment.apiBaseUrl + '/district/';
+
+
+
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<District[]> {
     return this.http.get<District[]>(this.baseUrl);
   }
 
-  add(policeStation: PoliceStation): Observable<District> {
-    return this.http.post<District>(this.baseUrl, policeStation);
-
+  getById(id: number): Observable<District> {
+    return this.http.get<District>(`${this.baseUrl}${id}`);
   }
 
-  update(policeStation: District): Observable<District> {
-    return this.http.put<District>(`${this.baseUrl}/${policeStation.id}`, policeStation);
-
+  create(district: District, divisionId: number): Observable<District> {
+    const params = new HttpParams().set('divisionId', divisionId.toString());
+    return this.http.post<District>(this.baseUrl, district, { params });
   }
-  delete(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
 
-
+  update(id: number, district: District): Observable<District> {
+    return this.http.put<District>(`${this.baseUrl}${id}`, district);
   }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}${id}`);
+  }
+
 }

@@ -8,25 +8,31 @@ import { environment } from '../../environment/environment';
   providedIn: 'root'
 })
 export class DivisionService {
-  private baseUrl=environment.apiBaseUrl+'/division/';
-  constructor(private http: HttpClient) { }
   
+     private baseUrl = environment.apiBaseUrl + '/division/';
+
+
+  constructor(private http: HttpClient) { }
+
   getAll(): Observable<Division[]> {
     return this.http.get<Division[]>(this.baseUrl);
   }
 
-  add(policeStation: Division): Observable<Division> {
-    return this.http.post<Division>(this.baseUrl, policeStation);
-
+  getById(id: number): Observable<Division> {
+    return this.http.get<Division>(`${this.baseUrl}${id}`);
   }
 
-  update(policeStation: Division): Observable<Division> {
-    return this.http.put<Division>(`${this.baseUrl}/${policeStation.id}`, policeStation);
-
+  create(division: Division): Observable<Division> {
+    return this.http.post<Division>(this.baseUrl, division);
   }
-  delete(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
 
-
+  update(id: number, division: Division): Observable<Division> {
+    return this.http.put<Division>(`${this.baseUrl}${id}`, division);
   }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}${id}`);
+  }
+
+
 }
