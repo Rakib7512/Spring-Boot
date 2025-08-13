@@ -1,5 +1,6 @@
 package com.rakib.project.service;
 
+import com.rakib.project.dto.AuthenticationResponse;
 import com.rakib.project.entity.Consumer;
 import com.rakib.project.entity.Role;
 import com.rakib.project.entity.Token;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -263,34 +265,33 @@ public class UserService implements UserDetailsService {
 
     }
 
-
     // It is Login Method
-//    public AuthenticationResponse authencate(User request){
-//
-//        authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        request.getUsername(),
-//                        request.getPassword()
-//                )
-//        );
-//
-//        User user=userRepo.findByEmail(request.getEmail()).orElseThrow();
-//
-//        if (!user.isActive()) {
-//            throw new RuntimeException("Account is not activated. Please check your email for activation link.");
-//        }
-//
-//        // Generate Token for Current User
-//        String jwt=jwtService.generateToken(user);
-//
-//        //Remove all existing toke for this user
-//        removeAllTokenByUser(user);
-//
-//        saveUserToken(jwt, user);
-//
-//        return  new AuthenticationResponse(jwt, "User Login Successful");
-//
-//    }
+    public AuthenticationResponse authencate(User request){
+
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getUsername(),
+                        request.getPassword()
+                )
+        );
+
+        User user=userRepo.findByEmail(request.getEmail()).orElseThrow();
+
+        if (!user.isActive()) {
+            throw new RuntimeException("Account is not activated. Please check your email for activation link.");
+        }
+
+        // Generate Token for Current User
+        String jwt=jwtService.generateToken(user);
+
+        //Remove all existing toke for this user
+        removeAllTokenByUser(user);
+
+        saveUserToken(jwt, user);
+
+        return  new AuthenticationResponse(jwt, "User Login Successful");
+
+    }
 
 
     public  String activeUser(int id){

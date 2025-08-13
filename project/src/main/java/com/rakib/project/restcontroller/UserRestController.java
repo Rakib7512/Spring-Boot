@@ -3,6 +3,7 @@ package com.rakib.project.restcontroller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rakib.project.dto.AuthenticationResponse;
 import com.rakib.project.entity.User;
 import com.rakib.project.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
@@ -54,22 +55,22 @@ public class UserRestController {
         List<User> users = userService.findAll();
         return ResponseEntity.ok(users);
 
-//    }
-//
-//
-//    @PostMapping("login")
-//    public ResponseEntity<AuthenticationResponse>  login(@RequestBody User request){
-//        return ResponseEntity.ok(userService.authencate(request));
-//
-//    }
+    }
 
 
-//    @GetMapping("/active/{id}")
-//    public ResponseEntity<String> activeUser(@PathVariable("id") int id){
-//
-//        String response= userService.activeUser(id);
-//        return  ResponseEntity.ok(response);
-//    }
+    @PostMapping("login")
+    public ResponseEntity<AuthenticationResponse>  login(@RequestBody User request){
+        return ResponseEntity.ok(userService.authencate(request));
+
+    }
 
 
-}}
+    @GetMapping("/active/{id}")
+    public ResponseEntity<String> activeUser(@PathVariable("id") int id){
+
+        String response= userService.activeUser(id);
+        return  ResponseEntity.ok(response);
+    }
+
+
+}
