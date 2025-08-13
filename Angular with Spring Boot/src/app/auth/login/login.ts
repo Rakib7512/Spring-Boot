@@ -13,54 +13,41 @@ export class Login implements OnInit {
 
 
   loginForm!: FormGroup;
-   errorMessage: string = '';
+  errorMessage: string | null = null;
+  successMessage: string | null = null;
 
   constructor(
-    private authService: AuthService, 
-    private router: Router,
-    private formBuilder: FormBuilder
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
   ) { }
+
   ngOnInit(): void {
-   this.loginForm = this.formBuilder.group({
+    this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
   }
 
-
   onSubmit(): void {
-  if (this.loginForm.invalid) {
-    this.errorMessage = 'Please fill in all required fields correctly.';
-    return;
+    if (this.loginForm.invalid) {
+      return;
+    }
+
+    const { email, password } = this.loginForm.value;
+
+    this.authService.login(email, password).subscribe({
+      next: (response) => {
+        this.successMessage = 'Login successful!';
+        this.errorMessage = null;
+        this.router.navigate(['/consumer']); // Redirect to home or another route after login
+      },
+      error: (err) => {
+        this.errorMessage = 'Login failed. Please check your credentials.';
+        this.successMessage = null;
+      }
+    });
   }
 
-  const userDetails = this.loginForm.value;
-
-  this.authService.login(userDetails).subscribe({
-    next: (res) => {
-      console.log('User logged in successfully:', res);
-       localStorage.setItem('loggedInUser', JSON.stringify(res));
-      
-      this.authService.storeToken(res.token);
-
-      const role = this.authService.getUserRole();
-      console.log('User role:', role);
-
-      if (role === 'user') {
-        this.router.navigate(['/userprofile']);
-      } else if (role === 'admin') {
-        this.router.navigate(['/adminprofile']);
-      } else {
-        this.errorMessage = 'Unknown user role.';
-      }
-
-      this.loginForm.reset();
-    },
-    error: (err) => {
-      console.error('Error logging in:', err);
-      this.errorMessage = 'Invalid email or password.';
-    }
-  });
-}
 
 }
