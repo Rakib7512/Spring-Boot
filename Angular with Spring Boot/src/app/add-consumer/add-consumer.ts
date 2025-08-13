@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConsumerService } from '../service/consumer.service';
 
@@ -8,6 +8,7 @@ import { ConsumerService } from '../service/consumer.service';
   templateUrl: './add-consumer.html',
   styleUrls: ['./add-consumer.css']
 })
+
 export class AddConsumer {
   registrationForm!: FormGroup;
   photoFile!: File;

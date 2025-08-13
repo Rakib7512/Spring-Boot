@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Injectable, OnInit } from '@angular/core';
 import { Parcel } from '../../model/parcel.model';
 import { ParcelService } from '../service/parcel.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -19,6 +19,9 @@ import { StorageService } from '../service/storage-service';
   standalone: false,
   templateUrl: './add-parcel.html',
   styleUrl: './add-parcel.css'
+})
+@Injectable({
+  providedIn: 'root'
 })
 export class AddParcel implements OnInit {
 
