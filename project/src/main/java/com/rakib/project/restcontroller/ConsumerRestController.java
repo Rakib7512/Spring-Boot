@@ -3,6 +3,7 @@ package com.rakib.project.restcontroller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rakib.project.dto.AuthenticationResponse;
 import com.rakib.project.entity.Consumer;
 import com.rakib.project.entity.User;
 import com.rakib.project.service.ConsumerService;
@@ -22,13 +23,13 @@ import java.util.Map;
 public class ConsumerRestController {
 
     @Autowired
-    private ConsumerService consumerService;
-
-    @Autowired
     private UserService userService;
 
+    @Autowired
+    private ConsumerService consumerService;
+
     @PostMapping("")
-    public ResponseEntity<Map<String, String>> registerConsumer(
+    public ResponseEntity<Map<String, String>> registerJobSeeker(
             @RequestPart(value = "user") String userJson,
             @RequestPart(value = "consumer") String consumerJson,
             @RequestParam(value = "photo") MultipartFile file
@@ -41,6 +42,7 @@ public class ConsumerRestController {
             userService.registerConsumer(user, file, consumer);
             Map<String, String> response = new HashMap<>();
             response.put("Message", "User Added Successfully ");
+
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
 
@@ -52,25 +54,15 @@ public class ConsumerRestController {
 
     }
 
-    @GetMapping("")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.findAll();
-        return ResponseEntity.ok(users);
+
+    @GetMapping("all")
+    public ResponseEntity<List<Consumer>> getAllUsers() {
+        List<Consumer> consumerList = consumerService.getAll();
+        return ResponseEntity.ok(consumerList);
 
     }
 
 
-//    @PostMapping("/login")
-//    public ResponseEntity<AuthenticationResponse>  login(@RequestBody User request){
-//        return ResponseEntity.ok(userService.authencate(request));
-//
-//    }
-//
-//
-//    @GetMapping("/active/{id}")
-//    public ResponseEntity<String> activeUser(@PathVariable("id") int id){
-//
-//        String response= userService.activeUser(id);
-//        return  ResponseEntity.ok(response);
-//    }
+
+
 }

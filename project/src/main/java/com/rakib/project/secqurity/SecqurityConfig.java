@@ -38,6 +38,8 @@ public class SecqurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(req ->
                         req.requestMatchers("/api/user/**", "/api/user/", "/images/**","/api/user/active/**", "/api/user/login", "/api/consumer/**","/api/policestation/**","/api/district**/", "/api/policestation**/", "/api/parcels**/","/api/division**/","/api/countries/**").permitAll()
+                                .requestMatchers("/api/user/all")
+                                .hasAuthority("CONSUMER")
                                 .anyRequest().authenticated()
                 )
                 .userDetailsService(userService)
