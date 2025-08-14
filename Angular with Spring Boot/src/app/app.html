@@ -10,7 +10,7 @@
        <li class="nav-item"><a class="nav-link text-white" href="registerConsumer">Consumer Registation </a></li>
 
 <!-- emp -->
-      <ng-container *ngIf="userRole === 'CONSUMER'">
+      
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
             View Panel
@@ -20,10 +20,10 @@
             <li><a class="dropdown-item text-warning" href="viewHubTrans">View Transfer Hub to Hub </a></li>
           </ul>
         </li>
-      </ng-container>
+      
 <!-- 
 admin -->
-      <ng-container *ngIf="userRole === 'CONSUMER'">
+    
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
             View Panel
@@ -36,23 +36,23 @@ admin -->
             <li><a class="dropdown-item text-warning" href="view_hub">View Hub</a></li>
           </ul>
         </li>
-      </ng-container>
+      
 
 <!-- admin&emp -->
-      <ng-container *ngIf="userRole === 'CONSUMER' || userRole==='CONSUMER'">
+      
         <li class="nav-item"><a class="nav-link text-white" href="parcelReqDetails">Parcel Request</a></li>
-      </ng-container>
+      
       <a class="nav-link text-white" routerLink="trackParcel">📦 Track Parcel</a>
       <li class="nav-item"><a class="nav-link text-white" href="contact">Contact</a></li>
 
-      <ng-container *ngIf="userRole === 'CONSUMER' || userRole==='CONSUMER'">
+      
         <li class="nav-item"><a class="nav-link text-white" href="addParcel">Booking Parcel</a></li>
-      </ng-container>
 
 
-      <ng-container *ngIf="userRole === 'CONSUMER' || userRole==='CONSUMER'">
+
+    
         <li class="nav-item"><a class="nav-link text-white" href="transferHub">Hub Transfer</a></li>
-      </ng-container>
+ 
 
       <li class="nav-item me-2">
         <button class="btn btn-outline-primary" type="submit" routerLink="login">Login</button>
@@ -80,7 +80,7 @@ admin -->
     <ul class="nav flex-column">
 
       <!-- Admin-only section -->
-      <ng-container *ngIf="userRole=='admin'">
+ 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
             👥 Employee Panel
@@ -94,11 +94,11 @@ admin -->
             <li><a class="dropdown-item text-warning" routerLink="creatHub">Add Hub</a></li>
           </ul>
         </li>
-      </ng-container>
+
 
       <!-- Shared with admin and emp -->
        <!-- admin&emp -->
-      <ng-container *ngIf="userRole=='CONSUMER' || userRole==='CONSUMER'">
+    
         <li class="nav-item"><a class="nav-link text-white" href="#">🏠 Dashboard</a></li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button">📦
@@ -125,7 +125,7 @@ admin -->
           </ul>
         </li>
         <li class="nav-item"><a class="nav-link text-danger" href="#">🚪 Logout</a></li>
-      </ng-container>
+  
 
     </ul>
   </div>
