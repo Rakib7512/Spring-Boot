@@ -23,7 +23,7 @@ export class Logout implements OnInit {
   }
     logout(){
     this.authService.logout();
-    this.authService.removeUserDetails();
+    // this.authService.removeUserDetails();
     this.router.navigate(['login']);
 
   }

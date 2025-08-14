@@ -9,8 +9,8 @@
       <li class="nav-item"><a class="nav-link text-white" href="allusers">Profile</a></li>
        <li class="nav-item"><a class="nav-link text-white" href="registerConsumer">Consumer Registation </a></li>
 
-
-      <ng-container *ngIf="userRole === 'emp'">
+<!-- emp -->
+      <ng-container *ngIf="userRole === 'CONSUMER'">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
             View Panel
@@ -21,9 +21,9 @@
           </ul>
         </li>
       </ng-container>
-
-
-      <ng-container *ngIf="userRole === 'admin'">
+<!-- 
+admin -->
+      <ng-container *ngIf="userRole === 'CONSUMER'">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
             View Panel
@@ -38,19 +38,19 @@
         </li>
       </ng-container>
 
-
-      <ng-container *ngIf="userRole === 'admin' || userRole==='emp'">
+<!-- admin&emp -->
+      <ng-container *ngIf="userRole === 'CONSUMER' || userRole==='CONSUMER'">
         <li class="nav-item"><a class="nav-link text-white" href="parcelReqDetails">Parcel Request</a></li>
       </ng-container>
       <a class="nav-link text-white" routerLink="trackParcel">📦 Track Parcel</a>
       <li class="nav-item"><a class="nav-link text-white" href="contact">Contact</a></li>
 
-      <ng-container *ngIf="userRole === 'admin' || userRole==='user'">
+      <ng-container *ngIf="userRole === 'CONSUMER' || userRole==='CONSUMER'">
         <li class="nav-item"><a class="nav-link text-white" href="addParcel">Booking Parcel</a></li>
       </ng-container>
 
 
-      <ng-container *ngIf="userRole === 'admin' || userRole==='user'">
+      <ng-container *ngIf="userRole === 'CONSUMER' || userRole==='CONSUMER'">
         <li class="nav-item"><a class="nav-link text-white" href="transferHub">Hub Transfer</a></li>
       </ng-container>
 
@@ -97,7 +97,8 @@
       </ng-container>
 
       <!-- Shared with admin and emp -->
-      <ng-container *ngIf="userRole=='admin' || userRole==='emp'">
+       <!-- admin&emp -->
+      <ng-container *ngIf="userRole=='CONSUMER' || userRole==='CONSUMER'">
         <li class="nav-item"><a class="nav-link text-white" href="#">🏠 Dashboard</a></li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button">📦

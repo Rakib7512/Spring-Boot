@@ -8,7 +8,7 @@
       "email": "parvej@gmail.com",
       "nid": "123258",
       "password": "123456",
-      "role": "user",
+      "role": "CONSUMER",
       "currentHub": "Dhaka"
     },
     {
@@ -19,7 +19,7 @@
       "email": "rakib@gmail.com",
       "nid": "135642",
       "password": "123456",
-      "role": "emp",
+      "role": "CONSUMER",
       "currentHub": "Dhanmondi"
     },
     {
@@ -30,7 +30,7 @@
       "email": "eiasin@gmail.com",
       "nid": "756987412",
       "password": "1234567",
-      "role": "ADMIN",
+      "role": "CONSUMER",
       "currentHub": "Mohammadpur"
     },
     {
@@ -742,6 +742,12 @@
       "sender": "Rakib",
       "content": "aa",
       "timestamp": "2025-07-24T12:44:10.619Z"
+    },
+    {
+      "id": "f5c4",
+      "sender": "Guest",
+      "content": "aa",
+      "timestamp": "2025-08-14T06:15:37.744Z"
     }
   ],
   "hubList": [

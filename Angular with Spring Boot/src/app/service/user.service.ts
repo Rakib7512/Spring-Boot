@@ -23,9 +23,9 @@ export class UserService {
   }
 
 
-  getUserProfile(): Observable<User | null> {
-    return of(this.authService.getUserProfileFromStorage());
-  }
+  // getUserProfile(): Observable<User | null> {
+  //   return of(this.authService.getUserProfileFromStorage());
+  // }
 
 
     updateUserProfile(user: User): Observable<User> {

@@ -21,10 +21,10 @@ export class Contact implements OnInit {
   ngOnInit(): void {
      this.loadMessages();
 
-    const currentUser = this.authService.currentUserValue;
-    if (currentUser) {
-      this.currentUserName = currentUser.name || currentUser.email || currentUser.role || 'User';
-    }
+    // const currentUser = this.authService.currentUserValue;
+    // if (currentUser) {
+    //   this.currentUserName = currentUser.name || currentUser.email || currentUser.role || 'User';
+    // }
   }
     loadMessages(): void {
     this.chatService.getMessages().subscribe(data => {

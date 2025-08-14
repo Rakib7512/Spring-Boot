@@ -40,20 +40,20 @@ export class Registration {
         role: 'user'
       };
 
-      this.authService.registration(user).subscribe({
-        next: (res) => {
-           alert('Registration successfully!');
-          this.authService.storeToken(res.token);
-          this.router.navigate(['/login']); // Navigate to a protected route after registration
-        },
-        error: (err) => {
-          console.error('Error registering user:', err);
-        }
-      });
-    }
-    else {
-      alert("Complte mandatory Field");
+    //   this.authService.registration(user).subscribe({
+    //     next: (res) => {
+    //        alert('Registration successfully!');
+    //       this.authService.storeToken(res.token);
+    //       this.router.navigate(['/login']); // Navigate to a protected route after registration
+    //     },
+    //     error: (err) => {
+    //       console.error('Error registering user:', err);
+    //     }
+    //   });
+    // }
+    // else {
+    //   alert("Complte mandatory Field");
     }
   }
 
-}
+  }

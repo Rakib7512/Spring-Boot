@@ -4,24 +4,24 @@ import { Inject, PLATFORM_ID } from "@angular/core";
 import { Observable } from "rxjs";
 
 
-export class userGuardGuard implements CanActivate{
+export class userGuardGuard {
 
-  constructor(
-    private authService: AuthService,
-    private router: Router, 
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) { }
-
-
+  // constructor(
+  //   private authService: AuthService,
+  //   private router: Router, 
+  //   @Inject(PLATFORM_ID) private platformId: Object
+  // ) { }
 
 
 
-  canActivate(): boolean | UrlTree | Observable<boolean | UrlTree> {
-    if (this.authService.isAuthenticated() && this.authService.isUser()) {
-      return true;
-    }
-    return this.router.createUrlTree(['/login']);
-  }
+
+
+  // canActivate(): boolean | UrlTree | Observable<boolean | UrlTree> {
+  //   if (this.authService.isLoggIn() && this.authService.isUser()) {
+  //     return true;
+  //   }
+  //   return this.router.createUrlTree(['/login']);
+  // }
  
   }
  

@@ -114,9 +114,22 @@ export class AuthService {
 
   }
 
-   isJobSeeker(): boolean {
+   isConsumer(): boolean {
     return this.getUserRole() === 'CONSUMER';
   }
+
+  isEmployee(): boolean {
+    return this.getUserRole() === 'EMPLOYEE';
+  }
+
+   isAdmin(): boolean {
+    return this.getUserRole() === 'EMPLOYEE';
+  }
+
+  get isAuthenticated(): boolean {
+  return this.isLoggIn();
+}
+
 
 
 
