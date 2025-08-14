@@ -1,0 +1,34 @@
+package com.rakib.project.dto;
+
+import java.util.List;
+
+public class DistrictResponseDTO {
+    private int id;
+    private String name;
+    private DivisionResponseDTO division;
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public DivisionResponseDTO getDivision() {
+        return division;
+    }
+
+    public void setDivision(DivisionResponseDTO division) {
+        this.division = division;
+    }
+}

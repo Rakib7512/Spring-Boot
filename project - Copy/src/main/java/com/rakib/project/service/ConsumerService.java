@@ -22,17 +22,17 @@ public class ConsumerService {
         return consumerRepository.findById(id);
     }
 
-    public Consumer save(Consumer jobSeeker) {
-        return consumerRepository.save(jobSeeker);
+    public Consumer save(Consumer consumer) {
+        return consumerRepository.save(consumer);
     }
 
     public void delete(Long id) {
         consumerRepository.deleteById(id);
     }
 
-//    public Consumer getProfileByUserId(int userId) {
-//        return consumerRepository.findByUserId(userId)
-//                .orElseThrow(() -> new RuntimeException("Job Seeker not found"));
-//    }
+    public Consumer getProfileByUserId(int userId) {
+        return consumerRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Consumer Seeker not found"));
 
+}
 }
