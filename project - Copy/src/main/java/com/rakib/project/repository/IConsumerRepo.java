@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface IConsumerRepo extends JpaRepository<Consumer, Long> {
 
-    Optional<Object> findByUserId(int userId);
+    Optional<Consumer> findByUserId(int userId);
 
     @Query("SELECT js FROM Consumer js WHERE js.user.email = :email")
     Optional<Consumer> findByUserEmail(@Param("email") String email);
