@@ -26,9 +26,6 @@ public class CountryService {
             List<Integer> divisionIds = c.getDivisions().stream()
                     .map(d -> d.getId())
                     .toList();
-
-
-
             return dto;
         }).toList();
     }
@@ -38,7 +35,7 @@ public class CountryService {
         return countryRepository.save(country);
     }
 
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         countryRepository.deleteById(id);
     }
 

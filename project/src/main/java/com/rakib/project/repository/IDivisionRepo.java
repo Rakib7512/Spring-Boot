@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface IDivisionRepo extends JpaRepository<Division,Integer> {
-    List<Division> findByCountryId(Long countryId);
+    // IDivisionRepo
+    List<Division> findByCountryId(Integer id);
 }

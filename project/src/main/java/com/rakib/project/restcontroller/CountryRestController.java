@@ -3,6 +3,7 @@ package com.rakib.project.restcontroller;
 
 import com.rakib.project.dto.CountryResponseDTO;
 import com.rakib.project.entity.Country;
+import com.rakib.project.repository.ICountryRepo;
 import com.rakib.project.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,10 @@ public class CountryRestController {
     @Autowired
     private CountryService countryService;
 
+    @Autowired
+    private ICountryRepo countryRepo;
+
+
 
     // Get all countries as DTOs
     @GetMapping("")
@@ -25,16 +30,24 @@ public class CountryRestController {
     }
 
     // Get single country by ID (full entity)
-    @GetMapping("/{id}")
-    public ResponseEntity<Country> getCountryById(@PathVariable int id) {
-        Optional<Country> country = countryService.getAllCountries()
-                .stream()
-                .filter(c -> c.getId() == id)
-                .findFirst();
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Country> getCountryById(@PathVariable int id) {
+//        Optional<Country> country = countryService.getAllCountries()
+//                .stream()
+//                .filter(c -> c.getId() == id)
+//                .findFirst();
+//
+//        return country.map(ResponseEntity::ok)
+//                .orElseGet(() -> ResponseEntity.notFound().build());
+//    }
 
-        return country.map(ResponseEntity::ok)
+    @GetMapping("/{id}")
+    public ResponseEntity<Country> getCountryById(@PathVariable Long id) {
+        return countryRepo.findById(id)
+                .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
 
     // Create new country
     @PostMapping("")
@@ -65,7 +78,7 @@ public class CountryRestController {
 
     // Delete country by ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCountry(@PathVariable int id) {
+    public ResponseEntity<Void> deleteCountry(@PathVariable Long id) {
         Optional<Country> existingCountryOpt = countryService.getAllCountries()
                 .stream()
                 .filter(c -> c.getId() == id)
@@ -79,4 +92,5 @@ public class CountryRestController {
         countryService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
 }

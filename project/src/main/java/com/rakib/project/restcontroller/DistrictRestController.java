@@ -46,10 +46,14 @@ public class DistrictRestController {
         districtService.deleteDistrictById(id);
     }
 
-    @GetMapping("/byDivision/{divisionId}")
-    public List<District> getByDivision(@PathVariable Integer divisionId) {
-        return districtService.getByDivision(divisionId);
+
+    // DistrictRestController
+    @GetMapping("/by-division/{divisionId}")
+    public List<DistrictResponseDTO> getByDivision(@PathVariable int divisionId) {
+        return districtService.getByDivisionId(divisionId);
     }
+
+
 
 
 }

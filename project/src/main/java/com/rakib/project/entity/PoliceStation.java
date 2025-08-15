@@ -20,8 +20,7 @@ public class PoliceStation {
     public PoliceStation() {
     }
 
-    public PoliceStation(int id, String name) {
-    }
+    public PoliceStation(int id, String name) {}
 
     public int getId() {
         return id;

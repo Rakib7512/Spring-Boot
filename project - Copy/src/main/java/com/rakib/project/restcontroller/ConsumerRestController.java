@@ -29,7 +29,7 @@ import java.util.Optional;
 private AuthService userService;
 
 @Autowired
-private IConsumerRepo jobSeekerRepository;
+private IConsumerRepo consumerRepo;
 
 @Autowired
 private IUserRepo userRepo;
