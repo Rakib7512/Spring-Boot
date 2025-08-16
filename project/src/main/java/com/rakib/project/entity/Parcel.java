@@ -13,14 +13,14 @@ public class Parcel {
     private Long id;
 
 
-    @Column(name = "address_line_for_sender_1", nullable = false)
+    @Column(name = "address_line_for_sender_1")
     private String addressLineForSender1;
 
     @Column(name = "address_line_for_sender_2")
     private String addressLineForSender2;
 
 
-    @Column(name = "address_line_for_Receiver_1", nullable = false)
+    @Column(name = "address_line_for_Receiver_1")
     private String addressLineForReceiver1;
 
     @Column(name = "address_line_for_Receiver_2")
@@ -39,16 +39,6 @@ public class Parcel {
 
 
 
-    private String sendCountry;
-    private String sendDivision;
-    private String sendDistrict;
-    private String sendPoliceStation;
-
-    private String receiveCountry;
-    private String receiveDivision;
-    private String receiveDistrict;
-    private String receivePoliceStation;
-
     @OneToMany(mappedBy = "parcel", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ParcelTracking> trackingHistory;
 
@@ -58,26 +48,45 @@ public class Parcel {
     private String verificationCode;
     private Date bookingDate;
 
+    // 🔹 Relations for sender location
     @ManyToOne
-    @JoinColumn(name = "country_id", nullable = false)
-    private Country country;
+    @JoinColumn(name = "send_country_id")
+    private Country sendCountry;
 
     @ManyToOne
-    @JoinColumn(name = "division_id", nullable = false)
-    private Division division;
+    @JoinColumn(name = "send_division_id")
+    private Division sendDivision;
 
     @ManyToOne
-    @JoinColumn(name = "district_id",  nullable = false)
-    private District district;
+    @JoinColumn(name = "send_district_id")
+    private District sendDistrict;
 
     @ManyToOne
-    @JoinColumn(name = "policeStation_id", nullable = false)
-    private PoliceStation policeStation;
+    @JoinColumn(name = "send_police_station_id")
+    private PoliceStation sendPoliceStation;
+
+    // 🔹 Relations for receiver location
+    @ManyToOne
+    @JoinColumn(name = "receive_country_id")
+    private Country receiveCountry;
+
+    @ManyToOne
+    @JoinColumn(name = "receive_division_id")
+    private Division receiveDivision;
+
+    @ManyToOne
+    @JoinColumn(name = "receive_district_id")
+    private District receiveDistrict;
+
+    @ManyToOne
+    @JoinColumn(name = "receive_police_station_id")
+    private PoliceStation receivePoliceStation;
 
     public Parcel() {
     }
 
-    public Parcel(Long id, String addressLineForSender1, String addressLineForSender2, String addressLineForReceiver1, String addressLineForReceiver2, String trackingId, String senderName, String receiverName, String senderPhone, String receiverPhone, String status, String currentHub, String deliveryPerson, Date createdAt, String bookingAgent, String sendCountry, String sendDivision, String sendDistrict, String sendPoliceStation, String receiveCountry, String receiveDivision, String receiveDistrict, String receivePoliceStation, List<ParcelTracking> trackingHistory, Number weight, Number squareFeet, Number fee, String verificationCode, Date bookingDate, Country country, Division division, District district, PoliceStation policeStation) {
+
+    public Parcel(Long id, String addressLineForSender1, String addressLineForSender2, String addressLineForReceiver1, String addressLineForReceiver2, String trackingId, String senderName, String receiverName, String senderPhone, String receiverPhone, String status, String currentHub, String deliveryPerson, Date createdAt, String bookingAgent, List<ParcelTracking> trackingHistory, Number weight, Number squareFeet, Number fee, String verificationCode, Date bookingDate, Country sendCountry, Division sendDivision, District sendDistrict, PoliceStation sendPoliceStation, Country receiveCountry, Division receiveDivision, District receiveDistrict, PoliceStation receivePoliceStation) {
         this.id = id;
         this.addressLineForSender1 = addressLineForSender1;
         this.addressLineForSender2 = addressLineForSender2;
@@ -93,6 +102,12 @@ public class Parcel {
         this.deliveryPerson = deliveryPerson;
         this.createdAt = createdAt;
         this.bookingAgent = bookingAgent;
+        this.trackingHistory = trackingHistory;
+        this.weight = weight;
+        this.squareFeet = squareFeet;
+        this.fee = fee;
+        this.verificationCode = verificationCode;
+        this.bookingDate = bookingDate;
         this.sendCountry = sendCountry;
         this.sendDivision = sendDivision;
         this.sendDistrict = sendDistrict;
@@ -101,17 +116,8 @@ public class Parcel {
         this.receiveDivision = receiveDivision;
         this.receiveDistrict = receiveDistrict;
         this.receivePoliceStation = receivePoliceStation;
-        this.trackingHistory = trackingHistory;
-        this.weight = weight;
-        this.squareFeet = squareFeet;
-        this.fee = fee;
-        this.verificationCode = verificationCode;
-        this.bookingDate = bookingDate;
-        this.country = country;
-        this.division = division;
-        this.district = district;
-        this.policeStation = policeStation;
     }
+
 
     public Long getId() {
         return id;
@@ -233,70 +239,6 @@ public class Parcel {
         this.bookingAgent = bookingAgent;
     }
 
-    public String getSendCountry() {
-        return sendCountry;
-    }
-
-    public void setSendCountry(String sendCountry) {
-        this.sendCountry = sendCountry;
-    }
-
-    public String getSendDivision() {
-        return sendDivision;
-    }
-
-    public void setSendDivision(String sendDivision) {
-        this.sendDivision = sendDivision;
-    }
-
-    public String getSendDistrict() {
-        return sendDistrict;
-    }
-
-    public void setSendDistrict(String sendDistrict) {
-        this.sendDistrict = sendDistrict;
-    }
-
-    public String getSendPoliceStation() {
-        return sendPoliceStation;
-    }
-
-    public void setSendPoliceStation(String sendPoliceStation) {
-        this.sendPoliceStation = sendPoliceStation;
-    }
-
-    public String getReceiveCountry() {
-        return receiveCountry;
-    }
-
-    public void setReceiveCountry(String receiveCountry) {
-        this.receiveCountry = receiveCountry;
-    }
-
-    public String getReceiveDivision() {
-        return receiveDivision;
-    }
-
-    public void setReceiveDivision(String receiveDivision) {
-        this.receiveDivision = receiveDivision;
-    }
-
-    public String getReceiveDistrict() {
-        return receiveDistrict;
-    }
-
-    public void setReceiveDistrict(String receiveDistrict) {
-        this.receiveDistrict = receiveDistrict;
-    }
-
-    public String getReceivePoliceStation() {
-        return receivePoliceStation;
-    }
-
-    public void setReceivePoliceStation(String receivePoliceStation) {
-        this.receivePoliceStation = receivePoliceStation;
-    }
-
     public List<ParcelTracking> getTrackingHistory() {
         return trackingHistory;
     }
@@ -345,39 +287,67 @@ public class Parcel {
         this.bookingDate = bookingDate;
     }
 
-    public Country getCountry() {
-        return country;
+    public Country getSendCountry() {
+        return sendCountry;
     }
 
-    public void setCountry(Country country) {
-        this.country = country;
+    public void setSendCountry(Country sendCountry) {
+        this.sendCountry = sendCountry;
     }
 
-    public Division getDivision() {
-        return division;
+    public Division getSendDivision() {
+        return sendDivision;
     }
 
-    public void setDivision(Division division) {
-        this.division = division;
+    public void setSendDivision(Division sendDivision) {
+        this.sendDivision = sendDivision;
     }
 
-    public District getDistrict() {
-        return district;
+    public District getSendDistrict() {
+        return sendDistrict;
     }
 
-    public void setDistrict(District district) {
-        this.district = district;
+    public void setSendDistrict(District sendDistrict) {
+        this.sendDistrict = sendDistrict;
     }
 
-    public PoliceStation getPoliceStation() {
-        return policeStation;
+    public PoliceStation getSendPoliceStation() {
+        return sendPoliceStation;
     }
 
-    public void setPoliceStation(PoliceStation policeStation) {
-        this.policeStation = policeStation;
+    public void setSendPoliceStation(PoliceStation sendPoliceStation) {
+        this.sendPoliceStation = sendPoliceStation;
     }
 
-    // Getters and setters for ALL fields
+    public Country getReceiveCountry() {
+        return receiveCountry;
+    }
 
+    public void setReceiveCountry(Country receiveCountry) {
+        this.receiveCountry = receiveCountry;
+    }
 
+    public Division getReceiveDivision() {
+        return receiveDivision;
+    }
+
+    public void setReceiveDivision(Division receiveDivision) {
+        this.receiveDivision = receiveDivision;
+    }
+
+    public District getReceiveDistrict() {
+        return receiveDistrict;
+    }
+
+    public void setReceiveDistrict(District receiveDistrict) {
+        this.receiveDistrict = receiveDistrict;
+    }
+
+    public PoliceStation getReceivePoliceStation() {
+        return receivePoliceStation;
+    }
+
+    public void setReceivePoliceStation(PoliceStation receivePoliceStation) {
+        this.receivePoliceStation = receivePoliceStation;
+    }
 }

@@ -13,8 +13,8 @@ export class ParcelService {
 
   constructor(private http: HttpClient) {}
 
-  saveParcel(parcel: Parcel): Observable<Parcel> {
-    return this.http.post<Parcel>(this.baseUrl, parcel);
+  saveParcel(parcel: any): Observable<any> {
+    return this.http.post<any>(this.baseUrl, parcel);
   }
 
   getAllParcels(): Observable<Parcel[]> {

@@ -41,8 +41,8 @@ export class AddParcel implements OnInit {
   // Sender Info
   senderName: string = '';
   senderPhone: string = '';
-  senderAddress1: string = '';
-  senderAddress2: string = '';
+  addressLineForSender1: string = '';
+  addressLineForSender2: string = '';
   selectedSendCountry: number = 0;
   selectedSendDivision: number = 0;
   selectedSendDistrict: number = 0;
@@ -51,8 +51,8 @@ export class AddParcel implements OnInit {
   // Receiver Info
   receiverName: string = '';
   receiverPhone: string = '';
-  receiverAddress1: string = '';
-  receiverAddress2: string = '';
+  addressLineForReceiver1: string = '';
+  addressLineForReceiver2: string = '';
   selectedReceiveCountry: number = 0;
   selectedReceiveDivision: number = 0;
   selectedReceiveDistrict: number = 0;
@@ -181,21 +181,22 @@ export class AddParcel implements OnInit {
     const parcelData = {
       senderName: this.senderName,
       senderPhone: this.senderPhone,
-      senderAddress1: this.senderAddress1,
-      senderAddress2: this.senderAddress2,
-      sendCountry: this.selectedSendCountry,
-      sendDivision: this.selectedSendDivision,
-      sendDistrict: this.selectedSendDistrict,
-      sendPoliceStation: this.selectedSendPoliceStation,
+      addressLineForSender1: this.addressLineForSender1,
+      addressLineForSender2: this.addressLineForSender2,
+
+      sendCountry: {id: this.selectedSendCountry},
+      sendDivision: {id: this.selectedSendDivision},
+      sendDistrict: {id: this.selectedSendDistrict},
+      sendPoliceStation: {id: this.selectedSendPoliceStation},
 
       receiverName: this.receiverName,
       receiverPhone: this.receiverPhone,
-      receiverAddress1: this.receiverAddress1,
-      receiverAddress2: this.receiverAddress2,
-      receiveCountry: this.selectedReceiveCountry,
-      receiveDivision: this.selectedReceiveDivision,
-      receiveDistrict: this.selectedReceiveDistrict,
-      receivePoliceStation: this.selectedReceivePoliceStation,
+      addressLineForReceiver1: this.addressLineForReceiver1,
+      addressLineForReceiver2: this.addressLineForReceiver2,
+      receiveCountry: {id: this.selectedReceiveCountry},
+      receiveDivision:{id:  this.selectedReceiveDivision},
+      receiveDistrict: {id: this.selectedReceiveDistrict},
+      receivePoliceStation:{id:  this.selectedReceivePoliceStation},
 
       weight: this.weight,
       squareFeet: this.squareFeet,
@@ -203,6 +204,13 @@ export class AddParcel implements OnInit {
       paymentMethod: this.paymentMethod,
       enteredConfirmationCode: this.enteredConfirmationCode
     };
+
+    this.parcelService.saveParcel(parcelData).subscribe({
+
+      next: (data)=>{
+          console.log(data);
+      }
+    });
   }
 
 
@@ -257,8 +265,6 @@ export class AddParcel implements OnInit {
       this.selectedSendDivision = 0;
       this.selectedSendDistrict = 0;
       this.selectedSendPoliceStation = 0;
-
-      console.log(this.selectedSendCountry + "**********************************")
       if (this.selectedSendCountry) {
         this.addressService.getDivisionsByCountry(this.selectedSendCountry)
           .subscribe(data => this.divisions = data);
@@ -287,8 +293,12 @@ export class AddParcel implements OnInit {
 
     // Receiver dropdown loading
     loadReceiverCountries() {
-      this.addressService.getCountries().subscribe(data => this.receiverCountries = data);
+
+      this.addressService.getCountries().subscribe(data =>{ 
+        this.receiverCountries = data});
     }
+
+    
 
     onReceiveCountryChange() {
       this.receiverDivisions = [];
@@ -297,9 +307,13 @@ export class AddParcel implements OnInit {
       this.selectedReceiveDivision = 0;
       this.selectedReceiveDistrict = 0;
       this.selectedReceivePoliceStation = 0;
+
+      console.log(this.selectedReceiveCountry+"*********************************")
       if (this.selectedReceiveCountry) {
         this.addressService.getDivisionsByCountry(this.selectedReceiveCountry)
-          .subscribe(data => this.receiverDivisions = data);
+          .subscribe(data => {this.receiverDivisions = data,
+            console.log(data);}
+          );
       }
     }
 

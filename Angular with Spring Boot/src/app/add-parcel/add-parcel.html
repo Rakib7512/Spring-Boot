@@ -35,12 +35,12 @@
 
         <div class="form-group mb-2">
           <label>Address Line 1</label>
-          <input type="text" class="form-control" [(ngModel)]="senderAddress1">
+          <input type="text" class="form-control" [(ngModel)]="addressLineForSender1">
         </div>
 
         <div class="form-group mb-2">
           <label>Address Line 2</label>
-          <input type="text" class="form-control" [(ngModel)]="senderAddress2">
+          <input type="text" class="form-control" [(ngModel)]="addressLineForSender2">
         </div>
       </div>
 
@@ -55,22 +55,22 @@
 
       <select class="form-select" [(ngModel)]="selectedReceiveCountry" (change)="onReceiveCountryChange()">
         <option value="">-- Select Country --</option>
-        <option *ngFor="let c of countries" [value]="c.id">{{ c.name }}</option>
+        <option *ngFor="let c of receiverCountries" [value]="c.id">{{ c.name }}</option>
       </select>
 
       <select class="form-select" [(ngModel)]="selectedReceiveDivision" (change)="onReceiveDivisionChange()">
         <option value="">-- Select Division --</option>
-        <option *ngFor="let d of divisions" [value]="d.id">{{ d.name }}</option>
+        <option *ngFor="let d of receiverDivisions" [value]="d.id">{{ d.name }}</option>
       </select>
 
       <select class="form-select" [(ngModel)]="selectedReceiveDistrict" (change)="onReceiveDistrictChange()">
         <option value="">-- Select District --</option>
-        <option *ngFor="let d of districts" [value]="d.id">{{ d.name }}</option>
+        <option *ngFor="let d of receiverDistricts" [value]="d.id">{{ d.name }}</option>
       </select>
 
       <select class="form-select" [(ngModel)]="selectedReceivePoliceStation">
         <option value="">-- Select Police Station --</option>
-        <option *ngFor="let ps of policeStations" [value]="ps.id">{{ ps.name }}</option>
+        <option *ngFor="let ps of receiverPoliceStations" [value]="ps.id">{{ ps.name }}</option>
       </select>
 
       <div class="container mt-4">
@@ -78,12 +78,12 @@
 
         <div class="form-group mb-2">
           <label>Address Line 1</label>
-          <input type="text" class="form-control" [(ngModel)]="receiverAddress1">
+          <input type="text" class="form-control" [(ngModel)]="addressLineForReceiver1">
         </div>
 
         <div class="form-group mb-2">
           <label>Address Line 2</label>
-          <input type="text" class="form-control" [(ngModel)]="receiverAddress2">
+          <input type="text" class="form-control" [(ngModel)]="addressLineForReceiver2">
         </div>
       </div>
 
@@ -146,4 +146,4 @@
   </div>
 </div>
 
-<button type="submit" class="btn btn-success mt-3" (click)="onSubmitParcel()">Submit</button>
+<button type="button" class="btn btn-success mt-3" (click)="submitParcel()">Submit</button>
