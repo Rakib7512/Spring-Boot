@@ -18,6 +18,7 @@ public class Country {
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
     private List<Division> divisions;
 
+
     // Getters & Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }

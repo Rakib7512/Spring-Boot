@@ -9,7 +9,7 @@ import { environment } from '../../environment/environment';
 })
 export class DivisionService {
   
-     private baseUrl = environment.apiBaseUrl + '/division/';
+      private baseUrl = environment.apiBaseUrl + '/division/';
 
 
   constructor(private http: HttpClient) { }
@@ -33,11 +33,6 @@ export class DivisionService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}${id}`);
   }
-
-  getByCountry(countryId: number): Observable<Division[]> {
-  return this.http.get<Division[]>(`${this.baseUrl}?countryId=${countryId}`);
-}
-
 
 
 }

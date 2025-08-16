@@ -9,7 +9,7 @@ import { environment } from '../../environment/environment';
   providedIn: 'root'
 })
 export class DistrictService {
- private baseUrl = environment.apiBaseUrl + '/district/';
+private baseUrl = environment.apiBaseUrl + '/district/';
 
 
 
@@ -35,8 +35,4 @@ export class DistrictService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}${id}`);
   }
-
-getByDivision(divisionId: number): Observable<District[]> {
-  return this.http.get<District[]>(`${this.baseUrl}?divisionId=${divisionId}`);
-}
 }
