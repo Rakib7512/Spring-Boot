@@ -181,6 +181,8 @@ export class AddParcel implements OnInit {
     const parcelData = {
       senderName: this.senderName,
       senderPhone: this.senderPhone,
+       trackingId :uuidv4,
+
       addressLineForSender1: this.addressLineForSender1,
       addressLineForSender2: this.addressLineForSender2,
 
@@ -209,6 +211,8 @@ export class AddParcel implements OnInit {
 
       next: (data)=>{
           console.log(data);
+          alert('Parcel created successfully!');
+          
       }
     });
   }
