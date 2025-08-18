@@ -32,6 +32,7 @@ import { CreateHub } from './create-hub/create-hub';
 import { AllUser } from './user/all-user/all-user';
 import { AddConsumer } from './add-consumer/add-consumer';
 import { ConsumerProfileComponent } from './consumer/consumer-profile.component/consumer-profile.component';
+import { AddNewParcel } from './add-new-parcel/add-new-parcel';
 
 
 @NgModule({
@@ -65,6 +66,7 @@ import { ConsumerProfileComponent } from './consumer/consumer-profile.component/
     AllUser,
     AddConsumer,
     ConsumerProfileComponent,
+    AddNewParcel,
     
     
     

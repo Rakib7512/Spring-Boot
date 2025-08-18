@@ -26,23 +26,54 @@ import { AddressService } from '../service/address.service';
 })
 export class AddParcel implements OnInit {
 
- countries: any[] = [];
+  // General
+  trackingId: string = '';
+  currentHub: string = '';
+  bookingAgent: string = '';
+  deliveryPerson: string = '';
+  weight: number = 0;
+  squareFeet: number = 0;
+  fee: number = 0;
+  paymentMethod: string = '';
+  confirmationCode: string = '';
+  enteredConfirmationCode: string = '';
+
+  // Sender Info
+  senderName: string = '';
+  senderPhone: string = '';
+  senderAddress1: string = '';
+  senderAddress2: string = '';
+  selectedSendCountry: number = 0;
+  selectedSendDivision: number = 0;
+  selectedSendDistrict: number = 0;
+  selectedSendPoliceStation: number = 0;
+
+  // Receiver Info
+  receiverName: string = '';
+  receiverPhone: string = '';
+  receiverAddress1: string = '';
+  receiverAddress2: string = '';
+  selectedReceiveCountry: number = 0;
+  selectedReceiveDivision: number = 0;
+  selectedReceiveDistrict: number = 0;
+  selectedReceivePoliceStation: number = 0;
+
+  // Dropdown Lists
+  countries: any[] = [];
   divisions: any[] = [];
   districts: any[] = [];
   policeStations: any[] = [];
 
-  selectedCountry: number = 0;
-  selectedDivision: number = 0;
-  selectedDistrict: number = 0;
-  selectedPoliceStation: number = 0;
+  receiverCountries: any[] = [];
+  receiverDivisions: any[] = [];
+  receiverDistricts: any[] = [];
+  receiverPoliceStations: any[] = [];
 
-  addressLine1: string = '';
-  addressLine2: string = '';
 
   paymentInfo: string = '';
   parcelForm!: FormGroup;
   showPaymentSection: boolean = false;
-  confirmationCode: string = '';
+
   paymentSuccess: boolean = false;
   verificationCode: string = '';
   isPaymentDone = false;
@@ -60,69 +91,23 @@ export class AddParcel implements OnInit {
     private parcelService: ParcelService,
     private router: Router,
     private storageService: StorageService,
-    private cdr:ChangeDetectorRef
+    private cdr: ChangeDetectorRef
   ) {
-    this.parcelForm = this.fb.group({
-      trackingId: [''],
-      senderName: ['', Validators.required],
-      senderPhone: ['', Validators.required],
-      senderAddress: ['', Validators.required],
-      sendCountry: ['', Validators.required],
-      sendDivision: ['', Validators.required],
-      sendDistrict: ['', Validators.required],
-      sendPoliceStation: ['', Validators.required],
-      receiverName: ['', Validators.required],
-      receiverPhone: ['', Validators.required],
-      receiverAddress: ['', Validators.required],
-      receiveCountry: ['', Validators.required],
-      receiveDivision: ['', Validators.required],
-      receiveDistrict: ['', Validators.required],
-      receivePoliceStation: ['', Validators.required],
-      currentHub: ['', Validators.required],
-      bookingAgent: ['', Validators.required],
-      deliveryPerson: ['', Validators.required],
-      weight: [0],
-      squareFeet: [0],
-      fee: [0],
-      paymentMethod: ['', Validators.required],
-      confirmationCode: ['', Validators.required],
-      enteredConfirmationCode: ['', Validators.required]
-    });
+
   }
 
   ngOnInit(): void {
-    // Set logged in user's name as senderName
-  const loggedInUser = localStorage.getItem('loggedInUser');
-  if (loggedInUser) {
-    const user = JSON.parse(loggedInUser);
-    if (user?.name) {
-      this.parcelForm.patchValue({ senderName: user.name });
-      this.parcelForm.get('senderName')?.disable();
-    }
-  }
-  this.loadCountries();
 
+    this.loadSenderCountries();
+    this.loadReceiverCountries();
 
-
-    this.calculateParcelFee()
-    this.loadMasterData();
-    this.parcelForm.get('weight')?.valueChanges.subscribe(() => this.calculateParcelFee());
-    this.parcelForm.get('squareFeet')?.valueChanges.subscribe(() => this.calculateParcelFee());
-    this.parcelForm.get('paymentMethod')?.valueChanges.subscribe(() => this.updatePaymentDetails());
-  }
-    loadCountries() {
-    this.addressService.getCountries().subscribe(data => {
-      this.countries = data;
-    });
   }
 
 
-  loadMasterData() {
-    this.countryService.getAll().subscribe(data => this.countries = data);
-    this.divisionService.getAll().subscribe(data => this.divisions = data);
-    this.districtService.getAll().subscribe(data => this.districts = data);
-    this.policeStationService.getAll().subscribe(data => this.policeStations = data);
-  }
+
+
+
+
 
   calculateParcelFee(): void {
     const formValue = this.parcelForm.value;
@@ -175,6 +160,8 @@ export class AddParcel implements OnInit {
     this.showPaymentSection = finalFee > 0;
   }
 
+
+
   updatePaymentDetails(): void {
     const method = this.parcelForm.get('paymentMethod')?.value;
 
@@ -189,160 +176,184 @@ export class AddParcel implements OnInit {
     }
   }
 
-  onSubmitParcel() {
-    if (!this.parcelForm.value.fee || !this.parcelForm.value.paymentMethod) {
-      alert("Please calculate fee and select a payment method.");
-      return;
-    }
 
-    const parcel: Parcel = { ...this.parcelForm.value };
-    parcel.trackingId = uuidv4();
+  submitParcel() {
+    const parcelData = {
+      senderName: this.senderName,
+      senderPhone: this.senderPhone,
+      senderAddress1: this.senderAddress1,
+      senderAddress2: this.senderAddress2,
+      sendCountry: this.selectedSendCountry,
+      sendDivision: this.selectedSendDivision,
+      sendDistrict: this.selectedSendDistrict,
+      sendPoliceStation: this.selectedSendPoliceStation,
 
-    this.parcelService.saveParcel(parcel).subscribe(
-      (savedParcel) => {
-        if (typeof window !== 'undefined' && window.localStorage) {
-          const notifications = JSON.parse(localStorage.getItem('parcelNotifications') || '[]');
+      receiverName: this.receiverName,
+      receiverPhone: this.receiverPhone,
+      receiverAddress1: this.receiverAddress1,
+      receiverAddress2: this.receiverAddress2,
+      receiveCountry: this.selectedReceiveCountry,
+      receiveDivision: this.selectedReceiveDivision,
+      receiveDistrict: this.selectedReceiveDistrict,
+      receivePoliceStation: this.selectedReceivePoliceStation,
 
-          notifications.push({
-            message: `📦 New Parcel: ${savedParcel.senderName} ➔ ${savedParcel.receiverName}`,
-            parcelTrackingId: savedParcel.trackingId,
-            parcelId: savedParcel.id,
-            time: new Date().toLocaleString()
-          });
+      weight: this.weight,
+      squareFeet: this.squareFeet,
+      fee: this.fee,
+      paymentMethod: this.paymentMethod,
+      enteredConfirmationCode: this.enteredConfirmationCode
+    };
+  }
 
-          localStorage.setItem('parcelNotifications', JSON.stringify(notifications));
+
+    onSubmitParcel() {
+      // if (!this.parcelForm.value.fee || !this.parcelForm.value.paymentMethod) {
+      //   alert("Please calculate fee and select a payment method.");
+      //   return;
+      // }
+
+      const parcel: Parcel = { ...this.parcelForm.value };
+      parcel.trackingId = uuidv4();
+
+      this.parcelService.saveParcel(parcel).subscribe(
+        (savedParcel) => {
+          if (typeof window !== 'undefined' && window.localStorage) {
+            const notifications = JSON.parse(localStorage.getItem('parcelNotifications') || '[]');
+
+            notifications.push({
+              message: `📦 New Parcel: ${savedParcel.senderName} ➔ ${savedParcel.receiverName}`,
+              parcelTrackingId: savedParcel.trackingId,
+              parcelId: savedParcel.id,
+              time: new Date().toLocaleString()
+            });
+
+            localStorage.setItem('parcelNotifications', JSON.stringify(notifications));
+          }
+
+          alert('Parcel created successfully!');
+          this.parcelForm.reset();
+          this.router.navigate(['/viewparcel']);
+        },
+        (error) => {
+          console.error(error);
+          alert('Failed to create parcel.');
         }
+      );
+    }
 
-        alert('Parcel created successfully!');
-        this.parcelForm.reset();
-              this.router.navigate(['/viewparcel']);
-      },
-      (error) => {
-        console.error(error);
-        alert('Failed to create parcel.');
+
+
+    // Sender dropdown loading
+    loadSenderCountries() {
+      this.addressService.getCountries().subscribe(data => {
+        this.countries = data; this.cdr.markForCheck();
+      });
+    }
+
+    onSendCountryChange() {
+      this.divisions = [];
+      this.districts = [];
+      this.policeStations = [];
+      this.selectedSendDivision = 0;
+      this.selectedSendDistrict = 0;
+      this.selectedSendPoliceStation = 0;
+
+      console.log(this.selectedSendCountry + "**********************************")
+      if (this.selectedSendCountry) {
+        this.addressService.getDivisionsByCountry(this.selectedSendCountry)
+          .subscribe(data => this.divisions = data);
       }
-    );
-  }
-
- 
-
-// Sender
- onCountryChangeForSender() {
-    this.divisions = [];
-    this.districts = [];
-    this.policeStations = [];
-    this.selectedDivision = 0;
-    this.selectedDistrict = 0;
-    this.selectedPoliceStation = 0;
-
-    if (this.selectedCountry) {
-      this.addressService.getDivisionsByCountry(this.selectedCountry).subscribe(data => {
-        this.divisions = data;
-        this.cdr.markForCheck();
-      });
     }
-  }
 
-  onDivisionChangeForSender() {
-    this.districts = [];
-    this.policeStations = [];
-    this.selectedDistrict = 0;
-    this.selectedPoliceStation = 0;
-
-    if (this.selectedDivision) {
-      this.addressService.getDistrictsByDivision(this.selectedDivision).subscribe(data => {
-        this.districts = data;
-        this.cdr.markForCheck();
-      });
+    onSendDivisionChange() {
+      this.districts = [];
+      this.policeStations = [];
+      this.selectedSendDistrict = 0;
+      this.selectedSendPoliceStation = 0;
+      if (this.selectedSendDivision) {
+        this.addressService.getDistrictsByDivision(this.selectedSendDivision)
+          .subscribe(data => this.districts = data);
+      }
     }
-  }
 
-  onDistrictChangeForSender() {
-    this.policeStations = [];
-    this.selectedPoliceStation = 0;
-
-    if (this.selectedDistrict) {
-      this.addressService.getPoliceStationsByDistrict(this.selectedDistrict).subscribe(data => {
-        this.policeStations = data;
-        this.cdr.markForCheck();
-      });
+    onSendDistrictChange() {
+      this.policeStations = [];
+      this.selectedSendPoliceStation = 0;
+      if (this.selectedSendDistrict) {
+        this.addressService.getPoliceStationsByDistrict(this.selectedSendDistrict)
+          .subscribe(data => this.policeStations = data);
+      }
     }
-  }
 
-// Receiver
- onCountryChangeForReceiver() {
-    this.divisions = [];
-    this.districts = [];
-    this.policeStations = [];
-    this.selectedDivision = 0;
-    this.selectedDistrict = 0;
-    this.selectedPoliceStation = 0;
-
-    if (this.selectedCountry) {
-      this.addressService.getDivisionsByCountry(this.selectedCountry).subscribe(data => {
-        this.divisions = data;
-        this.cdr.markForCheck();
-      });
+    // Receiver dropdown loading
+    loadReceiverCountries() {
+      this.addressService.getCountries().subscribe(data => this.receiverCountries = data);
     }
-  }
 
-  onDivisionChangeForReceiver() {
-    this.districts = [];
-    this.policeStations = [];
-    this.selectedDistrict = 0;
-    this.selectedPoliceStation = 0;
-
-    if (this.selectedDivision) {
-      this.addressService.getDistrictsByDivision(this.selectedDivision).subscribe(data => {
-        this.districts = data;
-        this.cdr.markForCheck();
-      });
+    onReceiveCountryChange() {
+      this.receiverDivisions = [];
+      this.receiverDistricts = [];
+      this.receiverPoliceStations = [];
+      this.selectedReceiveDivision = 0;
+      this.selectedReceiveDistrict = 0;
+      this.selectedReceivePoliceStation = 0;
+      if (this.selectedReceiveCountry) {
+        this.addressService.getDivisionsByCountry(this.selectedReceiveCountry)
+          .subscribe(data => this.receiverDivisions = data);
+      }
     }
-  }
 
-  onDistrictChangeReceiver() {
-    this.policeStations = [];
-    this.selectedPoliceStation = 0;
-
-    if (this.selectedDistrict) {
-      this.addressService.getPoliceStationsByDistrict(this.selectedDistrict).subscribe(data => {
-        this.policeStations = data;
-        this.cdr.markForCheck();
-      });
+    onReceiveDivisionChange() {
+      this.receiverDistricts = [];
+      this.receiverPoliceStations = [];
+      this.selectedReceiveDistrict = 0;
+      this.selectedReceivePoliceStation = 0;
+      if (this.selectedReceiveDivision) {
+        this.addressService.getDistrictsByDivision(this.selectedReceiveDivision)
+          .subscribe(data => this.receiverDistricts = data);
+      }
     }
+
+    onReceiveDistrictChange() {
+      this.receiverPoliceStations = [];
+      this.selectedReceivePoliceStation = 0;
+      if (this.selectedReceiveDistrict) {
+        this.addressService.getPoliceStationsByDistrict(this.selectedReceiveDistrict)
+          .subscribe(data => this.receiverPoliceStations = data);
+      }
+    }
+
+
+    generateConfirmationCode(): string {
+      const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+      return code;
+    }
+
+    onPaymentSuccess() {
+      this.confirmationCode = this.generateConfirmationCode();
+      this.paymentSuccess = true;
+    }
+    startPayment() {
+      // Validate fee and payment method
+      if (!this.parcelForm.value.fee || !this.parcelForm.value.paymentMethod) {
+        alert("Please calculate fee and select a payment method.");
+        return;
+      }
+
+      // Generate trackingId before payment
+      const generatedTrackingId = uuidv4();
+      this.parcelForm.patchValue({ trackingId: generatedTrackingId });
+
+      // Show payment instructions including trackingId
+      this.verificationCode = this.generateConfirmationCode();
+      this.confirmationCode = this.verificationCode;
+      this.paymentSuccess = true;
+
+      alert(`✅ Please send payment using Tracking ID: ${generatedTrackingId}`);
+
+    }
+
+
+
+
   }
-
-
-  generateConfirmationCode(): string {
-    const code = Math.random().toString(36).substring(2, 8).toUpperCase();
-    return code;
-  }
-
-  onPaymentSuccess() {
-    this.confirmationCode = this.generateConfirmationCode();
-    this.paymentSuccess = true;
-  }
-  startPayment() {
-  // Validate fee and payment method
-  if (!this.parcelForm.value.fee || !this.parcelForm.value.paymentMethod) {
-    alert("Please calculate fee and select a payment method.");
-    return;
-  }
-
-  // Generate trackingId before payment
-  const generatedTrackingId = uuidv4();
-  this.parcelForm.patchValue({ trackingId: generatedTrackingId });
-
-  // Show payment instructions including trackingId
-  this.verificationCode = this.generateConfirmationCode();
-  this.confirmationCode = this.verificationCode;
-  this.paymentSuccess = true;
-
-  alert(`✅ Please send payment using Tracking ID: ${generatedTrackingId}`);
-  
-}
-
-
-  
-
-}

@@ -6,8 +6,13 @@ export class Parcel {
   receiverName!: string;
   senderPhone!: string;
   receiverPhone!: string;
-  senderAddress!: string;
-  receiverAddress!: string;
+  
+  addressLineForSender1!: string;
+  addressLineForSender2!: string;
+
+  addressLineForReceiver1!: string;
+  addressLineForReceiver2!: string;
+
   status!: string;
   currentHub?: string;
   deliveryPerson?: string;

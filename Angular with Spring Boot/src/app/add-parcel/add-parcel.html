@@ -1,156 +1,149 @@
 <div class="container mt-4">
   <h3 class="mb-3">Add New Parcel</h3>
-  <form [formGroup]="parcelForm" (ngSubmit)="onSubmitParcel()" class="row g-3">
-    <div class="row">
-      <div class="col-md-6">
-        <label>Sender Name</label>
-        <input formControlName="senderName" name="senderName" class="form-control" required>
 
-        <label>Sender Phone</label>
-        <input formControlName="senderPhone" name="senderPhone" class="form-control" required>
+  <div class="row">
+    <div class="col-md-6">
+      <label>Sender Name</label>
+      <input [(ngModel)]="senderName" name="senderName" class="form-control" required>
 
-       
+      <label>Sender Phone</label>
+      <input [(ngModel)]="senderPhone" name="senderPhone" class="form-control" required>
 
-        <div class="row">
-          <div class="col-md-6">
-            <label class="form-label">Send Country Hub</label>
-            <select formControlName="sendCountry" class="form-select" (change)="onCountryChange()">
-              <option value="">Select Country</option>
-              <option *ngFor="let country of countries" [value]="country.id">{{ country.name }}</option>
-            </select>
-          </div>
 
-          <div class="col-md-6">
-            <label class="form-label">Send Division Hub</label>
-            <select formControlName="sendDivision" class="form-select" (change)="onDivisionChange()">
-              <option value="">Select Division</option>
-              <option *ngFor="let division of filteredSenderDivisions" [value]="division.id">{{ division.name }}
-              </option>
-            </select>
-          </div>
 
-          <div class="col-md-6">
-            <label class="form-label">Send District Hub</label>
-            <select formControlName="sendDistrict" class="form-select" (change)="onDistrictChange()">
-              <option value="">Select District</option>
-              <option *ngFor="let district of filteredSenderDistricts" [value]="district.id">{{ district.name }}
-              </option>
-            </select>
-          </div>
+      <select class="form-select" [(ngModel)]="selectedSendCountry" (change)="onSendCountryChange()">
+        <option value="">-- Select Country --</option>
+        <option *ngFor="let c of countries" [value]="c.id">{{ c.name }}</option>
+      </select>
 
-          <div class="col-md-6">
-            <label class="form-label">Send Police Station Hub</label>
-            <select formControlName="sendPoliceStation" class="form-select">
-              <option value="">Select Police Station</option>
-              <option *ngFor="let ps of filteredSenderPoliceStations" [value]="ps.id">{{ ps.name }}</option>
-            </select>
-          </div>
-           <label>Sender Address</label>
-        <textarea formControlName="senderAddress" name="senderAddress" class="form-control" required></textarea>
+      <select class="form-select" [(ngModel)]="selectedSendDivision" (change)="onSendDivisionChange()">
+        <option value="">-- Select Division --</option>
+        <option *ngFor="let d of divisions" [value]="d.id">{{ d.name }}</option>
+      </select>
+
+      <select class="form-select" [(ngModel)]="selectedSendDistrict" (change)="onSendDistrictChange()">
+        <option value="">-- Select District --</option>
+        <option *ngFor="let d of districts" [value]="d.id">{{ d.name }}</option>
+      </select>
+
+      <select class="form-select" [(ngModel)]="selectedSendPoliceStation">
+        <option value="">-- Select Police Station --</option>
+        <option *ngFor="let ps of policeStations" [value]="ps.id">{{ ps.name }}</option>
+      </select>
+      <div class="container mt-4">
+        <h3>Add Address</h3>
+
+        <div class="form-group mb-2">
+          <label>Address Line 1</label>
+          <input type="text" class="form-control" [(ngModel)]="senderAddress1">
         </div>
 
-      </div>
-      <div class="col-md-6">
-        <label>Receiver Name</label>
-        <input formControlName="receiverName" name="currentHub" class="form-control" required>
-
-        <label>Receiver Phone</label>
-        <input formControlName="receiverPhone" name="receiverPhone" class="form-control" required>
-       
-        <div class="row">
-          <div class="col-md-6">
-            <label class="form-label">Recive Country Hub</label>
-            <select formControlName="receiveCountry" class="form-select" (change)="onCountryChange2()">
-              <option value="">Select Country</option>
-              <option *ngFor="let country of countries" [value]="country.id">{{ country.name }}</option>
-            </select>
-          </div>
-
-          <div class="col-md-6">
-            <label class="form-label">Recive Division Hub</label>
-            <select formControlName="receiveDivision" class="form-select" (change)="onDivisionChange2()">
-              <option value="">Select Division</option>
-              <option *ngFor="let division of filteredReceiverDivisions" [value]="division.id">{{ division.name }}
-              </option>
-            </select>
-          </div>
-
-          <div class="col-md-6">
-            <label class="form-label">Recive District Hub</label>
-            <select formControlName="receiveDistrict" class="form-select" (change)="onDistrictChange2()">
-              <option value="">Select District</option>
-              <option *ngFor="let district of filteredReceiverDistricts" [value]="district.id">{{ district.name }}
-              </option>
-            </select>
-          </div>
-
-          <div class="col-md-6">
-            <label class="form-label">Recive Police Station Hub</label>
-            <select formControlName="receivePoliceStation" class="form-select">
-              <option value="">Select Police Station</option>
-              <option *ngFor="let ps of filteredReceiverPoliceStations" [value]="ps.id">{{ ps.name }}</option>
-            </select>
-          </div>
-           <label>Receiver Address</label>
-        <textarea formControlName="receiverAddress" name="receiverAddress" class="form-control" required></textarea>
-
+        <div class="form-group mb-2">
+          <label>Address Line 2</label>
+          <input type="text" class="form-control" [(ngModel)]="senderAddress2">
         </div>
       </div>
+
+
+    </div>
+    <div class="col-md-6">
+      <label>Receiver Name</label>
+      <input [(ngModel)]="receiverName" name="currentHub" class="form-control" required>
+
+      <label>Receiver Phone</label>
+      <input [(ngModel)]="receiverPhone" name="receiverPhone" class="form-control" required>
+
+      <select class="form-select" [(ngModel)]="selectedReceiveCountry" (change)="onReceiveCountryChange()">
+        <option value="">-- Select Country --</option>
+        <option *ngFor="let c of countries" [value]="c.id">{{ c.name }}</option>
+      </select>
+
+      <select class="form-select" [(ngModel)]="selectedReceiveDivision" (change)="onReceiveDivisionChange()">
+        <option value="">-- Select Division --</option>
+        <option *ngFor="let d of divisions" [value]="d.id">{{ d.name }}</option>
+      </select>
+
+      <select class="form-select" [(ngModel)]="selectedReceiveDistrict" (change)="onReceiveDistrictChange()">
+        <option value="">-- Select District --</option>
+        <option *ngFor="let d of districts" [value]="d.id">{{ d.name }}</option>
+      </select>
+
+      <select class="form-select" [(ngModel)]="selectedReceivePoliceStation">
+        <option value="">-- Select Police Station --</option>
+        <option *ngFor="let ps of policeStations" [value]="ps.id">{{ ps.name }}</option>
+      </select>
+
+      <div class="container mt-4">
+        <h3>Add Address</h3>
+
+        <div class="form-group mb-2">
+          <label>Address Line 1</label>
+          <input type="text" class="form-control" [(ngModel)]="receiverAddress1">
+        </div>
+
+        <div class="form-group mb-2">
+          <label>Address Line 2</label>
+          <input type="text" class="form-control" [(ngModel)]="receiverAddress2">
+        </div>
+      </div>
+
+
+
     </div>
     <div class="row">
- <div class="form-group">
-  <label>Weight (kg):</label>
-  <input type="number" class="form-control" formControlName="weight" />
-</div>
+      <div class="form-group">
+        <label>Weight (kg):</label>
+        <input type="number" class="form-control" [(ngModel)]="weight" />
+      </div>
 
-<div class="form-group">
-  <label>Square Feet:</label>
-  <input type="number" class="form-control" formControlName="squareFeet" />
-</div>
+      <div class="form-group">
+        <label>Square Feet:</label>
+        <input type="number" class="form-control" [(ngModel)]="squareFeet" />
+      </div>
 
-<!-- Show fee -->
-<div *ngIf="parcelForm.value.fee > 0" class="mt-3">
-  <h5>📦 Calculated Fee: {{ parcelForm.value.fee }} Taka</h5>
+      <div *ngIf="fee > 0" class="mt-3">
+        <h5>📦 Calculated Fee: {{ fee }} Taka</h5>
 
-  <!-- Payment options -->
- <div class="form-group mt-3">
-  <label for="paymentMethod">Payment Method</label>
-  <select class="form-control" id="paymentMethod" formControlName="paymentMethod" (change)="updatePaymentDetails()">
-    <option value="">Select Payment Method</option>
-    <option value="bkash">Bkash</option>
-    <option value="nagad">Nagad</option>
-    <option value="bank">Bank</option>
-  </select>
-</div>
+        <div class="form-group mt-3">
+          <label for="paymentMethod">Payment Method</label>
+          <select class="form-control" id="paymentMethod" [(ngModel)]="paymentMethod" (change)="updatePaymentDetails()">
+            <option value="">Select Payment Method</option>
+            <option value="bkash">Bkash</option>
+            <option value="nagad">Nagad</option>
+            <option value="bank">Bank</option>
+          </select>
+        </div>
 
-<!-- Show payment number based on selection -->
-<div class="mt-2" *ngIf="paymentInfo">
-  <div class="alert alert-info">
-    {{ paymentInfo }}
+        <div class="mt-2" *ngIf="paymentInfo">
+          <div class="alert alert-info">
+            {{ paymentInfo }}
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Optional: Payment instructions -->
+      <div class="alert alert-info mt-2" *ngIf="paymentMethod">
+        Please complete the payment via {{ paymentMethod }} to continue.
+      </div>
+
+      <button class="btn btn-primary mt-2" (click)="startPayment()">💰 Proceed to Payment</button>
+
+      <div class="alert alert-warning mt-2" *ngIf="trackingId && paymentSuccess">
+        📦 Your Parcel Tracking ID: <strong>{{ trackingId }}</strong><br />
+        Please include this ID when making your payment.
+      </div>
+
+      <div class="mt-3" *ngIf="paymentSuccess">
+        <label>Enter Payment Confirmation Code:</label>
+        <input type="text" class="form-control" [(ngModel)]="enteredConfirmationCode"
+          placeholder="Enter confirmation code">
+      </div>
+
+
+    </div>
+
   </div>
 </div>
 
-
-  <!-- Optional: Payment instructions -->
-  <div class="alert alert-info mt-2" *ngIf="parcelForm.value.paymentMethod">
-    Please complete the payment via {{ parcelForm.value.paymentMethod }} to continue.
-  </div>
-  <button class="btn btn-primary mt-2" (click)="startPayment()">💰 Proceed to Payment</button>
-<div class="alert alert-warning mt-2" *ngIf="parcelForm.value.trackingId && paymentSuccess">
-  📦 Your Parcel Tracking ID: <strong>{{ parcelForm.value.trackingId }}</strong><br />
-  Please include this ID when making your payment.
-</div>
-
-<div class="mt-3" *ngIf="paymentSuccess">
-  <label>Enter Payment Confirmation Code:</label>
-  <input type="text" class="form-control" formControlName="enteredConfirmationCode" placeholder="Enter confirmation code">
-</div>
-
-</div>
-
-    </div>
-    
-
-    <button type="submit" class="btn btn-success mt-3">Submit</button>
-  </form>
-</div>
+<button type="submit" class="btn btn-success mt-3" (click)="onSubmitParcel()">Submit</button>

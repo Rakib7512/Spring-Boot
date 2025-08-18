@@ -25,6 +25,7 @@ import { Userprofile } from './auth/userprofile/userprofile';
 import { AllUser } from './user/all-user/all-user';
 import { AddConsumer } from './add-consumer/add-consumer';
 import { ConsumerProfileComponent } from './consumer/consumer-profile.component/consumer-profile.component';
+import { AddNewParcel } from './add-new-parcel/add-new-parcel';
 
 
 
@@ -53,7 +54,9 @@ const routes: Routes = [
   {path:'user_profile/:id', component:Userprofile},
    {path:'allusers', component:AllUser},
    {path:'registerConsumer', component:AddConsumer},
-   {path:'consumerProfile', component:ConsumerProfileComponent}
+   {path:'consumerProfile', component:ConsumerProfileComponent},
+   {path:'addNewParcel', component:AddNewParcel},
+ 
 
 
 

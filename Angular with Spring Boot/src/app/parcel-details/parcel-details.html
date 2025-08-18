@@ -4,8 +4,10 @@
     <li class="list-group-item"><strong>Tracking ID:</strong> {{ parcel.trackingId }}</li>
     <li class="list-group-item"><strong>Sender:</strong> {{ parcel.senderName }} (📞 {{ parcel.senderPhone }})</li>
     <li class="list-group-item"><strong>Receiver:</strong> {{ parcel.receiverName }} (📞 {{ parcel.receiverPhone }})</li>
-    <li class="list-group-item"><strong>From Address:</strong> {{ parcel.senderAddress }}</li>
-    <li class="list-group-item"><strong>To Address:</strong> {{ parcel.receiverAddress }}</li>
+    <li class="list-group-item"><strong>From Address:</strong> {{ parcel.addressLineForSender1 }}</li>
+    <li class="list-group-item"><strong>To Address:</strong> {{ parcel.addressLineForSender2 }}</li>
+    <li class="list-group-item"><strong>From Address:</strong> {{ parcel.addressLineForReceiver1 }}</li>
+    <li class="list-group-item"><strong>To Address:</strong> {{ parcel.addressLineForReceiver2}}</li>
     <li class="list-group-item"><strong>Send Country:</strong> {{ getNameById(countries, parcel.sendCountry) }}</li>
     <li class="list-group-item"><strong>Receive Country:</strong> {{ getNameById(countries, parcel.receiveCountry) }}</li>
     <li class="list-group-item"><strong>Current Hub:</strong> {{ parcel.currentHub }}</li>
