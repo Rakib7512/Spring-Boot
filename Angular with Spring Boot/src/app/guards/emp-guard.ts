@@ -12,7 +12,7 @@ export class empGuard implements CanActivate{
   ) {}
 
   canActivate(): boolean | UrlTree | Observable<boolean | UrlTree> {
-    if (this.authService.isLoggIn() && this.authService.isEmployee()) {
+    if (this.authService.isLogIn() && this.authService.isEmployee()) {
       return true;
     }
     return this.router.createUrlTree(['/login']);

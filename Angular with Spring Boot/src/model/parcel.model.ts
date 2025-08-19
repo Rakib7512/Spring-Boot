@@ -34,6 +34,10 @@ export class Parcel {
   fee?: number;
   verificationCode!:string
   bookingDate!:Date;
+
+
+   receivedByEmployeeId?: number;
+  receivedByEmployeeName?: string;
   
 
 
