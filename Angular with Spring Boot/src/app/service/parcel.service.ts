@@ -54,5 +54,14 @@ getParcelsByUserId(userId: number): Observable<Parcel[]> {
   return this.http.get<Parcel[]>(`http://localhost:8080/api/parcels/user/${userId}`);
 }
 
+ // -------- Notification APIs --------
+  getEmployerNotifications(employerId: number): Observable<Notification[]> {
+    return this.http.get<Notification[]>(`${this.baseUrl}/notifications/${employerId}`);
+  }
+
+  markNotificationAsRead(notificationId: number): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/notifications/${notificationId}/read`, {});
+  }
+
 
 }

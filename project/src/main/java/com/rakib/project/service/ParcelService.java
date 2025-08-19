@@ -5,6 +5,7 @@ import com.rakib.project.entity.ParcelTracking;
 import com.rakib.project.repository.IParcelRepository;
 import com.rakib.project.repository.IParcelTrackingRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,21 +16,35 @@ import java.util.Optional;
 public class ParcelService {
     private final IParcelRepository parcelRepository;
     private final IParcelTrackingRepository trackingRepository;
+    private final NotificationService notificationService;
 
+    @Autowired
     public ParcelService(IParcelRepository parcelRepository,
-                         IParcelTrackingRepository trackingRepository) {
+                         IParcelTrackingRepository trackingRepository,
+                         NotificationService notificationService) {
         this.parcelRepository = parcelRepository;
         this.trackingRepository = trackingRepository;
+        this.notificationService = notificationService;
     }
 
+    // ---------- Save Parcel with Employer Notification ----------
     @Transactional
-    public Parcel saveParcel(Parcel parcel) {
+    public Parcel saveParcel(Parcel parcel, Long employerId) {
         if (parcel.getTrackingHistory() != null) {
             for (ParcelTracking t : parcel.getTrackingHistory()) {
                 t.setParcel(parcel);
             }
         }
-        return parcelRepository.save(parcel);
+
+        Parcel savedParcel = parcelRepository.save(parcel);
+
+        // Employer কে notification পাঠানো
+        notificationService.createNotification(
+                "New Parcel booked: Tracking ID = " + savedParcel.getTrackingId(),
+                employerId
+        );
+
+        return savedParcel;
     }
 
     public List<Parcel> getAllParcels() {
@@ -67,8 +82,6 @@ public class ParcelService {
         }
         parcel.getTrackingHistory().add(saved);
 
-        // because of transactional context and owning side set, no extra save required,
-        // but to be safe (and to update any derived fields) you may save parcel:
         parcelRepository.save(parcel);
 
         return saved;
@@ -95,13 +108,24 @@ public class ParcelService {
             throw new IllegalArgumentException("Tracking does not belong to the given parcel");
         }
 
-        // remove from parcel list (if present)
+        // remove from parcel list
         if (parcel.getTrackingHistory() != null) {
             parcel.getTrackingHistory().removeIf(x -> x.getId().equals(trackingId));
             parcelRepository.save(parcel);
         }
 
-        // delete tracking record
         trackingRepository.deleteById(trackingId);
     }
+
+//    @Transactional
+//    public Parcel receiveParcel(Long parcelId, Long employeeId, String employeeName, String currentHub) {
+//        Parcel parcel = parcelRepository.findById(parcelId)
+//                .orElseThrow(() -> new IllegalArgumentException("Parcel not found"));
+//
+//        parcel.setReceivedByEmployeeId(employeeId);
+//        parcel.setReceivedByEmployeeName(employeeName);
+//        parcel.setCurrentHub(currentHub);
+//
+//        return parcelRepository.save(parcel);
+//    }
 }

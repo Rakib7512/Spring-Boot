@@ -1,7 +1,9 @@
 package com.rakib.project.restcontroller;
 
 
+import com.rakib.project.entity.Notification;
 import com.rakib.project.entity.Parcel;
+import com.rakib.project.service.NotificationService;
 import com.rakib.project.service.ParcelService;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,14 +13,20 @@ import java.util.List;
 @RequestMapping("/api/parcels/")
 public class ParcelController {
     private final ParcelService parcelService;
+    private final NotificationService notificationService;
 
-    public ParcelController(ParcelService parcelService) {
+    public ParcelController(ParcelService parcelService, NotificationService notificationService) {
         this.parcelService = parcelService;
+        this.notificationService = notificationService;
     }
 
-    @PostMapping
-    public Parcel createParcel(@RequestBody Parcel parcel) {
-        return parcelService.saveParcel(parcel);
+    // ----------- Parcel CRUD ------------
+
+    // এখন employerId সহ saveParcel হবে
+    @PostMapping("/{employerId}")
+    public Parcel createParcel(@RequestBody Parcel parcel,
+                               @PathVariable Long employerId) {
+        return parcelService.saveParcel(parcel, employerId);
     }
 
     @GetMapping
@@ -39,6 +47,18 @@ public class ParcelController {
     @DeleteMapping("/{id}")
     public void deleteParcel(@PathVariable Long id) {
         parcelService.deleteParcel(id);
+    }
+
+    // ----------- Notification APIs ------------
+
+    @GetMapping("/notifications/{employerId}")
+    public List<Notification> getEmployerNotifications(@PathVariable Long employerId) {
+        return notificationService.getUnreadNotifications(employerId);
+    }
+
+    @PutMapping("/notifications/{id}/read")
+    public void markNotificationAsRead(@PathVariable Long id) {
+        notificationService.markAsRead(id);
     }
 }
 

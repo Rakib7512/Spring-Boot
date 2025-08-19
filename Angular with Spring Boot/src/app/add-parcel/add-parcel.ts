@@ -28,10 +28,7 @@ export class AddParcel implements OnInit {
 
   // General
   trackingId: string = '';
-  currentHub: string = '';
-  bookingAgent: string = '';
-  deliveryPerson: string = '';
-  weight: number = 0;
+   weight: number = 0;
   squareFeet: number = 0;
   fee: number = 0;
   paymentMethod: string = '';
@@ -181,7 +178,7 @@ export class AddParcel implements OnInit {
     const parcelData = {
       senderName: this.senderName,
       senderPhone: this.senderPhone,
-       trackingId :uuidv4,
+       trackingId :uuidv4(),
 
       addressLineForSender1: this.addressLineForSender1,
       addressLineForSender2: this.addressLineForSender2,
