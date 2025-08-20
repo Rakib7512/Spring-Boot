@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ParcelService } from '../service/parcel.service';
+import { Parcel } from '../../model/parcel.model';
 
 @Component({
   selector: 'app-view-add-parcel',
@@ -9,45 +10,68 @@ import { ParcelService } from '../service/parcel.service';
   styleUrl: './view-add-parcel.css'
 })
 export class ViewAddParcel implements OnInit {
-  // parcel!: any;
+ parcels: Parcel[] = [];
+  loading: boolean = true;
+  errorMessage: string = '';
+  selectedParcel: Parcel | null = null;
 
-  // constructor(
-  //   private router: Router,
-  //   private cdr: ChangeDetectorRef,
-  //   private parcelService: ParcelService,
-
-  // ) { }
+  constructor(private parcelService: ParcelService, private router: Router) {}
 
   ngOnInit(): void {
-    // this.loadAddParcel();
+    this.loadParcels();
   }
 
-  // loadAddParcel() {
-  //   this.parcel = this.parcelService.getAllParcels();
-  // }
+  // Fetch parcels from backend
+  loadParcels() {
+    this.parcelService.getAllParcels().subscribe({
+      next: (data) => {
+        this.parcels = data;
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error(error);
+        this.errorMessage = 'Failed to load parcels.';
+        this.loading = false;
+      }
+    });
+  }
 
-  // updateParcel(id: string): void {
-  //   this.router.navigate(['update Parcel', id])
+  // Open modal to view details
+  viewParcel(parcel: Parcel) {
+    this.selectedParcel = parcel;
+    const modal = document.getElementById('parcelDetailsModal');
+    if (modal) {
+      (modal as any).style.display = 'block';
+    }
+  }
 
+  // Close modal
+  closeModal() {
+    const modal = document.getElementById('parcelDetailsModal');
+    if (modal) {
+      (modal as any).style.display = 'none';
+    }
+    this.selectedParcel = null;
+  }
 
-  // }
+  // Navigate to update page
+  updateParcel(parcelId: number) {
+    this.router.navigate(['/updateparcel', parcelId]);
+  }
 
-
-  // deleteParcel(id: string): void {
-  //   this.parcelService.deleteParcel(id).subscribe({
-  //     next: (res) => {
-  //       console.log("Parcel Delete");
-  //       this.cdr.reattach();
-  //       this.loadAddParcel();
-  //     },
-  //     error: (err) => {
-  //       console.log(err);
-  //     }
-  //   });
-  // }
-
-
-
-
-
+  // Delete parcel
+  deleteParcel(parcelId: number) {
+    if (confirm('Are you sure you want to delete this parcel?')) {
+      this.parcelService.deleteParcel(parcelId).subscribe({
+        next: () => {
+          this.parcels = this.parcels.filter(parcel => parcel.id !== parcelId);
+          alert('Parcel deleted successfully!');
+        },
+        error: (err) => {
+          console.error(err);
+          alert('Failed to delete parcel.');
+        }
+      });
+    }
+  }
 }

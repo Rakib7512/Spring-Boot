@@ -1,60 +1,62 @@
-<!-- <div class="container mt-5">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2> Parcel List</h2>
-    <button class="btn btn-primary" [routerLink]="['/add-parcel']"> Add New Parcel</button>
+<div class="container mt-4">
+  <h2 class="text-center mb-4">📦 View All Parcels</h2>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p>Loading parcels...</p>
   </div>
 
-  <div class="">
-    <table class="table table-bordered text-center ">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Tracking Id</th>
-          <th>Sender</th>
-          <th>Sender Phone No</th>
-          <th>Sender's Address</th>
-          <th>Recipient </th>
-          <th>Recipient  Phone No</th>
-          <th>Address</th>
-          <th>From Hub</th>
-          <th>Current</th>
-          <th>To hub</th>
-          <th class="text-center">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of parcel |async">
-          <td>{{ item.id }}</td>
-          <td>{{ item.trackingId }}</td>
-          <td>{{ item.senderName }}</td>
-          <td>{{ item.senderPhone }}</td>
-          <td>{{ item.senderAddress }}</td>
-          <td>{{ item.receiverName }}</td>
-          <td>{{ item.receiverPhone }}</td>
-          <td>{{ item.receiverAddress }}</td>
-          <td>{{ item.fromHub }}</td>
-          <td>{{ item.currentHub }}</td>
-          <td>{{ item.toHub }}</td>
-          <td>
-            <span [ngClass]="{
-              'badge bg-success': item.status === 'Delivered',
-              'badge bg-warning text-dark': item.status === 'Pending',
-              'badge bg-danger': item.status === 'Cancelled'
-            }">
-              {{ item.status }}
-            </span>
-          </td>
-          <td class="text-center">
-            <button class="btn btn-sm btn-info m-1" (click)="updateParcel(item.id)">
-              Update
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Card Grid -->
+  <div class="row" *ngIf="!loading && parcels.length > 0">
+    <div class="col-md-4 mb-4" *ngFor="let parcel of parcels">
+      <div class="card shadow-lg h-100">
+        <div class="card-body">
+          <h5 class="card-title">Tracking ID: <b>{{ parcel.trackingId }}</b></h5>
+          <p class="card-text">
+            <strong>Sender:</strong> {{ parcel.senderName }}<br>
+            <strong>Receiver:</strong> {{ parcel.receiverName }}
+          </p>
+          <div class="d-flex justify-content-between mt-3">
+            <button class="btn btn-primary btn-sm" (click)="viewParcel(parcel)">
+              <i class="bi bi-eye"></i> View
             </button>
-            <button class="btn btn-sm btn-danger m-1" (click)="deleteParcel(item.id)">
-               Delete
+            <button class="btn btn-warning btn-sm" >
+              <i class="bi bi-pencil"></i> Update
             </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            <button class="btn btn-danger btn-sm" >
+              <i class="bi bi-trash"></i> Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Parcels -->
+  <div *ngIf="!loading && parcels.length === 0" class="alert alert-info text-center">
+    No parcels found. Please add some parcels first.
   </div>
 </div>
- -->
+
+<!-- Parcel Details Modal -->
+<div id="parcelDetailsModal" class="custom-modal" *ngIf="selectedParcel">
+  <div class="custom-modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <h4 class="mb-3">📌 Parcel Details</h4>
+    <p><b>Tracking ID:</b> {{ selectedParcel.trackingId }}</p>
+    <p><b>Sender:</b> {{ selectedParcel.senderName }} ({{ selectedParcel.senderPhone }})</p>
+    <p><b>Receiver:</b> {{ selectedParcel.receiverName }} ({{ selectedParcel.receiverPhone }})</p>
+    <p><b>Weight:</b> {{ selectedParcel.weight || '-' }} kg</p>
+    <p><b>Size:</b> {{ selectedParcel.squareFeet || '-' }} sqft</p>
+    <p><b>Fee:</b> ৳ {{ selectedParcel.fee }}</p>
+    <p><b>Status:</b> {{ selectedParcel.status || 'Pending' }}</p>
+    <p><b>Current Hub:</b> {{ selectedParcel.currentHub || 'Not Assigned' }}</p>
+    <button class="btn btn-secondary mt-3" (click)="closeModal()">Close</button>
+  </div>
+</div>
