@@ -23,10 +23,9 @@ public class ParcelController {
     // ----------- Parcel CRUD ------------
 
     // এখন employerId সহ saveParcel হবে
-    @PostMapping("/{employerId}")
-    public Parcel createParcel(@RequestBody Parcel parcel,
-                               @PathVariable Long employerId) {
-        return parcelService.saveParcel(parcel, employerId);
+    @PostMapping("")
+    public Parcel createParcel(@RequestBody Parcel parcel)
+                              {        return parcelService.saveParcel(parcel );
     }
 
     @GetMapping

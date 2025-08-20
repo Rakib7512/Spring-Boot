@@ -5,134 +5,151 @@ import { isPlatformBrowser } from '@angular/common';
 import { AuthResponse } from '../../model/authRespone.model';
 import { environment } from '../../environment/environment';
 import { Router } from '@angular/router';
+import { User } from '../../model/user.model';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
- private baseUrl = environment.apiBaseUrl + '/user/';
-
-  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-  private userRoleSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
-
-  public userRole$: Observable<string | null> = this.userRoleSubject.asObservable();
-
+  
+  private currentUserSubject: BehaviorSubject<User | null>;
+  public currentUser$: Observable<User | null>;
 
   constructor(
     private http: HttpClient,
-    private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) { }
+  ) {
 
+    const storedUser = this.isBrowser() ? JSON.parse(localStorage.getItem('currentUser') || 'null') : null;
+    this.currentUserSubject = new BehaviorSubject<User | null>(storedUser);
+    this.currentUser$ = this.currentUserSubject.asObservable();
 
-  login(email: string, password: string): Observable<AuthResponse> {
-
-    return this.http.post<AuthResponse>(this.baseUrl + 'login', { email, password }, { headers: this.headers }).pipe(
-
-      map(
-        (response: AuthResponse) => {
-          if (this.isBrowser() && response.token) {
-            localStorage.setItem('authToken', response.token);
-            const decodeToken = this.decodeToken(response.token);
-            localStorage.setItem('userRole', decodeToken.role);
-            this.userRoleSubject.next(decodeToken.role);
-          }
-          return response;
-
-        }
-
-      )
-    );
   }
-
 
   private isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
   }
 
+  registration(user: User): Observable<AuthResponse> {
+    return this.http.post<User>(this.baseUrl, user).pipe(
+      map((newUser: User) => {
 
-  decodeToken(token: string) {
+        // create token by username and password 
+        const token = btoa(`${newUser.email}${newUser.password}`);
+        return { token, user: newUser } as AuthResponse;
+      }),
+      catchError(error => {
+        console.error('Registration error:', error);
+        throw error;
+      })
+    );
+  }
 
-    const payload = token.split('.')[1];
-    return JSON.parse(atob(payload));
+  login(credentials: { email: string; password: string }): Observable<AuthResponse> {
+    let params = new HttpParams().append('email', credentials.email);
 
+    return this.http.get<User[]>(`${this.baseUrl}`, { params }).pipe(
+      map(users => {
+        if (users.length > 0) {
+          const user = users[0];
+          if (user.password === credentials.password) {
+            const token = btoa(`${user.email}:${user.password}`);
+            this.storeToken(token);
+            this.setCurrentUser(user);
+            return { token, user } as AuthResponse;
+          } else {
+            throw new Error('Invalid password');
+          }
+        } else {
+          throw new Error('User not found');
+        }
+      }),
+      catchError(error => {
+        console.error('Login error:', error);
+        throw error;
+      })
+    );
+  }
+
+
+  storeToken(token: string): void {
+    if (this.isBrowser()) {
+      localStorage.setItem('token', token);
+    }
+  }
+
+
+  private setCurrentUser(user: User): void {
+    if (this.isBrowser()) {
+      localStorage.setItem('currentUser', JSON.stringify(user));
+    }
+    this.currentUserSubject.next(user);
+  }
+
+// start logout
+  logout(): void {
+    this.clearCurrentUser();
+    if (this.isBrowser()) {
+      localStorage.removeItem('token');
+    }
+  }
+
+  private clearCurrentUser(): void {
+    if (this.isBrowser()) {
+      localStorage.removeItem('currentUser');
+    }
+    this.currentUserSubject.next(null);
+  }
+
+  removeUserDetails(): void {
+    if (this.isBrowser()) {
+      localStorage.clear();
+    }
+  }
+
+  // log out end
+
+  getUserRole(): any {
+    return this.currentUserValue?.role;
+  }
+  
+  public get currentUserValue(): User | null {
+    return this.currentUserSubject.value;
   }
 
   getToken(): string | null {
+    return this.isBrowser() ? localStorage.getItem('token') : null;
+  }
 
+
+  isAuthenticated(): boolean {
+    return !!this.getToken();
+  }
+
+
+   storeUserProfile(user: User): void {
     if (this.isBrowser()) {
-      return localStorage.getItem('authToken');
+      localStorage.setItem('currentUser', JSON.stringify(user));
+    }
+  }
+
+  getUserProfileFromStorage(): User | null {
+    if (this.isBrowser()) {
+      const userProfile = localStorage.getItem('currentUser');
+      console.log('User Profile is: ', userProfile);
+      return userProfile ? JSON.parse(userProfile) : null;
     }
     return null;
-
   }
 
 
-  getUserRole(): string | null {
-
-    if (this.isBrowser()) {
-      return localStorage.getItem('userRole');
-    }
-    return null;
-
+  isAdmin(): boolean {
+    return this.getUserRole() === 'admin';
   }
 
-  isTokenExpired(token: string): boolean {
-    const docodeToken = this.decodeToken(token);
-
-    const expiry = docodeToken.exp * 1000;
-    return Date.now() > expiry;
+  isUser(): boolean {
+    const role = this.getUserRole();
+    return role === 'user';
   }
-
-  isLoggIn(): boolean {
-    const token = this.getToken();
-    if (token && !this.isTokenExpired(token)) {
-      return true;
-    }
-    this.logout();
-    return false;
-
-  }
-
-
-  logout(): void {
-    if (this.isBrowser()) {
-      localStorage.removeItem('userRole');
-      localStorage.removeItem('authToken');
-      this.userRoleSubject.next(null);
-    }
-    this.router.navigate(['/login']);
-  }
-
-
-  hasRole(roles: string[]): boolean {
-
-    const userRole = this.getUserRole();
-    return userRole ? roles.includes(userRole) : false;
-
-  }
-
-   isConsumer(): boolean {
-    return this.getUserRole() === 'CONSUMER';
-  }
-
-  isEmployee(): boolean {
-    return this.getUserRole() === 'EMPLOYEE';
-  }
-
-   isAdmin(): boolean {
-    return this.getUserRole() === 'EMPLOYEE';
-  }
-
-  get isAuthenticated(): boolean {
-  return this.isLoggIn();
-}
-
-
-
-
-
-
 }

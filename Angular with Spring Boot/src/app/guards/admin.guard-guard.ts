@@ -14,7 +14,7 @@ export class adminGuardGuard implements CanActivate {
 
   
   canActivate(): boolean | UrlTree | Observable<boolean | UrlTree> {
-    if (this.authService.isLogIn() && this.authService.isAdmin()) {
+    if (this.authService.isLoggIn() && this.authService.isAdmin()) {
       return true;
     }
     // Redirect to login page or unauthorized page

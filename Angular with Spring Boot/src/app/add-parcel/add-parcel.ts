@@ -200,8 +200,8 @@ export class AddParcel implements OnInit {
       weight: this.weight,
       squareFeet: this.squareFeet,
       fee: this.fee,
-      paymentMethod: this.paymentMethod,
-      enteredConfirmationCode: this.enteredConfirmationCode
+      // paymentMethod: this.paymentMethod,
+      // enteredConfirmationCode: this.enteredConfirmationCode
     };
 
     this.parcelService.saveParcel(parcelData).subscribe({

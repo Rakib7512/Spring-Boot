@@ -13,7 +13,7 @@ export class consumerGuardGuard implements CanActivate{
   ) { }
   
   canActivate(): boolean | UrlTree | Observable<boolean | UrlTree> {
-    if (this.authService.isLogIn() && this.authService.isConsumer()) {
+    if (this.authService.isLoggIn() && this.authService.isConsumer()) {
       return true;
     }
     return this.router.createUrlTree(['/login']);

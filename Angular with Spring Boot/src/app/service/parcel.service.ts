@@ -66,9 +66,9 @@ getParcelsByUserId(userId: number): Observable<Parcel[]> {
  
 
   // Parcel receive/save by employee
-  receiveParcel(parcelId: number, employeeId: number, employeeName: string, currentHub: string): Observable<Parcel> {
-    return this.http.post<Parcel>(`${this.baseUrl}/${parcelId}/receive?employeeId=${employeeId}&employeeName=${employeeName}&currentHub=${currentHub}`, {});
-  }
+  // receiveParcel(parcelId: number, employeeId: number, employeeName: string, currentHub: string): Observable<Parcel> {
+  //   return this.http.post<Parcel>(`${this.baseUrl}/${parcelId}/receive?employeeId=${employeeId}&employeeName=${employeeName}&currentHub=${currentHub}`, {});
+  // }
 
 
 }

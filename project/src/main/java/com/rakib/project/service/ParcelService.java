@@ -27,9 +27,9 @@ public class ParcelService {
         this.notificationService = notificationService;
     }
 
-    // ---------- Save Parcel with Employer Notification ----------
+    // ---------- Save Parcel  ----------
     @Transactional
-    public Parcel saveParcel(Parcel parcel, Long employerId) {
+    public Parcel saveParcel(Parcel parcel ) {
         if (parcel.getTrackingHistory() != null) {
             for (ParcelTracking t : parcel.getTrackingHistory()) {
                 t.setParcel(parcel);
@@ -38,11 +38,11 @@ public class ParcelService {
 
         Parcel savedParcel = parcelRepository.save(parcel);
 
-        // Employer কে notification পাঠানো
-        notificationService.createNotification(
-                "New Parcel booked: Tracking ID = " + savedParcel.getTrackingId(),
-                employerId
-        );
+//        // Employer কে notification পাঠানো
+//        notificationService.createNotification(
+//                "New Parcel booked: Tracking ID = " + savedParcel.getTrackingId(),
+//                employerId
+//        );
 
         return savedParcel;
     }

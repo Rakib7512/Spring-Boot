@@ -38,11 +38,7 @@ public class ParcelService {
 
         Parcel savedParcel = parcelRepository.save(parcel);
 
-        // Employer কে notification পাঠানো
-        notificationService.createNotification(
-                "New Parcel booked: Tracking ID = " + savedParcel.getTrackingId(),
-                employerId
-        );
+
 
         return savedParcel;
     }
