@@ -41,6 +41,7 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private IUserRepo userRepo;
+
     @Autowired
     private ITokenRepository tokenRepository;
 
@@ -64,6 +65,7 @@ public class UserService implements UserDetailsService {
     public UserService(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
