@@ -2,34 +2,22 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Employee } from '../../model/employee.model';
+import { environment } from '../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
-  private apiUrl = 'http://localhost:3000/employees';
-  constructor(private http: HttpClient) { }
-  
-  getAllEmployee(): Observable<Employee[]> {
-    return this.http.get<Employee[]>(this.apiUrl);
+   private baseUrl=environment.apiBaseUrl+'/employee/';
+ 
+   constructor(private http:HttpClient) { }
+ 
+   registerEmployee(user:any, employee:any,photo:File):Observable<any>{
+     const formData= new FormData();
+     formData.append('user', JSON.stringify(user));
+     formData.append('employee', JSON.stringify(employee));
+     formData.append('photo', photo);
+ 
+     return this.http.post(this.baseUrl, formData);
+   }
   }
-
-  saveEmployee(Employee: Employee): Observable<Employee> {
-    return this.http.post<Employee>(this.apiUrl, Employee);
-
-  }
-
-  updateEmployee(Employee: Employee): Observable<Employee> {
-    return this.http.put<Employee>(`${this.apiUrl}/${Employee.id}`, Employee);
-
-  }
-  deleteEmployee(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
-
-
-  }
-  
- getEmpById(id: number): Observable<Employee> {
-  return this.http.get<Employee>(`${this.apiUrl}/${id}`);
-}
-}

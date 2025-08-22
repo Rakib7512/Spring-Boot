@@ -36,71 +36,33 @@ export class ViewEmp implements OnInit{
     private router: Router
   ) { }
   ngOnInit(): void {
-    this.loadAllData()
-  }
+//     this.loadAllData()
+//   }
 
-   loadAllData() {
-  forkJoin({
-    employees: this.employeeService.getAllEmployee(),
-    countries: this.countryService.getAll(),
-    divisions: this.divisionService.getAll(),
-    districts: this.districtService.getAll(),
-    policeStations: this.policeStationService.getAll()
-  }).subscribe({
-    next: ({ employees, countries, divisions, districts, policeStations }) => {
-      this.employees = employees;
-      this.countries = countries;
-      this.divisions = divisions;
-      this.districts = districts;
-      this.policeStations = policeStations;
-    },
-    error: (err) => {
-      console.error('Error loading data:', err);
-      alert('Failed to load employees or lookup data.');
-    }
-  });
-}
-
-  getCountryName(id: number): string {
-    return this.countries.find(c => c.id == id)?.name || '';
-  }
-
-  getDivisionName(id: number): string {
-    return this.divisions.find(d => d.id == id)?.name || '';
-  }
-
-  getDistrictName(id: number): string {
-    return this.districts.find(dist => dist.id == id)?.name || '';
-  }
-  getEmpOnHub(id: number){
- return this.policeStations.find(ps => ps.id == id)?.name || '';
-  }
-
-  getPoliceStationName(id: number): string {
-    return this.policeStations.find(ps => ps.id == id)?.name || '';
-  }
-
-  getEmpByid(id: number) {
-    this.employeeService.getEmpById(id).subscribe({
-      next: (data) => {
-        this.emp = data;
-        this.router.navigate(['/sinemp', id]);
-
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    });
-
-  }
+//    loadAllData() {
+//   forkJoin({
+//     employees: this.employeeService.getAllEmployee(),
+//     countries: this.countryService.getAll(),
+//     divisions: this.divisionService.getAll(),
+//     districts: this.districtService.getAll(),
+//     policeStations: this.policeStationService.getAll()
+//   }).subscribe({
+//     next: ({ employees, countries, divisions, districts, policeStations }) => {
+//       this.employees = employees;
+//       this.countries = countries;
+//       this.divisions = divisions;
+//       this.districts = districts;
+//       this.policeStations = policeStations;
+//     },
+//     error: (err) => {
+//       console.error('Error loading data:', err);
+//       alert('Failed to load employees or lookup data.');
+//     }
+//   });
+// }
 
 
-  deleteEmployee(id: number) {
-  if (confirm('Are you sure you want to delete this employee?')) {
-    this.employeeService.deleteEmployee(id).subscribe(() => {
-      alert('Deleted!');
-      this.loadAllData();
-    });
-  }
-}
-}
+
+  
+
+}}

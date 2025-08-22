@@ -19,6 +19,11 @@ public class Country {
     private List<Division> divisions;
 
 
+    @ManyToOne
+    @JoinColumn(name = "employee_id") // ✅ foreign key
+    private Employee employee;
+
+
     // Getters & Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }

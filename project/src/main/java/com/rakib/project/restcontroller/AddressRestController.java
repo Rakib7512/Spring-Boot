@@ -16,26 +16,26 @@ public class AddressRestController {
     @Autowired
     private AddressService addressService;
 
-    @PostMapping
-    public ResponseEntity<Address> createAddress(@RequestBody Address address) {
-        return ResponseEntity.ok(addressService.saveAddress(address));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<AddressResponseDTO>> getAllAddresses() {
-        return ResponseEntity.ok(addressService.getAllAddressesDTO());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Address> getAddressById(@PathVariable Long id) {
-        return ResponseEntity.ok(addressService.getAddressById(id));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAddress(@PathVariable Long id) {
-        addressService.deleteAddress(id);
-        return ResponseEntity.ok("Address deleted successfully");
-    }
+//    @PostMapping
+//    public ResponseEntity<Address> createAddress(@RequestBody Address address) {
+//        return ResponseEntity.ok(addressService.saveAddress(address));
+//    }
+//
+//    @GetMapping
+//    public ResponseEntity<List<AddressResponseDTO>> getAllAddresses() {
+//        return ResponseEntity.ok(addressService.getAllAddressesDTO());
+//    }
+//
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Address> getAddressById(@PathVariable Long id) {
+//        return ResponseEntity.ok(addressService.getAddressById(id));
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<String> deleteAddress(@PathVariable Long id) {
+//        addressService.deleteAddress(id);
+//        return ResponseEntity.ok("Address deleted successfully");
+//    }
 
 }
 

@@ -7,12 +7,13 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name ="employees")
 public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-  private String name;
+    private String name;
     private  String email;
     private  String gender;
 
@@ -24,18 +25,19 @@ public class Employee {
     private String empOnHub;
 
 
-    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
-    private List<Country> countries;// ID of selected country
+    @OneToMany(mappedBy = "employee") // ✅ এখন 'employee' field Country entity তে থাকতে হবে
+    private List<Country> countries;
 
-    @OneToMany(mappedBy = "division", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<Division> divisions;
         // ID of selected division
 
 
-    @OneToMany(mappedBy = "district", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<District> districts;
 
-    @OneToMany(mappedBy = "policeStation", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<PoliceStation> policeStations;
 
 
@@ -62,6 +64,10 @@ public class Employee {
         this.districts = districts;
         this.policeStations = policeStations;
         this.user = user;
+    }
+
+    public Employee() {
+
     }
 
     public Long getId() {

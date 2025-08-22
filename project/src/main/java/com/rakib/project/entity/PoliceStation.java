@@ -17,6 +17,14 @@ public class PoliceStation {
     @JoinColumn(name = "district_id")
     private District district;
 
+
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id") // ✅ foreign key
+    private Employee employee;
+
+
+
     public PoliceStation() {
     }
 
