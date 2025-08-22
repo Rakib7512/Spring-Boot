@@ -97,13 +97,15 @@
       </div>
 
       <!-- Hub -->
-      <div class="col-md-6 mb-3">
+
+      
+      <!-- <div class="col-md-6 mb-3">
         <label for="empOnHub" class="form-label">Assign Hub</label>
         <input type="text" formControlName="empOnHub" class="form-control" placeholder="Enter hub name" />
         <div class="text-danger" *ngIf="registrationForm.get('empOnHub')?.touched && registrationForm.get('empOnHub')?.invalid">
           Hub is required.
         </div>
-      </div>
+      </div> -->
 
       <!-- Country -->
       <div class="col-md-6 mb-3">
@@ -150,6 +152,20 @@
         </select>
         <div class="text-danger" *ngIf="registrationForm.get('policeStation')?.touched && registrationForm.get('policeStation')?.invalid">
           Police Station is required.
+        </div>
+      </div>
+
+
+
+<!-- Hub -->
+      <div class="col-md-6 mb-3">
+        <label for="empOnHub" class="form-label">Assign Hub</label>
+        <select formControlName="empOnHub" class="form-select" [(ngModel)]="selectedPoliceStation">
+          <option value="">Select Hub</option>
+          <option *ngFor="let ps of policeStations" [value]="ps.id">{{ ps.name }}</option>
+        </select>
+        <div class="text-danger" *ngIf="registrationForm.get('empOnHub')?.touched && registrationForm.get('empOnHub')?.invalid">
+          Hub is required.
         </div>
       </div>
 
