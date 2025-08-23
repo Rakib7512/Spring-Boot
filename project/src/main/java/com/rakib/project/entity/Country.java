@@ -19,9 +19,7 @@ public class Country {
     private List<Division> divisions;
 
 
-    @ManyToOne
-    @JoinColumn(name = "employee_id") // ✅ foreign key
-    private Employee employee;
+
 
 
     // Getters & Setters

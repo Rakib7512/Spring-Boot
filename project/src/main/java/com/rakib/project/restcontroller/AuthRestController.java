@@ -4,6 +4,7 @@ package com.rakib.project.restcontroller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rakib.project.dto.AuthenticationResponse;
+import com.rakib.project.entity.Employee;
 import com.rakib.project.entity.User;
 import com.rakib.project.repository.ITokenRepository;
 import com.rakib.project.service.AuthService;
@@ -28,14 +29,15 @@ public class AuthRestController {
     ITokenRepository tokenRepository;
 
 
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<Map<String, String>> saveUser(
             @RequestPart(value = "user") String userJson,
+            @RequestPart(value = "employee") String employeeJson,
             @RequestParam(value = "photo") MultipartFile file
     ) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         User user = objectMapper.readValue(userJson, User.class);
-
+        Employee employee = objectMapper.readValue(employeeJson, Employee.class);
         try {
             authService.saveOrUpdate(user, file);
             Map<String, String> response = new HashMap<>();

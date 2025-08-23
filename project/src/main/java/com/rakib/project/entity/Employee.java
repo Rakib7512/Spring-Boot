@@ -16,6 +16,8 @@ public class Employee {
     private String name;
     private  String email;
     private  String gender;
+    private  String nid;
+    private  String address;
 
     private String designation;
     private Date joindate;
@@ -25,20 +27,23 @@ public class Employee {
     private String empOnHub;
 
 
-    @OneToMany(mappedBy = "employee") // ✅ এখন 'employee' field Country entity তে থাকতে হবে
-    private List<Country> countries;
+    @OneToOne
+    @JoinColumn(name = "country_id", nullable = false)
+    private Country country;
 
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
-    private List<Division> divisions;
-        // ID of selected division
 
+    @OneToOne
+    @JoinColumn(name = "division_id", nullable = false)
+    private Division division;
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
-    private List<District> districts;
+    @OneToOne
+    @JoinColumn(name = "district_id", nullable = false)
+    private District district;
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
-    private List<PoliceStation> policeStations;
+    @OneToOne
+    @JoinColumn(name = "policeStation_id", nullable = false)
+    private PoliceStation policeStation;
 
 
 
@@ -47,27 +52,27 @@ public class Employee {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Employee(Long id, String name, String email, String gender, String designation, Date joindate, String phoneNo, String salary, String photo, String empOnHub, List<Country> countries, List<Division> divisions, List<District> districts, List<PoliceStation> policeStations, User user) {
+    public Employee() {
+    }
+
+    public Employee(Long id, String name, String gender, String email, String nid, String address, String designation, String phoneNo, Date joindate, String salary, String photo, String empOnHub, Country country, Division division, District district, PoliceStation policeStation, User user) {
         this.id = id;
         this.name = name;
-        this.email = email;
         this.gender = gender;
-
+        this.email = email;
+        this.nid = nid;
+        this.address = address;
         this.designation = designation;
-        this.joindate = joindate;
         this.phoneNo = phoneNo;
+        this.joindate = joindate;
         this.salary = salary;
         this.photo = photo;
         this.empOnHub = empOnHub;
-        this.countries = countries;
-        this.divisions = divisions;
-        this.districts = districts;
-        this.policeStations = policeStations;
+        this.country = country;
+        this.division = division;
+        this.district = district;
+        this.policeStation = policeStation;
         this.user = user;
-    }
-
-    public Employee() {
-
     }
 
     public Long getId() {
@@ -100,6 +105,22 @@ public class Employee {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getNid() {
+        return nid;
+    }
+
+    public void setNid(String nid) {
+        this.nid = nid;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getDesignation() {
@@ -150,36 +171,36 @@ public class Employee {
         this.empOnHub = empOnHub;
     }
 
-    public List<Country> getCountries() {
-        return countries;
+    public Country getCountry() {
+        return country;
     }
 
-    public void setCountries(List<Country> countries) {
-        this.countries = countries;
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
-    public List<Division> getDivisions() {
-        return divisions;
+    public Division getDivision() {
+        return division;
     }
 
-    public void setDivisions(List<Division> divisions) {
-        this.divisions = divisions;
+    public void setDivision(Division division) {
+        this.division = division;
     }
 
-    public List<District> getDistricts() {
-        return districts;
+    public District getDistrict() {
+        return district;
     }
 
-    public void setDistricts(List<District> districts) {
-        this.districts = districts;
+    public void setDistrict(District district) {
+        this.district = district;
     }
 
-    public List<PoliceStation> getPoliceStations() {
-        return policeStations;
+    public PoliceStation getPoliceStation() {
+        return policeStation;
     }
 
-    public void setPoliceStations(List<PoliceStation> policeStations) {
-        this.policeStations = policeStations;
+    public void setPoliceStation(PoliceStation policeStation) {
+        this.policeStation = policeStation;
     }
 
     public User getUser() {

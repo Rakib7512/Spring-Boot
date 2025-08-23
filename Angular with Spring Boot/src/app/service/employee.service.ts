@@ -23,6 +23,7 @@ export class EmployeeService {
      formData.append('employee', JSON.stringify(employee));
      formData.append('photo', photo);
  
+ 
      return this.http.post(this.baseUrl, formData);
    }
 

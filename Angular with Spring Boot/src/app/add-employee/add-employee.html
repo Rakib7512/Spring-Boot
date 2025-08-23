@@ -9,7 +9,7 @@
     {{ message }}
   </div>
 
-  <form [formGroup]="registrationForm" (ngSubmit)="ngOnInit()" enctype="multipart/form-data" novalidate>
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" novalidate>
     <div class="row">
       <!-- Name -->
       <div class="col-md-6 mb-3">
@@ -96,16 +96,16 @@
         </div>
       </div>
 
-      <!-- Hub -->
+      <!-- Salary -->
 
       
-      <!-- <div class="col-md-6 mb-3">
-        <label for="empOnHub" class="form-label">Assign Hub</label>
-        <input type="text" formControlName="empOnHub" class="form-control" placeholder="Enter hub name" />
-        <div class="text-danger" *ngIf="registrationForm.get('empOnHub')?.touched && registrationForm.get('empOnHub')?.invalid">
-          Hub is required.
+      <div class="col-md-6 mb-3">
+        <label for="salary" class="form-label">Salary</label>
+        <input type="text" formControlName="salary" class="form-control" placeholder="Enter salary number" />
+        <div class="text-danger" *ngIf="registrationForm.get('salary')?.touched && registrationForm.get('salary')?.invalid">
+          salary is required.
         </div>
-      </div> -->
+      </div>
 
       <!-- Country -->
       <div class="col-md-6 mb-3">

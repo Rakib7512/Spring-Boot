@@ -8,7 +8,8 @@ export class Employee {
     joindate!: Date;
     phoneNo!: string
     salary!: number;
-    image!: string
+    photo!: string;
+    address!:string;
     country!: number;      // ID of selected country
     division!: number;     // ID of selected division
     district!: number;     // ID of selected district

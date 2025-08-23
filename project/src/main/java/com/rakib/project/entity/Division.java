@@ -25,9 +25,6 @@ public class Division {
     private List<District> districts;
 
 
-    @ManyToOne
-    @JoinColumn(name = "employee_id") // ✅ foreign key
-    private Employee employee;
 
     // Getters & Setters
     public int getId() { return id; }

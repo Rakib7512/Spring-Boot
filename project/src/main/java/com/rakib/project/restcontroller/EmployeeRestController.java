@@ -40,18 +40,21 @@ public class EmployeeRestController {
     @Autowired
     private EmployeeService employeeService;
 
+    @Autowired
+    private AuthService authService;
+
     @PostMapping("")
-    public ResponseEntity<Map<String, String>> registerEmployee(
+    public ResponseEntity<Map<String, String>> registerEmployer(
             @RequestPart(value = "user") String userJson,
-            @RequestPart(value = "employee") String employeeJson,
+            @RequestPart(value = "employer") String employerJson,
             @RequestParam(value = "photo") MultipartFile file
     ) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         User user = objectMapper.readValue(userJson, User.class);
-        Employee employee = objectMapper.readValue(employeeJson, Employee.class);
+        Employee employer = objectMapper.readValue(employerJson, Employee.class);
 
         try {
-            userService.registerEmployee(user, file, employee);
+            authService.registerEmployee(user, file, employer);
             Map<String, String> response = new HashMap<>();
             response.put("Message", "User Added Successfully ");
 
