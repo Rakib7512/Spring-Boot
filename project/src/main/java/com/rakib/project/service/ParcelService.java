@@ -1,7 +1,9 @@
 package com.rakib.project.service;
 
+import com.rakib.project.entity.Employee;
 import com.rakib.project.entity.Parcel;
 import com.rakib.project.entity.ParcelTracking;
+import com.rakib.project.repository.IEmployeeRepo;
 import com.rakib.project.repository.IParcelRepository;
 import com.rakib.project.repository.IParcelTrackingRepository;
 import jakarta.transaction.Transactional;
@@ -14,38 +16,64 @@ import java.util.Optional;
 
 @Service
 public class ParcelService {
-    private final IParcelRepository parcelRepository;
-    private final IParcelTrackingRepository trackingRepository;
-    private final NotificationService notificationService;
 
     @Autowired
-    public ParcelService(IParcelRepository parcelRepository,
-                         IParcelTrackingRepository trackingRepository,
-                         NotificationService notificationService) {
-        this.parcelRepository = parcelRepository;
-        this.trackingRepository = trackingRepository;
-        this.notificationService = notificationService;
-    }
+    private  IParcelRepository parcelRepository;
+    @Autowired
+    private  IParcelTrackingRepository trackingRepository;
+
+    @Autowired
+    private  NotificationService notificationService;
+
+    @Autowired
+    private IEmployeeRepo  employeeRepo;
+
+
 
     // ---------- Save Parcel  ----------
-    @Transactional
-    public Parcel saveParcel(Parcel parcel ) {
-        if (parcel.getTrackingHistory() != null) {
-            for (ParcelTracking t : parcel.getTrackingHistory()) {
-                t.setParcel(parcel);
-            }
-        }
+//    @Transactional
+//    public Parcel saveParcel(Parcel parcel ) {
+//        if (parcel.getTrackingHistory() != null) {
+//            for (ParcelTracking t : parcel.getTrackingHistory()) {
+//                t.setParcel(parcel);
+//            }
+//        }
+//
+//        Parcel savedParcel = parcelRepository.save(parcel);
+//
+////        // Employer কে notification পাঠানো
+////        notificationService.createNotification(
+////                "New Parcel booked: Tracking ID = " + savedParcel.getTrackingId(),
+////                employerId
+////        );
+//
+//        return savedParcel;
+//    }
 
-        Parcel savedParcel = parcelRepository.save(parcel);
 
-//        // Employer কে notification পাঠানো
-//        notificationService.createNotification(
-//                "New Parcel booked: Tracking ID = " + savedParcel.getTrackingId(),
-//                employerId
-//        );
+public Parcel saveParcel(Parcel parcel) {
+    Parcel saved = parcelRepository.save(parcel);
 
-        return savedParcel;
+    // 🔹 Find employees in the same location as sender
+    List<Employee> employees = employeeRepo.findByCountryAndDivisionAndDistrictAndPoliceStation(
+            saved.getSendCountry(),
+            saved.getSendDivision(),
+            saved.getSendDistrict(),
+            saved.getSendPoliceStation()
+    );
+
+    // 🔹 Send notification
+    if (!employees.isEmpty()) {
+        notificationService.notifyEmployees(
+                employees,
+                "New parcel booked in your area with tracking ID: " + saved.getTrackingId()
+        );
     }
+
+    return saved;
+}
+
+
 
     public List<Parcel> getAllParcels() {
         return parcelRepository.findAll();

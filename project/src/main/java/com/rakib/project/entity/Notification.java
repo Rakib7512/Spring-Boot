@@ -1,44 +1,26 @@
 package com.rakib.project.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 public class Notification {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String message;
+    private Date createdAt = new Date();
 
-    private boolean readStatus = false;
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    // Employer এর সাথে relation রাখবো
-    private Long recipientId;  // Employer (User/Employee) এর ID
-
-    public Notification() {}
-
-    public Notification(String message, Long recipientId) {
-        this.message = message;
-        this.recipientId = recipientId;
-    }
-
-    // getters & setters
-
-    public Notification(Long id, String message, boolean readStatus, LocalDateTime createdAt, Long recipientId) {
-        this.id = id;
-        this.message = message;
-        this.readStatus = readStatus;
-        this.createdAt = createdAt;
-        this.recipientId = recipientId;
-    }
 
     public Long getId() {
         return id;
@@ -56,27 +38,19 @@ public class Notification {
         this.message = message;
     }
 
-    public boolean isReadStatus() {
-        return readStatus;
-    }
-
-    public void setReadStatus(boolean readStatus) {
-        this.readStatus = readStatus;
-    }
-
-    public LocalDateTime getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Long getRecipientId() {
-        return recipientId;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setRecipientId(Long recipientId) {
-        this.recipientId = recipientId;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

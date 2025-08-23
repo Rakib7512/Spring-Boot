@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface INotificationRepo extends JpaRepository<Notification, Long> {
 
-    List<Notification> findByRecipientIdAndReadStatusFalse(Long recipientId);
+//    List<Notification> findByRecipientIdAndReadStatusFalse(Long recipientId);
 }

@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/parcels/")
 public class ParcelController {
+
     private final ParcelService parcelService;
     private final NotificationService notificationService;
 
@@ -50,15 +51,15 @@ public class ParcelController {
 
     // ----------- Notification APIs ------------
 
-    @GetMapping("/notifications/{employerId}")
-    public List<Notification> getEmployerNotifications(@PathVariable Long employerId) {
-        return notificationService.getUnreadNotifications(employerId);
-    }
+//    @GetMapping("/notifications/{employerId}")
+//    public List<Notification> getEmployerNotifications(@PathVariable Long employerId) {
+//        return notificationService.getUnreadNotifications(employerId);
+//    }
 
-    @PutMapping("/notifications/{id}/read")
-    public void markNotificationAsRead(@PathVariable Long id) {
-        notificationService.markAsRead(id);
-    }
+//    @PutMapping("/notifications/{id}/read")
+//    public void markNotificationAsRead(@PathVariable Long id) {
+//        notificationService.markAsRead(id);
+//    }
 }
 
 
