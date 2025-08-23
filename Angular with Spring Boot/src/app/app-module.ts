@@ -33,6 +33,7 @@ import { AllUser } from './user/all-user/all-user';
 import { AddConsumer } from './add-consumer/add-consumer';
 import { ConsumerProfileComponent } from './consumer/consumer-profile.component/consumer-profile.component';
 import { AddNewParcel } from './add-new-parcel/add-new-parcel';
+import { EmployeeProfileComponent } from './employee/employee-profile.component/employee-profile.component';
 
 
 @NgModule({
@@ -67,6 +68,7 @@ import { AddNewParcel } from './add-new-parcel/add-new-parcel';
     AddConsumer,
     ConsumerProfileComponent,
     AddNewParcel,
+    EmployeeProfileComponent,
     
     
     

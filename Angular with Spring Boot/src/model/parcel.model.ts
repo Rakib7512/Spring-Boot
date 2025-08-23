@@ -29,8 +29,7 @@ export class Parcel {
   receiveDistrict!: string;
   receivePoliceStation!: string;
   trackingHistory!: ParcelTracking[];
-  weight?: number;
-  squareFeet?: number;
+  size!: string
   fee?: number;
   verificationCode!:string
   bookingDate!:Date;

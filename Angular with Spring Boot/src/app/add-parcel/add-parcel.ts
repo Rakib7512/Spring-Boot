@@ -24,8 +24,7 @@ export class AddParcel implements OnInit {
 
   // General
   trackingId: string = '';
-   weight: number = 0;
-  squareFeet: number = 0;
+   size: string='';
   fee: number = 0;
   paymentMethod: string = '';
   confirmationCode: string = '';
@@ -102,62 +101,48 @@ export class AddParcel implements OnInit {
 
 
 
+  /**
+   * Calculate parcel fee based on size & location
+   */
   calculateParcelFee(): void {
-    const formValue = this.parcelForm.value;
-    let baseFee = 60;
-    let extraPerKg = 0;
-    let extraPerSqft = 0;
+    let baseFee = 0;
 
-    const sendCountry = formValue.sendCountry;
-    const receiveCountry = formValue.receiveCountry;
-    const sendDivision = formValue.sendDivision;
-    const receiveDivision = formValue.receiveDivision;
-    const sendDistrict = formValue.sendDistrict;
-    const receiveDistrict = formValue.receiveDistrict;
-
-    if (sendCountry !== receiveCountry) {
-      extraPerKg = 200;
-      extraPerSqft = 150;
-    } else if (sendDivision !== receiveDivision) {
-      extraPerKg = 100;
-      extraPerSqft = 70;
-    } else if (sendDistrict !== receiveDistrict) {
-      extraPerKg = 70;
-      extraPerSqft = 50;
-    } else {
-      extraPerKg = 50;
-      extraPerSqft = 40;
+    // Base fee according to size
+    switch (this.size) {
+      case 'SMALL':
+        baseFee = 100;
+        break;
+      case 'MEDIUM':
+        baseFee = 300;
+        break;
+      case 'LARGE':
+        baseFee = 500;
+        break;
+      case 'EXTRA_LARGE':
+        baseFee = 800;
+        break;
+      default:
+        baseFee = 0;
     }
 
-    let weightFee = baseFee;
-    let squareFeetFee = baseFee;
-
-    if (formValue.weight && formValue.weight > 0) {
-      if (formValue.weight > 1) {
-        weightFee += (formValue.weight - 1) * extraPerKg;
-      }
+    // Calculate destination type
+    if (this.selectedSendCountry !== this.selectedReceiveCountry) {
+      // Different country
+      this.fee = baseFee + 100;
+    } else if (this.selectedSendDivision !== this.selectedReceiveDivision) {
+      // Different division
+      this.fee = baseFee + 50;
     } else {
-      weightFee = 0;
+      // Same district / police station
+      this.fee = baseFee;
     }
 
-    if (formValue.squareFeet && formValue.squareFeet > 0) {
-      if (formValue.squareFeet > 1) {
-        squareFeetFee += (formValue.squareFeet - 1) * extraPerSqft;
-      }
-    } else {
-      squareFeetFee = 0;
-    }
-
-    const finalFee = Math.max(weightFee, squareFeetFee);
-    this.parcelForm.patchValue({ fee: finalFee });
-    this.showPaymentSection = finalFee > 0;
+    // Show payment section only if fee is calculated
+    this.showPaymentSection = this.fee > 0;
   }
-
-
 
   updatePaymentDetails(): void {
     const method = this.parcelForm.get('paymentMethod')?.value;
-
     if (method === 'bkash') {
       this.paymentInfo = 'Send money to Bkash: 01666666666';
     } else if (method === 'nagad') {
@@ -193,8 +178,7 @@ export class AddParcel implements OnInit {
       receiveDistrict: {id: this.selectedReceiveDistrict},
       receivePoliceStation:{id:  this.selectedReceivePoliceStation},
 
-      weight: this.weight,
-      squareFeet: this.squareFeet,
+      size:this.size,
       fee: this.fee,
       // paymentMethod: this.paymentMethod,
       // enteredConfirmationCode: this.enteredConfirmationCode
@@ -209,6 +193,7 @@ export class AddParcel implements OnInit {
       }
     });
   }
+  
 
 
     onSubmitParcel() {

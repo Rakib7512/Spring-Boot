@@ -52,8 +52,7 @@
     <p><b>Tracking ID:</b> {{ selectedParcel.trackingId }}</p>
     <p><b>Sender:</b> {{ selectedParcel.senderName }} ({{ selectedParcel.senderPhone }})</p>
     <p><b>Receiver:</b> {{ selectedParcel.receiverName }} ({{ selectedParcel.receiverPhone }})</p>
-    <p><b>Weight:</b> {{ selectedParcel.weight || '-' }} kg</p>
-    <p><b>Size:</b> {{ selectedParcel.squareFeet || '-' }} sqft</p>
+       <p><b>Size:</b> {{ selectedParcel.size || '-' }} sqft</p>
     <p><b>Fee:</b> ৳ {{ selectedParcel.fee }}</p>
     <p><b>Status:</b> {{ selectedParcel.status || 'Pending' }}</p>
     <p><b>Current Hub:</b> {{ selectedParcel.currentHub || 'Not Assigned' }}</p>

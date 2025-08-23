@@ -118,6 +118,7 @@ export class AddEmployee implements OnInit {
       this.selectedDivision = 0;
       this.selectedDistrict = 0;
       this.selectedPoliceStation = 0;
+      this.cd.markForCheck();
       if (this.selectedCountry) {
         this.addressService.getDivisionsByCountry(this.selectedCountry)
           .subscribe(data => this.divisions = data);
@@ -129,6 +130,7 @@ export class AddEmployee implements OnInit {
       this.policeStations = [];
       this.selectedDistrict = 0;
       this.selectedPoliceStation = 0;
+      this.cd.markForCheck();
       if (this.selectedDivision) {
         this.addressService.getDistrictsByDivision(this.selectedDivision)
           .subscribe(data => this.districts = data);
@@ -138,6 +140,7 @@ export class AddEmployee implements OnInit {
     onSendDistrictChange() {
       this.policeStations = [];
       this.selectedPoliceStation = 0;
+      this.cd.markForCheck();
       if (this.selectedDistrict) {
         this.addressService.getPoliceStationsByDistrict(this.selectedDistrict)
           .subscribe(data => this.policeStations = data);

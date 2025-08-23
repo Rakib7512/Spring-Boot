@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { User } from '../../../model/user.model';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
+import { EmployeeService } from '../../service/employee.service';
+import { ConsumerService } from '../../service/consumer.service';
 
 @Component({
   selector: 'app-consumer-profile.component',
@@ -11,41 +13,33 @@ import { Router } from '@angular/router';
   styleUrl: './consumer-profile.component.css'
 })
 export class ConsumerProfileComponent {
-  user: User | null = null;
-  private subscription: Subscription = new Subscription();
 
-  constructor(
-    private authService: AuthService, // ✅ fixed spelling
-    private router: Router
+  profile: any = null;
+  loading = true;
+  error = '';
 
+  constructor(private consumerService: ConsumerService,
+    private cdr: ChangeDetectorRef 
   ) { }
 
-  ngOnInit(): void {
-
-    console.log(this.authService.getToken());
-    console.log(this.authService.getUserRole());
-  
+   ngOnInit(): void {
+    this.getProfile();
   }
 
-  // loadUserProfile(): void {
-  //   const sub = this.userSer.getUserProfile().subscribe({
-  //     next: (res) => {
-  //       console.log(res);
-  //       if (res) {
-  //         this.user = res;
-  //       }
-  //     },
-  //     error: (err) => {
-  //       console.error('Error loading user profile:', err);
-  //     }
-  //   });
-
-  //   this.subscription.add(sub);
-  // }
-
-  // ngOnDestroy(): void {
-  //   this.subscription.unsubscribe();
-  // }
+  getProfile() {
+    this.consumerService.getProfile().subscribe({
+      next: (data) => {
+        this.profile = data;
+        this.cdr.markForCheck();
+        this.loading = false;
+      },
+      error: (err) => {
+        this.error = 'Failed to load profile ❌';
+        console.error(err);
+        this.loading = false;
+      }
+    });
+  }
 
 
 }

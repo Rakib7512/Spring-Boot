@@ -1,8 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Employee } from '../../model/employee.model';
 import { environment } from '../../environment/environment';
+import { isPlatformBrowser } from '@angular/common';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,10 @@ import { environment } from '../../environment/environment';
 export class EmployeeService {
    private baseUrl=environment.apiBaseUrl+'/employee/';
  
-   constructor(private http:HttpClient) { }
+    constructor(private http: HttpClient, private authService: AuthService,
+    @Inject(PLATFORM_ID) private platformId: Object) { }
+
+
  
    registerEmployee(user:any, employee:any,photo:File):Observable<any>{
      const formData= new FormData();
@@ -20,4 +25,29 @@ export class EmployeeService {
  
      return this.http.post(this.baseUrl, formData);
    }
+
+    // 2️⃣ Get All Employers
+  getAllEmployers(): Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl + 'all');
+  }
+
+
+ getEmployeeProfileById(): Observable<Employee> {
+    let headers = new HttpHeaders();
+
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+        console.log(headers);
+      }
+    }
+
+    return this.http.get<Employee>(`${environment.apiBaseUrl}/employee/profile`, { headers });
+  }
+
+
+
+ 
+
   }
