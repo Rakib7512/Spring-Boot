@@ -21,27 +21,27 @@ public class Employee {
 
     private String designation;
     private Date joindate;
-    private String phoneNo;
+    private String phone;
     private String salary;
     private String photo;
     private String empOnHub;
 
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "country_id", nullable = false)
     private Country country;
 
 
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "division_id", nullable = false)
     private Division division;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "district_id", nullable = false)
     private District district;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "policeStation_id", nullable = false)
     private PoliceStation policeStation;
 
@@ -55,25 +55,6 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(Long id, String name, String gender, String email, String nid, String address, String designation, String phoneNo, Date joindate, String salary, String photo, String empOnHub, Country country, Division division, District district, PoliceStation policeStation, User user) {
-        this.id = id;
-        this.name = name;
-        this.gender = gender;
-        this.email = email;
-        this.nid = nid;
-        this.address = address;
-        this.designation = designation;
-        this.phoneNo = phoneNo;
-        this.joindate = joindate;
-        this.salary = salary;
-        this.photo = photo;
-        this.empOnHub = empOnHub;
-        this.country = country;
-        this.division = division;
-        this.district = district;
-        this.policeStation = policeStation;
-        this.user = user;
-    }
 
     public Long getId() {
         return id;
@@ -139,12 +120,12 @@ public class Employee {
         this.joindate = joindate;
     }
 
-    public String getPhoneNo() {
-        return phoneNo;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setPhoneNo(String phoneNo) {
-        this.phoneNo = phoneNo;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getSalary() {

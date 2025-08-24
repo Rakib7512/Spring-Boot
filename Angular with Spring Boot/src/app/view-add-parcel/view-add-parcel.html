@@ -1,61 +1,68 @@
 <div class="container mt-4">
-  <h2 class="text-center mb-4">📦 View All Parcels</h2>
+  <h2 class="mb-4 text-center">📦 View All Parcels</h2>
 
   <!-- Loading Spinner -->
-  <div *ngIf="loading" class="text-center">
+  <div *ngIf="loading" class="text-center my-5">
     <div class="spinner-border text-primary" role="status"></div>
     <p>Loading parcels...</p>
   </div>
 
-  <!-- Error Message -->
-  <div *ngIf="errorMessage" class="alert alert-danger">
-    {{ errorMessage }}
+  <!-- Show No Parcels Found -->
+  <div *ngIf="!loading && parcels.length === 0" class="alert alert-info text-center">
+    No parcels found.
   </div>
 
-  <!-- Card Grid -->
+  <!-- Card View -->
   <div class="row" *ngIf="!loading && parcels.length > 0">
     <div class="col-md-4 mb-4" *ngFor="let parcel of parcels">
-      <div class="card shadow-lg h-100">
+      <div class="card shadow-sm border-primary">
         <div class="card-body">
-          <h5 class="card-title">Tracking ID: <b>{{ parcel.trackingId }}</b></h5>
-          <p class="card-text">
-            <strong>Sender:</strong> {{ parcel.senderName }}<br>
-            <strong>Receiver:</strong> {{ parcel.receiverName }}
-          </p>
+          <h5 class="card-title">Tracking ID: {{ parcel.trackingId }}</h5>
+          <p><strong>Sender:</strong> {{ parcel.senderName }}</p>
+          <p><strong>Receiver:</strong> {{ parcel.receiverName }}</p>
+          <p><strong>Size:</strong> {{ parcel.size }}</p>
+          <p><strong>Fee:</strong> {{ parcel.fee }} ৳</p>
+
           <div class="d-flex justify-content-between mt-3">
-            <button class="btn btn-primary btn-sm" (click)="viewParcel(parcel)">
-              <i class="bi bi-eye"></i> View
-            </button>
-            <button class="btn btn-warning btn-sm" >
-              <i class="bi bi-pencil"></i> Update
-            </button>
-            <button class="btn btn-danger btn-sm" >
-              <i class="bi bi-trash"></i> Delete
-            </button>
+            <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#parcelDetailsModal"
+              (click)="viewParcel(parcel)">👁 View</button>
+
+            <button class="btn btn-sm btn-warning" (click)="updateParcel(parcel.id)">✏ Update</button>
+
+            <button class="btn btn-sm btn-danger" (click)="deleteParcel(parcel.id)">🗑 Delete</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- No Parcels -->
-  <div *ngIf="!loading && parcels.length === 0" class="alert alert-info text-center">
-    No parcels found. Please add some parcels first.
-  </div>
 </div>
 
 <!-- Parcel Details Modal -->
-<div id="parcelDetailsModal" class="custom-modal" *ngIf="selectedParcel">
-  <div class="custom-modal-content">
-    <span class="close" (click)="closeModal()">&times;</span>
-    <h4 class="mb-3">📌 Parcel Details</h4>
-    <p><b>Tracking ID:</b> {{ selectedParcel.trackingId }}</p>
-    <p><b>Sender:</b> {{ selectedParcel.senderName }} ({{ selectedParcel.senderPhone }})</p>
-    <p><b>Receiver:</b> {{ selectedParcel.receiverName }} ({{ selectedParcel.receiverPhone }})</p>
-       <p><b>Size:</b> {{ selectedParcel.size || '-' }} sqft</p>
-    <p><b>Fee:</b> ৳ {{ selectedParcel.fee }}</p>
-    <p><b>Status:</b> {{ selectedParcel.status || 'Pending' }}</p>
-    <p><b>Current Hub:</b> {{ selectedParcel.currentHub || 'Not Assigned' }}</p>
-    <button class="btn btn-secondary mt-3" (click)="closeModal()">Close</button>
+<div class="modal fade" id="parcelDetailsModal" tabindex="-1" aria-labelledby="parcelDetailsModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" *ngIf="selectedParcel">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="parcelDetailsModalLabel">📦 Parcel Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Tracking ID:</strong> {{ selectedParcel.trackingId }}</p>
+        <p><strong>Sender Name:</strong> {{ selectedParcel.senderName }}</p>
+        <p><strong>Sender Phone:</strong> {{ selectedParcel.senderPhone }}</p>
+        <p><strong>Receiver Name:</strong> {{ selectedParcel.receiverName }}</p>
+        <p><strong>Receiver Phone:</strong> {{ selectedParcel.receiverPhone }}</p>
+        <p><strong>Size:</strong> {{ selectedParcel.size }}</p>
+        <p><strong>Fee:</strong> {{ selectedParcel.fee }} ৳</p>
+        <p><strong>Country*********</strong> {{ selectedParcel.sendCountry }}</p>
+              <p><strong>Sender Address:</strong> {{ selectedParcel.addressLineForSender1 }},
+          {{ selectedParcel.addressLineForSender2 }}</p>
+        <p><strong>Receiver Address:</strong> {{ selectedParcel.addressLineForReceiver1 }},
+          {{ selectedParcel.addressLineForReceiver2 }}</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
   </div>
 </div>

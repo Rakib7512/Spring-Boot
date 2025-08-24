@@ -55,23 +55,30 @@ export class ViewAddParcel implements OnInit {
   }
 
   // Navigate to update page
-  updateParcel(parcelId: number) {
-    this.router.navigate(['/updateparcel', parcelId]);
+updateParcel(id: number | undefined) {
+  if (!id) {
+    alert('Parcel ID is missing!');
+    return;
   }
+  this.router.navigate(['/updateparcel', id]);
+}
 
-  // Delete parcel
-  deleteParcel(parcelId: number) {
-    if (confirm('Are you sure you want to delete this parcel?')) {
-      this.parcelService.deleteParcel(parcelId).subscribe({
-        next: () => {
-          this.parcels = this.parcels.filter(parcel => parcel.id !== parcelId);
-          alert('Parcel deleted successfully!');
-        },
-        error: (err) => {
-          console.error(err);
-          alert('Failed to delete parcel.');
-        }
-      });
-    }
+deleteParcel(id: number | undefined) {
+  if (!id) {
+    alert('Parcel ID is missing!');
+    return;
   }
+  if (confirm('Are you sure you want to delete this parcel?')) {
+    this.parcelService.deleteParcel(id).subscribe({
+      next: () => {
+        alert('Parcel deleted successfully!');
+        this.loadParcels();
+      },
+      error: (err) => {
+        console.error('Failed to delete parcel', err);
+        alert('Failed to delete parcel');
+      }
+    });
+  }
+}
 }

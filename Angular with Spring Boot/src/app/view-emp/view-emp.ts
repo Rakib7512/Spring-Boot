@@ -19,50 +19,50 @@ import { PoliceStation } from '../../model/policeStation.model';
   styleUrl: './view-emp.css'
 })
 export class ViewEmp implements OnInit{
-   emp!: Employee;
+   
+  employees: any[] = [];
+  message: string = '';
+  selectedEmployee: any = null;
 
-  employees: Employee[] = [];
-  countries: Country[] = [];
-  divisions: Division[] = [];
-  districts: District[] = [];
-  policeStations: PoliceStation[] = [];
+  constructor(private employeeService: EmployeeService, private cd: ChangeDetectorRef) { }
 
-  constructor(
-    private employeeService: EmployeeService,
-    private countryService: CountryService,
-    private divisionService: DivisionService,
-    private districtService: DistrictService,
-    private policeStationService: PoliceStationService,
-    private router: Router
-  ) { }
   ngOnInit(): void {
-//     this.loadAllData()
-//   }
+    this.loadEmployees();
+  }
 
-//    loadAllData() {
-//   forkJoin({
-//     employees: this.employeeService.getAllEmployee(),
-//     countries: this.countryService.getAll(),
-//     divisions: this.divisionService.getAll(),
-//     districts: this.districtService.getAll(),
-//     policeStations: this.policeStationService.getAll()
-//   }).subscribe({
-//     next: ({ employees, countries, divisions, districts, policeStations }) => {
-//       this.employees = employees;
-//       this.countries = countries;
-//       this.divisions = divisions;
-//       this.districts = districts;
-//       this.policeStations = policeStations;
-//     },
-//     error: (err) => {
-//       console.error('Error loading data:', err);
-//       alert('Failed to load employees or lookup data.');
-//     }
-//   });
-// }
+  // Load all employees
+  loadEmployees() {
+    this.employeeService.getAllEmployers().subscribe({
+      next: (res: any) => {
+        this.employees = res;
+        this.cd.markForCheck();
+      },
+      error: err => this.message = 'Fail: ' + (err.error?.Message || err.message)
+    });
+  }
 
+  // Delete employee
+  deleteEmployee(id: number) {
+    if(confirm("Are you sure you want to delete this employee?")) {
+      this.employeeService.deleteEmployee(id).subscribe({
+        next: () => {
+          this.message = "Employee deleted successfully!";
+          this.loadEmployees();
+        },
+        error: err => this.message = 'Fail: ' + (err.error?.Message || err.message)
+      });
+    }
+  }
 
+  // View details in modal
+  viewEmployee(emp: any) {
+    this.selectedEmployee = emp;
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('employeeModal'));
+    modal.show();
+  }
 
-  
-
-}}
+  // Navigate to update page
+  updateEmployee(emp: any) {
+    alert(`Redirect to update employee with ID: ${emp.id}`);
+  }
+}

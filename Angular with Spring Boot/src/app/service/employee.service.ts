@@ -47,6 +47,14 @@ export class EmployeeService {
     return this.http.get<Employee>(`${environment.apiBaseUrl}/employee/profile`, { headers });
   }
 
+  deleteEmployee(id: number) {
+  return this.http.delete(`/api/employees/${id}`);
+}
+
+ // Update employee
+  updateEmployee(id: number, employee: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/${id}`, employee);
+  }
 
 
  

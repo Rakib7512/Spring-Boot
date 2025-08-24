@@ -62,6 +62,8 @@ public Parcel saveParcel(Parcel parcel) {
             saved.getSendPoliceStation()
     );
 
+
+
     // 🔹 Send notification
     if (!employees.isEmpty()) {
         notificationService.notifyEmployees(
@@ -83,7 +85,7 @@ public Parcel saveParcel(Parcel parcel) {
         return parcelRepository.findById(id).orElse(null);
     }
 
-    public Parcel getParcelByTrackingId(String trackingId) {
+    public Optional<Parcel> getParcelByTrackingId(String trackingId) {
         return parcelRepository.findByTrackingId(trackingId);
     }
 

@@ -11,38 +11,26 @@ import java.util.Date;
 public class ParcelTracking {
 
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    // Hub info (PoliceStation is your hub)
-    @ManyToOne
-    @JoinColumn(name = "hub_id", nullable = false)
-    private PoliceStation hub;
-
-    // Which employee handled this update
-    @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
-    private Employee handledBy;
 
     @ManyToOne
     @JoinColumn(name = "parcel_id", nullable = false)
     private Parcel parcel;
 
+    private String hubName;
+
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private ParcelStatus status;  // Enum type for strict control
+    private ParcelStatus status; // PICKED_UP, IN_TRANSIT, ARRIVED, DELIVERED
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @ManyToOne
+    @JoinColumn(name = "employee_id", nullable = true)
+    private Employee handledBy; // Employee who handled this transfer
 
-    // Auto set timestamp before save
-    @PrePersist
-    public void prePersist() {
-        createdAt = LocalDateTime.now();
-    }
-
-    // Getters & Setters
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date timestamp = new Date();
 
 
     public Long getId() {
@@ -53,28 +41,20 @@ public class ParcelTracking {
         this.id = id;
     }
 
-    public PoliceStation getHub() {
-        return hub;
-    }
-
-    public void setHub(PoliceStation hub) {
-        this.hub = hub;
-    }
-
-    public Employee getHandledBy() {
-        return handledBy;
-    }
-
-    public void setHandledBy(Employee handledBy) {
-        this.handledBy = handledBy;
-    }
-
     public Parcel getParcel() {
         return parcel;
     }
 
     public void setParcel(Parcel parcel) {
         this.parcel = parcel;
+    }
+
+    public String getHubName() {
+        return hubName;
+    }
+
+    public void setHubName(String hubName) {
+        this.hubName = hubName;
     }
 
     public ParcelStatus getStatus() {
@@ -85,12 +65,20 @@ public class ParcelTracking {
         this.status = status;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public Employee getHandledBy() {
+        return handledBy;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setHandledBy(Employee handledBy) {
+        this.handledBy = handledBy;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 }
 

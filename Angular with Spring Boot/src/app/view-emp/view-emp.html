@@ -1,49 +1,61 @@
-<!-- <div class="container mt-4">
-  <h2 class="mb-4">All Employees</h2>
+<div class="container mt-4">
+  <h2 class="mb-3 text-center">👨‍💼 Employees</h2>
+
+  <div *ngIf="message" class="alert alert-info">{{ message }}</div>
 
   <div class="row">
-    <div class="col-md-4 mb-4" *ngFor="let emp of employees">
-      <div class="card shadow h-100">
+    <div class="col-md-4 mb-3" *ngFor="let emp of employees">
+      <div class="card h-100 shadow-sm">
         <div class="card-body">
-          <h5 class="card-title">Emp ID: {{ emp.id }}</h5>
-          <h6 class="card-title">Name: {{ emp.name }}</h6>
-          <h6 class="card-subtitle mb-2 text-muted">Email: {{ emp.email }}</h6>
-          <h6 class="card-title">Phone No: {{ emp.phoneNo }}</h6>
-
-          <p class="card-text mb-1">
-            <strong>Salary:</strong> {{ emp.salary | currency }}
+          <h5 class="card-title">{{ emp.name }}</h5>
+          <p class="card-text">
+            <strong>Email:</strong> {{ emp.email }}<br>
+            <strong>Phone:</strong> {{ emp.phone }}<br>
+            <strong>Designation:</strong> {{ emp.designation }}
           </p>
-          <p class="card-text mb-1">
-            <strong>Gender:</strong> {{ emp.gender }}
-          </p>
-          <p class="card-text mb-1">
-            <strong>Country:</strong> {{ getCountryName(emp.country) }}
-          </p>
-          <p class="card-text mb-1">
-            <strong>Division:</strong> {{ getDivisionName(emp.division) }}
-          </p>
-          <p class="card-text mb-1">
-            <strong>District:</strong> {{ getDistrictName(emp.district) }}
-          </p>
-          <p class="card-text mb-1">
-            <strong>Police Station:</strong> {{ getPoliceStationName(emp.policeStation) }}
-          </p>
-          <p class="card-text mb-1">
-            <strong>Emp On hub:</strong> {{ getEmpOnHub(emp.policeStation) }}
-          </p>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-primary btn-sm" (click)="viewEmployee(emp)">View</button>
+            <button class="btn btn-warning btn-sm" (click)="updateEmployee(emp)">Update</button>
+            <button class="btn btn-danger btn-sm" (click)="deleteEmployee(emp.id)">Delete</button>
+          </div>
         </div>
-        <div class="card-footer text-end">
-          <a [routerLink]="['/edit-employee', emp.id]" class="btn btn-sm btn-warning me-2">
-            Edit
-          </a>
-          <button class="btn btn-sm btn-danger me-2" (click)="deleteEmployee(emp.id)">
-            Delete
-          </button>
-          <button class="btn btn-sm btn-info" (click)="getEmpByid(emp.id)">
-            View
-          </button>
-        </div>
-
       </div>
     </div>
-  </div> -->
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="employeeModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ selectedEmployee?.name }} - Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" *ngIf="selectedEmployee">
+        <div class="row">
+          <div class="col-md-6">
+            <p><strong>Email:</strong> {{ selectedEmployee.email }}</p>
+            <p><strong>Phone:</strong> {{ selectedEmployee.phone }}</p>
+            <p><strong>Gender:</strong> {{ selectedEmployee.gender }}</p>
+            <p><strong>NID:</strong> {{ selectedEmployee.nid }}</p>
+            <p><strong>Address:</strong> {{ selectedEmployee.address }}</p>
+            <p><strong>Designation:</strong> {{ selectedEmployee.designation }}</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Join Date:</strong> {{ selectedEmployee.joindate }}</p>
+            <p><strong>Salary:</strong> {{ selectedEmployee.salary }}</p>
+            <p><strong>Hub:</strong> {{ selectedEmployee.empOnHub }}</p>
+            <p><strong>Country:</strong> {{ selectedEmployee.country?.name }}</p>
+            <p><strong>Division:</strong> {{ selectedEmployee.division?.name }}</p>
+            <p><strong>District:</strong> {{ selectedEmployee.district?.name }}</p>
+            <p><strong>Police Station:</strong> {{ selectedEmployee.policeStation?.name }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

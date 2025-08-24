@@ -111,7 +111,7 @@ export class AddEmployee implements OnInit {
       joindate: this.registrationForm.value.joindate,
       empOnHub: this.registrationForm.value.empOnHub,
       salary: this.registrationForm.value.salary,
-       phoneNo: this.registrationForm.value.phone,
+      phone: this.registrationForm.value.phone,
       country: { id: this.registrationForm.value.country },
       division: { id: this.registrationForm.value.division },
       district: { id: this.registrationForm.value.district },
