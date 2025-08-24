@@ -1,0 +1,84 @@
+<!-- <div class="container mt-5">
+  <div class="card shadow-lg rounded-4 border-0">
+    <div class="card-body">
+      <h3 class="text-center mb-4 text-primary fw-bold">
+        📦 Your Received Parcels
+      </h3>
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle table-bordered rounded-3 overflow-hidden">
+          <thead class="table-primary text-center">
+            <tr>
+             <th>Parcel ID</th>
+              <th>Tracking ID</th>
+              <th>Sender</th>
+              <th>Receiver</th>
+              <th>Sender Phone</th>
+              <th>Receiver Phone</th>
+              <th>From</th>
+              <th>To</th>
+              <th>Current Hub</th>
+              <th>Receive By Emp</th>
+              <th>Status</th>
+              <th>Received At</th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+            <tr *ngFor="let parcel of receiveParcel">
+            <td class="fw-semibold text-primary">{{ parcel.id }}</td>
+              <td class="fw-semibold text-danger">{{ parcel.parcelId }}</td>
+              <td>{{ parcel.sender }}</td> 
+              <td>{{ parcel.receiverName }}</td>
+              <td>{{ parcel.senderPhone }}</td>
+              <td>{{ parcel.receiverPhone }}</td>
+
+              <td>
+                {{ parcel.senderCountry }},<br />
+                {{ parcel.senderDivision }},<br />
+                {{ parcel.senderDistrict }},
+               
+              </td>
+              <td>
+                {{ parcel.receiveCountry }},<br />
+                {{ parcel.receiveDivision }},<br />
+                {{ parcel.receiveDistrict }}
+             
+                
+               
+              </td>
+
+              <td>
+                <span class="badge bg-info text-dark rounded-pill">
+                  {{ parcel.currentHub }}
+                </span>
+              </td>
+              <td>
+                <span class="badge bg-info text-dark rounded-pill">
+                  {{ parcel.employeeId }},<br>
+                    {{ parcel.employeeName }},<br>
+
+                </span>
+              </td>
+
+              <td>
+                <span [ngClass]="{
+                  'badge bg-success': parcel.status === 'Delivered',
+                  'badge bg-warning text-dark': parcel.status === 'In Transit',
+                  'badge bg-secondary': parcel.status === 'Received'
+                }" class="rounded-pill px-3">
+                  {{ parcel.status }}
+                </span>
+              </td>
+
+              <td>{{ parcel.receivedAt | date: 'medium' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="!receiveParcel || receiveParcel.length === 0" class="text-center text-muted mt-4 fs-5">
+        🚫 No parcels received yet.
+      </div>
+    </div>
+  </div>
+</div> -->

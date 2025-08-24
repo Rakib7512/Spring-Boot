@@ -31,12 +31,16 @@ public class Parcel {
     private String receiverName;
     private String senderPhone;
     private String receiverPhone;
-    private String status;
+
     private String currentHub;
     private String deliveryPerson;
     private Date createdAt;
     private String bookingAgent;
 
+    // Status tracking
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ParcelStatus status = ParcelStatus.BOOKED;
 
 
     @OneToMany(mappedBy = "parcel", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -86,37 +90,7 @@ public class Parcel {
     }
 
 
-    public Parcel(Long id, String addressLineForSender1, String addressLineForSender2, String addressLineForReceiver1, String addressLineForReceiver2, String trackingId, String senderName, String receiverName, String senderPhone, String receiverPhone, String status, String currentHub, String deliveryPerson, Date createdAt, String bookingAgent, List<ParcelTracking> trackingHistory, Number weight, Number squareFeet, Number fee, String verificationCode, Date bookingDate, Country sendCountry, Division sendDivision, District sendDistrict, PoliceStation sendPoliceStation, Country receiveCountry, Division receiveDivision, District receiveDistrict, PoliceStation receivePoliceStation) {
-        this.id = id;
-        this.addressLineForSender1 = addressLineForSender1;
-        this.addressLineForSender2 = addressLineForSender2;
-        this.addressLineForReceiver1 = addressLineForReceiver1;
-        this.addressLineForReceiver2 = addressLineForReceiver2;
-        this.trackingId = trackingId;
-        this.senderName = senderName;
-        this.receiverName = receiverName;
-        this.senderPhone = senderPhone;
-        this.receiverPhone = receiverPhone;
-        this.status = status;
-        this.currentHub = currentHub;
-        this.deliveryPerson = deliveryPerson;
-        this.createdAt = createdAt;
-        this.bookingAgent = bookingAgent;
-        this.trackingHistory = trackingHistory;
-        this.weight = weight;
-        this.squareFeet = squareFeet;
-        this.fee = fee;
-        this.verificationCode = verificationCode;
-        this.bookingDate = bookingDate;
-        this.sendCountry = sendCountry;
-        this.sendDivision = sendDivision;
-        this.sendDistrict = sendDistrict;
-        this.sendPoliceStation = sendPoliceStation;
-        this.receiveCountry = receiveCountry;
-        this.receiveDivision = receiveDivision;
-        this.receiveDistrict = receiveDistrict;
-        this.receivePoliceStation = receivePoliceStation;
-    }
+
 
 
     public Long getId() {
@@ -199,11 +173,12 @@ public class Parcel {
         this.receiverPhone = receiverPhone;
     }
 
-    public String getStatus() {
+
+    public ParcelStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ParcelStatus status) {
         this.status = status;
     }
 
