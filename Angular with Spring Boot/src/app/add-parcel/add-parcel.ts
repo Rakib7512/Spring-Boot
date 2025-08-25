@@ -10,6 +10,7 @@ import { DistrictService } from '../service/district.service';
 import { PoliceStationService } from '../service/police-station.service';
 import { StorageService } from '../service/storage-service';
 import { AddressService } from '../service/address.service';
+import { NotificationService } from '../service/notification.service';
 
 @Component({
   selector: 'app-add-parcel',
@@ -83,7 +84,8 @@ export class AddParcel implements OnInit {
     private parcelService: ParcelService,
     private router: Router,
     private storageService: StorageService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private notificationService: NotificationService
   ) {
 
   }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NotificationService } from '../service/notification.service';
 
 @Component({
   selector: 'app-notifications',
@@ -8,18 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Notifications implements OnInit {
 
+ notifications: any[] = [];
 
-notifications: any[] = [];
+  constructor(private notificationService: NotificationService) {}
 
   ngOnInit(): void {
-   const stored = localStorage.getItem('parcelNotifications');
-  this.notifications = stored ? JSON.parse(stored) : [];
+    // ✅ Subscribe to notifications
+    this.notificationService.notifications$.subscribe((data) => {
+      this.notifications = data;
+    });
   }
 
-
-clearNotifications() {
-  localStorage.removeItem('parcelNotifications');
-  this.notifications = [];
+  clearAll() {
+    this.notificationService.clearNotifications();
+  }
 }
 
-}

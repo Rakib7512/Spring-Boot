@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../environment/environment';
 
 @Injectable({
@@ -9,15 +9,27 @@ import { environment } from '../../environment/environment';
 export class NotificationService {
 private baseUrl=environment.apiBaseUrl+'/notifications/';
 
-  constructor(private http: HttpClient) { }
+  private notificationsSubject = new BehaviorSubject<any[]>(this.getNotifications());
+  notifications$ = this.notificationsSubject.asObservable();
 
-  // Employee notifications fetch
-  getNotifications(userId: number): Observable<Notification[]> {
-    return this.http.get<Notification[]>(`${this.baseUrl}/${userId}`);
+  constructor() {}
+
+  // ✅ Get notifications from localStorage
+  getNotifications(): any[] {
+    return JSON.parse(localStorage.getItem('parcelNotifications') || '[]');
   }
 
-  // Mark as read
-  markAsRead(notificationId: number): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/${notificationId}/read`, {});
+  // ✅ Add a new notification
+  addNotification(notification: any) {
+    const notifications = this.getNotifications();
+    notifications.push(notification);
+    localStorage.setItem('parcelNotifications', JSON.stringify(notifications));
+    this.notificationsSubject.next(notifications);
+  }
+
+  // ✅ Clear all notifications
+  clearNotifications() {
+    localStorage.removeItem('parcelNotifications');
+    this.notificationsSubject.next([]);
   }
 }
