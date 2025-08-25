@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Parcel } from '../../model/parcel.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../environment/environment';
+import { ParcelTracking } from '../../model/trackingParcel.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,10 @@ import { environment } from '../../environment/environment';
 export class ParcelService {
 
   private baseUrl=environment.apiBaseUrl+'/parcels/';
+  
+ private baseUrl2=environment.apiBaseUrl+'/parcels/parcel/';
+
+
 
   constructor(private http: HttpClient) {}
 
@@ -54,13 +59,39 @@ getParcelsByUserId(userId: number): Observable<Parcel[]> {
   return this.http.get<Parcel[]>(`http://localhost:8080/api/parcels/user/${userId}`);
 }
 
+
  // -------- Notification APIs --------
-  getEmployerNotifications(employerId: number): Observable<Notification[]> {
-    return this.http.get<Notification[]>(`${this.baseUrl}/notifications/${employerId}`);
+
+  // getEmployerNotifications(employerId: number): Observable<Notification[]> {
+  //   return this.http.get<Notification[]>(`${this.baseUrl}/notifications/${employerId}`);
+  // }
+
+  // markNotificationAsRead(notificationId: number): Observable<void> {
+  //   return this.http.put<void>(`${this.baseUrl}/notifications/${notificationId}/read`, {});
+  // }
+
+
+
+
+
+
+   // 1. Claim Pickup
+  claimPickup(trackingId: string, employeeId: number): Observable<any> {
+    const url = `${this.baseUrl2}${trackingId}/claimPickup/${employeeId}`;
+    return this.http.put(url, null);
   }
 
-  markNotificationAsRead(notificationId: number): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/notifications/${notificationId}/read`, {});
+  // 2. Transfer Parcel
+  transferParcel(trackingId: string, hubName: string, employeeId: number): Observable<any> {
+    const url = `${this.baseUrl2}${trackingId}/transfer`;
+    const params = { hubName, employeeId: employeeId.toString() };
+    return this.http.post(url, null, { params });
+  }
+
+  // 3. Get Tracking History
+  getParcelTracking(trackingId: string): Observable<ParcelTracking[]> {
+    const url = `${this.baseUrl2}${trackingId}/tracking`;
+    return this.http.get<ParcelTracking[]>(url);
   }
 
  

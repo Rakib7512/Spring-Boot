@@ -60,8 +60,7 @@ public class Parcel {
     @OneToMany(mappedBy = "parcel", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ParcelTracking> trackingHistory;
 
-    private Number weight;
-    private Number squareFeet;
+   private String size;
     private Number fee;
     private String verificationCode;
 
@@ -248,20 +247,12 @@ public class Parcel {
         this.trackingHistory = trackingHistory;
     }
 
-    public Number getWeight() {
-        return weight;
+    public String getSize() {
+        return size;
     }
 
-    public void setWeight(Number weight) {
-        this.weight = weight;
-    }
-
-    public Number getSquareFeet() {
-        return squareFeet;
-    }
-
-    public void setSquareFeet(Number squareFeet) {
-        this.squareFeet = squareFeet;
+    public void setSize(String weight) {
+        this.size = weight;
     }
 
     public Number getFee() {

@@ -5,6 +5,8 @@ import { RecParcelEmpDetService } from '../service/rec-parcel-emp-det.service';
 import { RecParcelEmpDetModel } from '../../model/recParcelByEmpDet.modek';
 import { HubService } from '../service/hub.service';
 import { Hub } from '../../model/hub.model';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ParcelService } from '../service/parcel.service';
 
 @Component({
   selector: 'app-transfer-hub',
@@ -14,127 +16,37 @@ import { Hub } from '../../model/hub.model';
 })
 
 
-export class TransferHub implements OnInit {
-
-  hubs: Hub[] = [];
-
-  latestHubTransfer: HubTransfer | null = null;
-  recParcel: RecParcelEmpDetModel = new RecParcelEmpDetModel();
-
-  transfer: HubTransfer = {
-    id: '',
-    parcelId: '',
-    fromHub: '',
-    toHub: '',
-    departedAt: '',
-    currentHub: '',
-    courierBy: ''
-  };
+export class TransferHub  {
+transferForm: FormGroup;
+  successMessage: string = '';
+  errorMessage: string = '';
 
   constructor(
-    private hubTransferService: TransferHubService,
-    private recParcelByEmp: RecParcelEmpDetService,
-    private hubService: HubService
-  ) { }
-
-  ngOnInit(): void {
-    this.loadAllHubs();
-  }
-
-  loadAllHubs(): void {
-    this.hubService.getAllHubs().subscribe(data => {
-      this.hubs = data;
+    private parcelService: ParcelService,
+    private fb: FormBuilder
+  ) {
+    this.transferForm = this.fb.group({
+      trackingId: ['', Validators.required],
+      hubName: ['', Validators.required],
+      employeeId: ['', [Validators.required, Validators.pattern("^[0-9]*$")]]
     });
   }
 
+  onSubmit(): void {
+    if (this.transferForm.invalid) return;
 
+    const { trackingId, hubName, employeeId } = this.transferForm.value;
 
-
-  onChange(parcelId: string) {
-    if (!parcelId) return;
-
-    this.recParcelByEmp.getReceivedParcelById(parcelId).subscribe(data => {
-      if (data) {
-        this.recParcel = data;
-        this.transfer.parcelId = data.parcelId;
-        this.transfer.fromHub = data.currentHub;
-      } else {
-        alert('Parcel not found.');
-        this.resetTransfer();
-      }
-    });
-
-    this.hubTransferService.getLatestHub(parcelId).subscribe({
-      next: data => this.latestHubTransfer = data,
-      error: () => this.latestHubTransfer = null
-    });
-  }
-
-  getCurrentHubByParcelId(parcelId: string) {
-    this.recParcelByEmp.getReceivedParcelById(parcelId).subscribe(data => {
-      this.recParcel = data;
-    });
-  }
-
-  loadLatestHub(parcelId: string): void {
-    this.hubTransferService.getLatestHub(parcelId).subscribe(data => {
-      this.latestHubTransfer = data;
-      this.transfer.fromHub = data.currentHub;
-    });
-  }
-
-  isSubmitting = false;
-
-  submitTransfer() {
-    if (!this.transfer.parcelId || !this.transfer.fromHub || !this.transfer.toHub || !this.transfer.courierBy) {
-      alert('Please fill all required fields');
-      return;
-    }
-
-    this.isSubmitting = true;
-    this.transfer.departedAt = new Date().toISOString();
-    this.transfer.currentHub = this.transfer.toHub;
-
-    this.hubTransferService.saveTransfer(this.transfer).subscribe({
+    this.parcelService.transferParcel(trackingId, hubName, employeeId).subscribe({
       next: () => {
-        this.hubTransferService.updateParcelCurrentHub(this.transfer.parcelId, this.transfer.toHub).subscribe({
-          next: () => {
-            alert('Parcel transferred and updated successfully!');
-            this.loadLatestHub(this.transfer.parcelId);
-            this.resetTransfer();
-            this.isSubmitting = false;
-          },
-          error: (err) => {
-            console.error('Error updating parcel current hub:', err);
-            alert('Failed to update parcel current hub');
-            this.isSubmitting = false;
-          }
-        });
+        this.successMessage = 'Parcel transferred successfully!';
+        this.errorMessage = '';
+        this.transferForm.reset();
       },
       error: (err) => {
-        console.error('Error saving transfer:', err);
-        alert('Failed to save transfer');
-        this.isSubmitting = false;
+        this.errorMessage = 'Transfer failed: ' + (err.error?.message || 'Server error');
+        this.successMessage = '';
       }
     });
   }
-
-
-  resetTransfer() {
-    this.transfer = {
-      id: '',
-      parcelId: '',
-      fromHub: '',
-      toHub: '',
-      departedAt: '',
-      currentHub: '',
-      courierBy: ''
-    };
-    this.latestHubTransfer = null;
-    this.recParcel = new RecParcelEmpDetModel(); // optionally reset parcel info as well
-  }
-
-
-
-
 }

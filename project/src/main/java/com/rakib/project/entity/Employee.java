@@ -22,7 +22,7 @@ public class Employee {
     private String designation;
     private Date joindate;
     private String phone;
-    private String salary;
+    private Number salary;
     private String photo;
     private String empOnHub;
 
@@ -128,11 +128,11 @@ public class Employee {
         this.phone = phone;
     }
 
-    public String getSalary() {
+    public Number getSalary() {
         return salary;
     }
 
-    public void setSalary(String salary) {
+    public void setSalary(Number salary) {
         this.salary = salary;
     }
 
