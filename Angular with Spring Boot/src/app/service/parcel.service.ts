@@ -76,12 +76,14 @@ getParcelsByUserId(userId: number): Observable<Parcel[]> {
 
 
    // 1. Claim Pickup
+
   claimPickup(trackingId: string, employeeId: number): Observable<any> {
     const url = `${this.baseUrl2}${trackingId}/claimPickup/${employeeId}`;
     return this.http.put(url, null);
   }
 
   // 2. Transfer Parcel
+
   transferParcel(trackingId: string, hubName: string, employeeId: number): Observable<any> {
     const url = `${this.baseUrl2}${trackingId}/transfer`;
     const params = { hubName, employeeId: employeeId.toString() };
@@ -89,6 +91,7 @@ getParcelsByUserId(userId: number): Observable<Parcel[]> {
   }
 
   // 3. Get Tracking History
+
   getParcelTracking(trackingId: string): Observable<ParcelTracking[]> {
     const url = `${this.baseUrl2}${trackingId}/tracking`;
     return this.http.get<ParcelTracking[]>(url);

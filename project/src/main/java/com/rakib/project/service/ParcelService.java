@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -159,6 +160,28 @@ public Parcel saveParcel(Parcel parcel) {
 //
 //        return parcelRepository.save(parcel);
 //    }
+
+
+
+
+    public List<ParcelResponseDTO> getAllParcelResponseDTOS() {
+        List<Parcel> parcels = parcelRepository.findAll();
+        List<ParcelResponseDTO> dtoList = parcels.stream().map(e -> new ParcelResponseDTO(
+                e.getId(),
+                e.getTrackingId(),
+                e.getSenderName(),
+                e.getSenderPhone(),
+                e.getReceiverName(),
+
+
+
+                e.getC.getDesignationTitle(),
+                e.getDesignation().getDepartment().getName()
+        )).toList();
+
+        return dtoList;
+    }
+
 
 
 

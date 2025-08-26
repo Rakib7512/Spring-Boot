@@ -61,7 +61,7 @@ public class Parcel {
     private List<ParcelTracking> trackingHistory;
 
    private String size;
-    private Number fee;
+    private int fee;
     private String verificationCode;
 
     private Date bookingDate;
@@ -118,6 +118,37 @@ public class Parcel {
     public Parcel() {
     }
 
+    public Parcel(Long id, String addressLineForSender1, String addressLineForSender2, String addressLineForReceiver1, String addressLineForReceiver2, String trackingId, String senderName, String receiverName, String senderPhone, String receiverPhone, String currentHub, Date createdAt, Employee pickupDeliveryMan, Employee deliveryMan, ParcelStatus status, List<ParcelTracking> trackingHistory, String size, int fee, String verificationCode, Date bookingDate, Country sendCountry, Division sendDivision, District sendDistrict, PoliceStation sendPoliceStation, Country receiveCountry, Division receiveDivision, District receiveDistrict, PoliceStation receivePoliceStation, Employee bookingAgent) {
+        this.id = id;
+        this.addressLineForSender1 = addressLineForSender1;
+        this.addressLineForSender2 = addressLineForSender2;
+        this.addressLineForReceiver1 = addressLineForReceiver1;
+        this.addressLineForReceiver2 = addressLineForReceiver2;
+        this.trackingId = trackingId;
+        this.senderName = senderName;
+        this.receiverName = receiverName;
+        this.senderPhone = senderPhone;
+        this.receiverPhone = receiverPhone;
+        this.currentHub = currentHub;
+        this.createdAt = createdAt;
+        this.pickupDeliveryMan = pickupDeliveryMan;
+        this.deliveryMan = deliveryMan;
+        this.status = status;
+        this.trackingHistory = trackingHistory;
+        this.size = size;
+        this.fee = fee;
+        this.verificationCode = verificationCode;
+        this.bookingDate = bookingDate;
+        this.sendCountry = sendCountry;
+        this.sendDivision = sendDivision;
+        this.sendDistrict = sendDistrict;
+        this.sendPoliceStation = sendPoliceStation;
+        this.receiveCountry = receiveCountry;
+        this.receiveDivision = receiveDivision;
+        this.receiveDistrict = receiveDistrict;
+        this.receivePoliceStation = receivePoliceStation;
+        this.bookingAgent = bookingAgent;
+    }
 
     public Long getId() {
         return id;
@@ -251,15 +282,15 @@ public class Parcel {
         return size;
     }
 
-    public void setSize(String weight) {
-        this.size = weight;
+    public void setSize(String size) {
+        this.size = size;
     }
 
-    public Number getFee() {
+    public int getFee() {
         return fee;
     }
 
-    public void setFee(Number fee) {
+    public void setFee(int fee) {
         this.fee = fee;
     }
 
