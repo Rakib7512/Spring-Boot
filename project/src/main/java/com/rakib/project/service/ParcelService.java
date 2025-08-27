@@ -79,9 +79,9 @@ public Parcel saveParcel(Parcel parcel) {
 
 
 
-    public List<Parcel> getAllParcels() {
-        return parcelRepository.findAll();
-    }
+//    public List<Parcel> getAllParcels() {
+//        return parcelRepository.findAll();
+//    }
 
     public Parcel getParcelById(Long id) {
         return parcelRepository.findById(id).orElse(null);
@@ -164,27 +164,41 @@ public Parcel saveParcel(Parcel parcel) {
 
 
 
-    public List<ParcelResponseDTO> getAllParcelResponseDTOS() {
+    // বিদ্যমান DTO ব্যবহার করব
+    public List<ParcelResponseDTO> getAllParcels() {
         List<Parcel> parcels = parcelRepository.findAll();
-        List<ParcelResponseDTO> dtoList = parcels.stream().map(e -> new ParcelResponseDTO(
-                e.getId(),
-                e.getTrackingId(),
-                e.getSenderName(),
-                e.getSenderPhone(),
-                e.getReceiverName(),
 
+        return parcels.stream().map(parcel -> {
+            ParcelResponseDTO dto = new ParcelResponseDTO();
+            dto.setId(parcel.getId());
+            dto.setTrackingId(parcel.getTrackingId());
+            dto.setSenderName(parcel.getSenderName());
+            dto.setReceiverName(parcel.getReceiverName());
+            dto.setSenderPhone(parcel.getSenderPhone());
+            dto.setReceiverPhone(parcel.getReceiverPhone());
+            dto.setAddressLineForSender1(parcel.getAddressLineForSender1());
+            dto.setAddressLineForSender2(parcel.getAddressLineForSender2());
+            dto.setSendCountryId(parcel.getSendCountry().getId());
+            dto.setSendDivisionId(parcel.getSendDivision().getId());
+            dto.setSendDistrictId(parcel.getSendDistrict().getId());
+            dto.setSendPoliceStationId(parcel.getSendPoliceStation().getId());
+            dto.setReceiveCountryId(parcel.getReceiveCountry().getId());
+            dto.setReceiveDivisionId(parcel.getReceiveDivision().getId());
+            dto.setReceiveDistrictId(parcel.getReceiveDistrict().getId());
+            dto.setReceivePoliceStationId(parcel.getReceivePoliceStation().getId());
+            dto.setSize(parcel.getSize());
 
-
-                e.getC.getDesignationTitle(),
-                e.getDesignation().getDepartment().getName()
-        )).toList();
-
-        return dtoList;
+            dto.setFee(parcel.getFee());
+            dto.setStatus(dto.getStatus());
+            dto.setCreatedAt(parcel.getCreatedAt());
+            dto.setBookingDate(parcel.getBookingDate());
+            return dto;
+        }).toList();
     }
-
-
-
-
-
-
 }
+
+
+
+
+
+

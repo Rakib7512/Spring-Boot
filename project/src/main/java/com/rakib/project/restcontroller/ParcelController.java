@@ -52,19 +52,25 @@ public class ParcelController {
     { return parcelService.saveParcel(parcel );
     }
 
+    // ✅ Get All Parcels (DTO-based)
     @GetMapping
-    public List<Parcel> getAllParcels() {
-        return parcelService.getAllParcels();
+    public ResponseEntity<List<ParcelResponseDTO>> getAllParcels() {
+        List<ParcelResponseDTO> parcelDTOs = parcelService.getAllParcels();
+        return ResponseEntity.ok(parcelDTOs);
     }
 
+    // ✅ Get Parcel By Id
     @GetMapping("/{id}")
-    public Parcel getParcelById(@PathVariable Long id) {
-        return parcelService.getParcelById(id);
+    public ResponseEntity<Parcel> getParcelById(@PathVariable Long id) {
+        Parcel parcel = parcelService.getParcelById(id);
+        return ResponseEntity.ok(parcel);
     }
 
+    // ✅ Get Parcel By Tracking Id
     @GetMapping("/track/{trackingId}")
-    public Optional<Parcel> getParcelByTrackingId(@PathVariable String trackingId) {
-        return parcelService.getParcelByTrackingId(trackingId);
+    public ResponseEntity<Optional<Parcel>> getParcelByTrackingId(@PathVariable String trackingId) {
+        Optional<Parcel> parcel = parcelService.getParcelByTrackingId(trackingId);
+        return ResponseEntity.ok(parcel);
     }
 
     @DeleteMapping("/{id}")
