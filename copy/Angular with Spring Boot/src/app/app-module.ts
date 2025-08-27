@@ -23,7 +23,6 @@ import { Userprofile } from './auth/userprofile/userprofile';
 import { Logout } from './auth/logout/logout';
 import { ViewHubTransfer } from './view-hub-transfer/view-hub-transfer';
 import { ParcelReqDetails } from './parcel-req-details/parcel-req-details';
-import { Notifications } from './notifications/notifications';
 import { ParcelDetails } from './parcel-details/parcel-details';
 import { Contact } from './contact/contact';
 import { ViewReceiveParcel } from './view-receive-parcel/view-receive-parcel';
@@ -34,11 +33,11 @@ import { AddConsumer } from './add-consumer/add-consumer';
 import { ConsumerProfileComponent } from './consumer/consumer-profile.component/consumer-profile.component';
 import { AddNewParcel } from './add-new-parcel/add-new-parcel';
 import { EmployeeProfileComponent } from './employee/employee-profile.component/employee-profile.component';
-
+import { Notifications } from './notifications/notifications';
 
 
 @NgModule({
-  
+
   declarations: [
     App,
     AddPoliceStation,
@@ -59,7 +58,7 @@ import { EmployeeProfileComponent } from './employee/employee-profile.component/
     Logout,
     ViewHubTransfer,
     ParcelReqDetails,
-   Notifications,
+    Notifications,
     ParcelDetails,
     Contact,
     ViewReceiveParcel,
@@ -70,10 +69,10 @@ import { EmployeeProfileComponent } from './employee/employee-profile.component/
     ConsumerProfileComponent,
     AddNewParcel,
     EmployeeProfileComponent,
-    
-    
-    
-    
+
+
+
+
   ],
   imports: [
     BrowserModule,

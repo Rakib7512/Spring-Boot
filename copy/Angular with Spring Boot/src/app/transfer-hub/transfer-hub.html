@@ -1,0 +1,25 @@
+<div class="transfer-container">
+  <h2>Transfer Parcel</h2>
+
+  <form [formGroup]="transferForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="trackingId">Tracking ID:</label>
+      <input type="text" id="trackingId" formControlName="trackingId" required />
+    </div>
+
+    <div>
+      <label for="hubName">Destination Hub:</label>
+      <input type="text" id="hubName" formControlName="hubName" required />
+    </div>
+
+    <div>
+      <label for="employeeId">Your Employee ID:</label>
+      <input type="number" id="employeeId" formControlName="employeeId" required />
+    </div>
+
+    <button type="submit" [disabled]="transferForm.invalid">Transfer</button>
+  </form>
+
+  <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+</div>
