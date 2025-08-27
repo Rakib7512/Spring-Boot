@@ -5,13 +5,12 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "parcelsDetails")
+@Table(name = "parcel_details")
 public class Parcel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 
     @Column(name = "address_line_for_sender_1")
     private String addressLineForSender1;
@@ -19,62 +18,69 @@ public class Parcel {
     @Column(name = "address_line_for_sender_2")
     private String addressLineForSender2;
 
-
-    @Column(name = "address_line_for_Receiver_1")
+    @Column(name = "address_line_for_receiver_1")
     private String addressLineForReceiver1;
 
-    @Column(name = "address_line_for_Receiver_2")
+    @Column(name = "address_line_for_receiver_2")
     private String addressLineForReceiver2;
 
+    @Column(name = "tracking_id")
     private String trackingId;
+
+    @Column(name = "sender_name")
     private String senderName;
+
+    @Column(name = "receiver_name")
     private String receiverName;
+
+    @Column(name = "sender_phone")
     private String senderPhone;
+
+    @Column(name = "receiver_phone")
     private String receiverPhone;
 
+    @Column(name = "current_hub")
     private String currentHub;
 
-
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at", updatable = false)
+    private Date createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt = new Date();
+    @Column(name = "booking_date")
+    private Date bookingDate;
 
+    @Column(name = "size")
+    private String size;
 
+    @Column(name = "fee")
+    private int fee;
+
+    @Column(name = "verification_code")
+    private String verificationCode;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private ParcelStatus status = ParcelStatus.BOOKED;
 
     // Assigned Employees
     @ManyToOne
-    @JoinColumn(name = "pickup_deliveryman_id", nullable = true)
+    @JoinColumn(name = "pickup_deliveryman_id")
     private Employee pickupDeliveryMan;
 
     @ManyToOne
-    @JoinColumn(name = "deliveryman_id", nullable = true)
+    @JoinColumn(name = "deliveryman_id")
     private Employee deliveryMan;
 
+    @ManyToOne
+    @JoinColumn(name = "booking_agent_id")
+    private Employee bookingAgent;
 
-    // Status tracking
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private ParcelStatus status = ParcelStatus.BOOKED;
-
-
+    // Tracking History
     @OneToMany(mappedBy = "parcel", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ParcelTracking> trackingHistory;
 
-   private String size;
-    private int fee;
-    private String verificationCode;
-
-    private Date bookingDate;
-
-
-    @PrePersist
-    protected void onCreate() {
-        this.bookingDate = new Date(); // current date/time
-
-    }
-
-
-    // 🔹 Relations for sender location
+    // Sender location
     @ManyToOne
     @JoinColumn(name = "send_country_id")
     private Country sendCountry;
@@ -91,7 +97,7 @@ public class Parcel {
     @JoinColumn(name = "send_police_station_id")
     private PoliceStation sendPoliceStation;
 
-    // 🔹 Relations for receiver location
+    // Receiver location
     @ManyToOne
     @JoinColumn(name = "receive_country_id")
     private Country receiveCountry;
@@ -108,47 +114,18 @@ public class Parcel {
     @JoinColumn(name = "receive_police_station_id")
     private PoliceStation receivePoliceStation;
 
-
-
-    // Booking agent (optional)
-    @ManyToOne
-    @JoinColumn(name = "booking_agent_id", nullable = true) // can be NULL if sender booked directly
-    private Employee bookingAgent;
-
-    public Parcel() {
+    // Auto-set timestamps
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = new Date();
+        this.bookingDate = new Date();
     }
 
-    public Parcel(Long id, String addressLineForSender1, String addressLineForSender2, String addressLineForReceiver1, String addressLineForReceiver2, String trackingId, String senderName, String receiverName, String senderPhone, String receiverPhone, String currentHub, Date createdAt, Employee pickupDeliveryMan, Employee deliveryMan, ParcelStatus status, List<ParcelTracking> trackingHistory, String size, int fee, String verificationCode, Date bookingDate, Country sendCountry, Division sendDivision, District sendDistrict, PoliceStation sendPoliceStation, Country receiveCountry, Division receiveDivision, District receiveDistrict, PoliceStation receivePoliceStation, Employee bookingAgent) {
-        this.id = id;
-        this.addressLineForSender1 = addressLineForSender1;
-        this.addressLineForSender2 = addressLineForSender2;
-        this.addressLineForReceiver1 = addressLineForReceiver1;
-        this.addressLineForReceiver2 = addressLineForReceiver2;
-        this.trackingId = trackingId;
-        this.senderName = senderName;
-        this.receiverName = receiverName;
-        this.senderPhone = senderPhone;
-        this.receiverPhone = receiverPhone;
-        this.currentHub = currentHub;
-        this.createdAt = createdAt;
-        this.pickupDeliveryMan = pickupDeliveryMan;
-        this.deliveryMan = deliveryMan;
-        this.status = status;
-        this.trackingHistory = trackingHistory;
-        this.size = size;
-        this.fee = fee;
-        this.verificationCode = verificationCode;
-        this.bookingDate = bookingDate;
-        this.sendCountry = sendCountry;
-        this.sendDivision = sendDivision;
-        this.sendDistrict = sendDistrict;
-        this.sendPoliceStation = sendPoliceStation;
-        this.receiveCountry = receiveCountry;
-        this.receiveDivision = receiveDivision;
-        this.receiveDistrict = receiveDistrict;
-        this.receivePoliceStation = receivePoliceStation;
-        this.bookingAgent = bookingAgent;
-    }
+    // --- Constructors, Getters, and Setters ---
+
+    public Parcel() {}
+
+    // You can add a full-args constructor if needed, but omitted here for brevity
 
     public Long getId() {
         return id;

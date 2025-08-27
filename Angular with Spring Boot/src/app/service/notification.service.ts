@@ -1,34 +1,47 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { environment } from '../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
-private baseUrl=environment.apiBaseUrl+'/notifications/';
+  private isBrowser: boolean;
 
-  private notificationsSubject = new BehaviorSubject<any[]>(this.getNotifications());
+  private notificationsSubject = new BehaviorSubject<any[]>([]);
   notifications$ = this.notificationsSubject.asObservable();
 
-  constructor() {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
 
-  // ✅ Get notifications from localStorage
+    if (this.isBrowser) {
+      const storedNotifications = localStorage.getItem('parcelNotifications');
+      const parsedNotifications = storedNotifications ? JSON.parse(storedNotifications) : [];
+      this.notificationsSubject.next(parsedNotifications);
+    }
+  }
+
+  // Get notifications (optional external use)
   getNotifications(): any[] {
-    return JSON.parse(localStorage.getItem('parcelNotifications') || '[]');
+    if (!this.isBrowser) return [];
+    const data = localStorage.getItem('parcelNotifications');
+    return data ? JSON.parse(data) : [];
   }
 
-  // ✅ Add a new notification
+  // Add notification
   addNotification(notification: any) {
-    const notifications = this.getNotifications();
-    notifications.push(notification);
-    localStorage.setItem('parcelNotifications', JSON.stringify(notifications));
-    this.notificationsSubject.next(notifications);
+    if (!this.isBrowser) return;
+
+    const current = this.getNotifications();
+    current.push(notification);
+    localStorage.setItem('parcelNotifications', JSON.stringify(current));
+    this.notificationsSubject.next(current);
   }
 
-  // ✅ Clear all notifications
+  // Clear all
   clearNotifications() {
+    if (!this.isBrowser) return;
+
     localStorage.removeItem('parcelNotifications');
     this.notificationsSubject.next([]);
   }
