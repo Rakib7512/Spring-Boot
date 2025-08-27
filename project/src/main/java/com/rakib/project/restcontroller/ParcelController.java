@@ -107,6 +107,8 @@ public class ParcelController {
         Employee emp = employeeRepo.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
 
+
+        parcel.setCurrentHub(emp.getEmpOnHub());
         parcel.setPickupDeliveryMan(emp);
         parcelRepo.save(parcel);
 

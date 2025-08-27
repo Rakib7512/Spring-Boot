@@ -31,6 +31,7 @@ public class NotificationService {
             Notification n = new Notification();
             n.setEmployee(emp);
             n.setMessage(message);
+            n.setReceived(false);
             notificationRepository.save(n);
 
             // 🔹 Here you could also send real-time notification via WebSocket/email

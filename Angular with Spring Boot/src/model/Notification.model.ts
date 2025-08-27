@@ -1,7 +1,6 @@
 export interface Notification {
-  id: number;
+ id: number;
   message: string;
-  readStatus: boolean;
   createdAt: string;
-  recipientId: number;
+  received: boolean;
 }

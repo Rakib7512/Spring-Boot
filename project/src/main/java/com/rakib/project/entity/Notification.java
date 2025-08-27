@@ -17,7 +17,7 @@ public class Notification {
     private String message;
     private Date createdAt = new Date();
 
-   // private boolean readStatus = false;  // ✅ নতুন ফিল্ড
+    private boolean received = false;  // ✅ নতুন ফিল্ড
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
@@ -54,5 +54,14 @@ public class Notification {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+
+    public boolean isReceived() {
+        return received;
+    }
+
+    public void setReceived(boolean received) {
+        this.received = received;
     }
 }
