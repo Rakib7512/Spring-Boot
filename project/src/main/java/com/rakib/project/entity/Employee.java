@@ -52,6 +52,11 @@ public class Employee {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+//hub realition
+    @ManyToOne
+    @JoinColumn(name = "hub_id")
+    private Hub assignedHub;
+
     public Employee() {
     }
 
@@ -190,5 +195,14 @@ public class Employee {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+
+    public Hub getAssignedHub() {
+        return assignedHub;
+    }
+
+    public void setAssignedHub(Hub assignedHub) {
+        this.assignedHub = assignedHub;
     }
 }

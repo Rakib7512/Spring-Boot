@@ -3,14 +3,16 @@ package com.rakib.project.restcontroller;
 
 import com.rakib.project.dto.ParcelResponseDTO;
 import com.rakib.project.entity.*;
-import com.rakib.project.repository.*;
+import com.rakib.project.repository.IEmployeeRepo;
+import com.rakib.project.repository.INotificationRepo;
+import com.rakib.project.repository.IParcelRepository;
+import com.rakib.project.repository.IParcelTrackingRepository;
 import com.rakib.project.service.NotificationService;
 import com.rakib.project.service.ParcelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,8 +38,6 @@ public class ParcelController {
 
     private final ParcelService parcelService;
     private final NotificationService notificationService;
-    @Autowired
-    private HubRepository hubRepository;
 
     public ParcelController(ParcelService parcelService, NotificationService notificationService) {
         this.parcelService = parcelService;
@@ -107,20 +107,12 @@ public class ParcelController {
         Employee emp = employeeRepo.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
 
-        // Set the currentHub to employee's assigned hub if employee has a hub, else keep as is or throw error
-        Hub employeeHub = emp.getAssignedHub(); // ধরলাম Employee entity তে Hub getAssignedHub() method আছে
 
-        if (employeeHub == null) {
-            return ResponseEntity.badRequest()
-                    .body("Employee does not have an assigned Hub");
-        }
-
-        parcel.setCurrentHub(employeeHub); // Parcel entity তে currentHub Hub type হতে হবে
-
+        parcel.setCurrentHub(emp.getEmpOnHub());
         parcel.setPickupDeliveryMan(emp);
         parcelRepo.save(parcel);
 
-        // Notify other employees in the sender's location except the one who claimed
+        // Optional: notify other employees
         List<Employee> others = employeeRepo.findByCountryAndDivisionAndDistrictAndPoliceStation(
                         parcel.getSendCountry(),
                         parcel.getSendDivision(),
@@ -140,8 +132,6 @@ public class ParcelController {
         return ResponseEntity.ok("Pickup assigned to " + emp.getName());
     }
 
-
-
 // http://localhost:8085/api/parcels/parcel/53e6c9d0-cd0c-47ee-a6e9-7c9366d8d34e/claimPickup/1
 
 //    {
@@ -157,33 +147,20 @@ public class ParcelController {
             @RequestParam String hubName,
             @RequestParam Long employeeId) {
 
-        // 🔹 Step 1: Get Parcel
         Parcel parcel = parcelRepo.findByTrackingId(trackingId)
                 .orElseThrow(() -> new RuntimeException("Parcel not found"));
 
-        // 🔹 Step 2: Get Employee
         Employee emp = employeeRepo.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
 
-        // 🔹 Step 3: Get Hub by Name
-        Hub newHub = hubRepository.findByName(hubName)
-                .orElseThrow(() -> new RuntimeException("Hub not found"));
-
-        // 🔹 Step 4: Update Parcel currentHub & status
-        parcel.setCurrentHub(newHub);
-        parcel.setStatus(ParcelStatus.IN_TRANSIT);
-        parcelRepo.save(parcel);
-
-        // 🔹 Step 5: Create tracking history
         ParcelTracking tracking = new ParcelTracking();
         tracking.setParcel(parcel);
-        tracking.setHubName(newHub); // this requires a Hub object in ParcelTracking
+        tracking.setHubName(hubName);
         tracking.setHandledBy(emp);
         tracking.setStatus(ParcelStatus.IN_TRANSIT);
-        tracking.setTimestamp(new Date());
         parcelTrackingRepo.save(tracking);
 
-        return ResponseEntity.ok("Parcel transferred to hub: " + hubName);
+        return ResponseEntity.ok("Parcel transferred to " + hubName);
     }
 
    // URL      http://localhost:8085/api/parcels/parcel/53e6c9d0-cd0c-47ee-a6e9-7c9366d8d34e/transfer?hubName=Central%20Hub%20Dhaka&employeeId=1
