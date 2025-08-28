@@ -39,9 +39,8 @@ public class Parcel {
     @Column(name = "receiver_phone")
     private String receiverPhone;
 
-    @ManyToOne
-    @JoinColumn(name = "current_hub_id")
-    private Hub currentHub;
+    @Column(name = "current_hub")
+    private String currentHub;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", updatable = false)
@@ -115,17 +114,12 @@ public class Parcel {
     @JoinColumn(name = "receive_police_station_id")
     private PoliceStation receivePoliceStation;
 
-
-
-
     // Auto-set timestamps
     @PrePersist
     protected void onCreate() {
         this.createdAt = new Date();
         this.bookingDate = new Date();
     }
-
-
 
     // --- Constructors, Getters, and Setters ---
 
@@ -213,11 +207,11 @@ public class Parcel {
         this.receiverPhone = receiverPhone;
     }
 
-    public Hub getCurrentHub() {
+    public String getCurrentHub() {
         return currentHub;
     }
 
-    public void setCurrentHub(Hub currentHub) {
+    public void setCurrentHub(String currentHub) {
         this.currentHub = currentHub;
     }
 

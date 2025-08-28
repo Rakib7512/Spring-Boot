@@ -1,8 +1,9 @@
 package com.rakib.project.service;
 
 import com.rakib.project.dto.ParcelResponseDTO;
-import com.rakib.project.entity.*;
-import com.rakib.project.repository.HubRepository;
+import com.rakib.project.entity.Employee;
+import com.rakib.project.entity.Parcel;
+import com.rakib.project.entity.ParcelTracking;
 import com.rakib.project.repository.IEmployeeRepo;
 import com.rakib.project.repository.IParcelRepository;
 import com.rakib.project.repository.IParcelTrackingRepository;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,11 +29,6 @@ public class ParcelService {
 
     @Autowired
     private IEmployeeRepo  employeeRepo;
-
-    @Autowired
-    private HubRepository hubRepository;
-
-
 
 
 
@@ -168,44 +163,6 @@ public Parcel saveParcel(Parcel parcel) {
 //
 //        return parcelRepository.save(parcel);
 //    }
-
-
-
-
-
-    // 🟢 Method: Transfer Parcel from one Hub to another
-    public Parcel transferParcelToNextHub(Long parcelId, Long nextHubId, String statusNote) {
-        Parcel parcel = parcelRepository.findById(parcelId)
-                .orElseThrow(() -> new RuntimeException("❌ Parcel not found"));
-
-        Hub nextHub = hubRepository.findById(nextHubId)
-                .orElseThrow(() -> new RuntimeException("❌ Hub not found"));
-
-        // ✅ Update currentHub
-        parcel.setCurrentHub(nextHub);
-        parcel.setStatus(ParcelStatus.IN_TRANSIT); // তুমি চাইলে আলাদা status enum ইউজ করতে পারো
-
-        // 🔁 Optional: Add tracking entry
-        ParcelTracking tracking = new ParcelTracking();
-        tracking.setParcel(parcel);
-        tracking.setHubName(nextHub);
-        tracking.setStatus("Moved to hub: " + nextHub.getName());
-        tracking.setTimestamp(new Date());
-
-        if (statusNote != null && !statusNote.isBlank()) {
-            tracking.setStatus(statusNote);
-        }
-
-        trackingRepository.save(tracking);
-
-        // Save updated parcel
-        return parcelRepository.save(parcel);
-    }
-
-
-
-
-
 
 
 
