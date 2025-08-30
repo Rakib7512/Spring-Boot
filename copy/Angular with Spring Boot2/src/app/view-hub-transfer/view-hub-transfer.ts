@@ -22,16 +22,16 @@ export class ViewHubTransfer implements OnInit {
 
   ) { }
   ngOnInit(): void {
-    this. getLatestHub()
+    // this. getLatestHub()
   }
 
-   getHistory(id:string) {
-    this.hubTransfer = this.hubTransferService.getHistory(id);
-  }
+  //  getHistory(id:string) {
+  //   this.hubTransfer = this.hubTransferService.getHistory(id);
+  // }
 
-   getLatestHub() {
-    this.hubTransfer = this.hubTransferService.getLatestHub;
-  }
+  //  getLatestHub() {
+  //   this.hubTransfer = this.hubTransferService.getLatestHub;
+  // }
 
   updateParcel(id: string): void {
     this.router.navigate(['update Parcel', id])

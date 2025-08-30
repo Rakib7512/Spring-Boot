@@ -9,6 +9,7 @@ import com.rakib.project.repository.IParcelRepository;
 import com.rakib.project.repository.IParcelTrackingRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -197,6 +198,37 @@ public Parcel saveParcel(Parcel parcel) {
             dto.setBookingDate(parcel.getBookingDate());
             return dto;
         }).toList();
+    }
+
+    public List<ParcelResponseDTO> getAllParcelsByTrackingId(String trackingId) {
+     List<ParcelResponseDTO> newParcels = parcelRepository.findParcelByTrackingId(trackingId).stream().map(parcel -> {
+        ParcelResponseDTO dto = new ParcelResponseDTO();
+        dto.setId(parcel.getId());
+        dto.setTrackingId(parcel.getTrackingId());
+        dto.setSenderName(parcel.getSenderName());
+        dto.setReceiverName(parcel.getReceiverName());
+        dto.setSenderPhone(parcel.getSenderPhone());
+        dto.setReceiverPhone(parcel.getReceiverPhone());
+        dto.setAddressLineForSender1(parcel.getAddressLineForSender1());
+        dto.setAddressLineForSender2(parcel.getAddressLineForSender2());
+        dto.setSendCountryId(parcel.getSendCountry().getId());
+        dto.setSendDivisionId(parcel.getSendDivision().getId());
+        dto.setSendDistrictId(parcel.getSendDistrict().getId());
+        dto.setSendPoliceStationId(parcel.getSendPoliceStation().getId());
+        dto.setReceiveCountryId(parcel.getReceiveCountry().getId());
+        dto.setReceiveDivisionId(parcel.getReceiveDivision().getId());
+        dto.setReceiveDistrictId(parcel.getReceiveDistrict().getId());
+        dto.setReceivePoliceStationId(parcel.getReceivePoliceStation().getId());
+        dto.setSize(parcel.getSize());
+        dto.setFee(parcel.getFee());
+        dto.setStatus(dto.getStatus());
+        dto.setCreatedAt(parcel.getCreatedAt());
+        dto.setBookingDate(parcel.getBookingDate());
+        dto.setCurrentHub(parcel.getCurrentHub());
+        return dto;
+    }).toList();
+
+     return newParcels;
     }
 }
 

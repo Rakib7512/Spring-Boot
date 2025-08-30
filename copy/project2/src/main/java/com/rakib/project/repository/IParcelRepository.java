@@ -14,6 +14,8 @@ public interface IParcelRepository extends JpaRepository<Parcel, Long> {
 
     Optional<Parcel> findByTrackingId(String trackingId);
 
+    List<Parcel> findParcelByTrackingId(String trackingId);
+
 
 
 

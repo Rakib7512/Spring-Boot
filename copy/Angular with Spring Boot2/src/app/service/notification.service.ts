@@ -1,89 +1,46 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
-
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, forkJoin } from 'rxjs';
 import { Notification } from '../../model/Notification.model';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
-
-
   private baseUrl = 'http://localhost:8085/api/notifications';
 
   constructor(private http: HttpClient) { }
 
-
-
-  getEmployeeNotifications(employeeId: number): Observable<Notification[]> {
-    return this.http.get<Notification[]>(`${this.baseUrl}/employee/${employeeId}`);
+  // Helper method to get the authorization token from localStorage
+  private getAuthToken(): string {
+    return localStorage.getItem('authToken') || '';  // return empty string if no token
   }
 
-  // receiveNotification(id: number, trackingId: string): Observable<string> {
-  //   return this.http.put(`${this.baseUrl}/${id}/receive`, {}, { responseType: 'text' });
-  // }
+  // Helper method to set headers with authorization
+  private getHeaders() {
+    const token = this.getAuthToken();
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,  // Add the token to the request headers
+      'Content-Type': 'application/json'
+    });
+  }
 
+  // Get notifications for a specific employee
+  getEmployeeNotifications(employeeId: number): Observable<Notification[]> {
+    const headers = this.getHeaders();
+    return this.http.get<Notification[]>(`${this.baseUrl}/employee/${employeeId}`, { headers });
+  }
 
+  // Mark notification as received and claim pickup for the parcel
+  receiveNotification(employeeId: number, trackingId: string, notificationId: number): Observable<any> {
+    const notificationUrl = `${this.baseUrl}/${notificationId}/receive`;
+    const parcelUrl = `http://localhost:8085/api/parcels/parcel/${trackingId}/claimPickup/${employeeId}`;
 
-   receiveNotification(employeeId: number, trackingId: string, nitificationId: number ): Observable<any> {
-    const notificationUrl = `${this.baseUrl}/${nitificationId}/receive`;
-    const parcelUrl = "http://localhost:8085/api/parcels/parcel/" + trackingId + "/claimPickup/" + employeeId;
-
-
+    const headers = this.getHeaders();  // Using headers with Authorization
 
     return forkJoin([
-      this.http.put(notificationUrl, {}, { responseType: 'text' }),
-      this.http.put(parcelUrl, {}, { responseType: 'text' })
+      this.http.put(notificationUrl, {}, { headers, responseType: 'text' }),
+      this.http.put(parcelUrl, {}, { headers, responseType: 'text' })
     ]);
   }
-
-
-
-
-
-
-
-
-
-  // private isBrowser: boolean;
-
-  // private notificationsSubject = new BehaviorSubject<any[]>([]);
-  // notifications$ = this.notificationsSubject.asObservable();
-
-  // constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-  //   this.isBrowser = isPlatformBrowser(this.platformId);
-
-  //   if (this.isBrowser) {
-  //     const storedNotifications = localStorage.getItem('parcelNotifications');
-  //     const parsedNotifications = storedNotifications ? JSON.parse(storedNotifications) : [];
-  //     this.notificationsSubject.next(parsedNotifications);
-  //   }
-  // }
-
-  // // Get notifications (optional external use)
-  // getNotifications(): any[] {
-  //   if (!this.isBrowser) return [];
-  //   const data = localStorage.getItem('parcelNotifications');
-  //   return data ? JSON.parse(data) : [];
-  // }
-
-  // // Add notification
-  // addNotification(notification: any) {
-  //   if (!this.isBrowser) return;
-
-  //   const current = this.getNotifications();
-  //   current.push(notification);
-  //   localStorage.setItem('parcelNotifications', JSON.stringify(current));
-  //   this.notificationsSubject.next(current);
-  // }
-
-  // // Clear all
-  // clearNotifications() {
-  //   if (!this.isBrowser) return;
-
-  //   localStorage.removeItem('parcelNotifications');
-  //   this.notificationsSubject.next([]);
-  // }
 }

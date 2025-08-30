@@ -27,8 +27,8 @@ public class PoliceStationRestController {
     }
 
     @GetMapping("/{id}")
-    public PoliceStation getById(@PathVariable Integer id) {
-        return policeStationService.findById(id).orElseThrow(() -> new RuntimeException("PoliceStation not found"));
+    public List<PoliceStationResponseDTO> getOne(@PathVariable Integer id) {
+        return policeStationService.findById(id);
     }
 
     @DeleteMapping("/{id}")

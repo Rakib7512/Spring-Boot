@@ -15,7 +15,7 @@ private baseUrl = environment.apiBaseUrl + '/policestation/';
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<PoliceStation[]> {
-    return this.http.get<PoliceStation[]>(this.baseUrl);
+    return this.http.get<PoliceStation[]>('http://localhost:8085/api/policestation/');
   }
 
   create(ps: PoliceStation): Observable<PoliceStation> {

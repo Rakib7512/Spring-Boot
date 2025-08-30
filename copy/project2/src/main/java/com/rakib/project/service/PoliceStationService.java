@@ -23,8 +23,6 @@ public class PoliceStationService {
     }
 
 
-
-
     public List<PoliceStationResponseDTO> getAllPoliceStationsDTOs() {
         return policeStationRepo.findAll().stream().map(ps -> {
             PoliceStationResponseDTO dto = new PoliceStationResponseDTO();
@@ -44,9 +42,19 @@ public class PoliceStationService {
     }
 
 
-    public Optional<PoliceStation> findById(Integer id) {
-        return policeStationRepo.findById(id);
+    public List<PoliceStationResponseDTO> findById(Integer id) {
+        Optional<PoliceStation> policeStationOpt = policeStationRepo.findById(id);
+
+        // If the police station is found, map it to a DTO; otherwise, return an empty list
+        return policeStationOpt.map(policeStation -> {
+            PoliceStationResponseDTO dto = new PoliceStationResponseDTO();
+            dto.setId(policeStation.getId());
+            dto.setName(policeStation.getName());
+            // Add more properties if needed
+            return List.of(dto); // Return as a list with a single DTO
+        }).orElseGet(() -> List.of()); // If police station is not found, return an empty list
     }
+
 
     public void deleteById(Integer id) {
         policeStationRepo.deleteById(id);

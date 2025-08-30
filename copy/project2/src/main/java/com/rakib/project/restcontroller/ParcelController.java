@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/parcels/")
+@RequestMapping("/api/parcels")
+@CrossOrigin("*")
 public class ParcelController {
 
 
@@ -188,6 +189,11 @@ public class ParcelController {
 
 
     //    http://localhost:8085/api/parcels/parcel/53e6c9d0-cd0c-47ee-a6e9-7c9366d8d34e/tracking
+
+    @GetMapping("/tracking/{trackingId}")
+    public List<ParcelResponseDTO> getAllParcelsByTrackingId(@PathVariable String trackingId) {
+        return parcelService.getAllParcelsByTrackingId(trackingId);
+    }
 
 
 
