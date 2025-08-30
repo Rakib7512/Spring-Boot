@@ -48,7 +48,7 @@ public class ParcelController {
     // ----------- Parcel CRUD ------------
 
     // এখন employerId সহ saveParcel হবে
-    @PostMapping("")
+    @PostMapping("/")
     public Parcel createParcel(@RequestBody Parcel parcel)
     { return parcelService.saveParcel(parcel );
     }
