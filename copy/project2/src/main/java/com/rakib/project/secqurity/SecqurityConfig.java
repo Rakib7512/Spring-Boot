@@ -37,8 +37,13 @@ public class SecqurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers("/api/notifications/employee/**","/api/notifications/**","/api/user/**", "/api/user/", "/images/**","/api/user/active/**", "/api/user/login", "/api/consumer/**","/api/policestation/**","/api/district/**", "/api/policestation/**", "/api/parcels/","/api/division/**","/api/countries/**", "/api/employee/**",
+                        req.requestMatchers("/api/notifications/employee/**","/api/notifications/**",
+                                        "/api/user/**", "/api/user/", "/images/**","/api/user/active/**",
+                                        "/api/user/login", "/api/consumer/**","/api/policestation/**",
+                                        "/api/district/**", "/api/policestation/**", "/api/parcels/",
+                                        "/api/division/**","/api/countries/**", "/api/employee/all**",
                                         "/api/parcels/**").permitAll()
+
                                 .requestMatchers("/api/user/all").hasAuthority("CONSUMER")
                                 .requestMatchers("/api/user/all","/api/consumer/profile").hasRole("EMPLOYEE")
                                 .anyRequest().authenticated()
