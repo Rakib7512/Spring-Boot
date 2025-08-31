@@ -61,35 +61,36 @@ public class EmployeeService {
 
             Country country = atten.getCountry();
             if (country != null) {
+                System.out.println("Country Name: " + country.getName()); // Add this line
                 CountryResponseDTO countryResponseDTO = new CountryResponseDTO();
-            countryResponseDTO.setId(country.getId());
-            countryResponseDTO.setName(countryResponseDTO.getName());
-
-            dto.setCountryId(countryResponseDTO);
-
-
-        }
+                countryResponseDTO.setId(country.getId());
+                countryResponseDTO.setName(country.getName());
+                dto.setCountryId(countryResponseDTO);
+            }
 
             Division division = atten.getDivision();
             if (division != null) {
                 DivisionResponseDTO divisionResponseDTO = new DivisionResponseDTO();
                 divisionResponseDTO.setId(division.getId());
-                divisionResponseDTO.setName(divisionResponseDTO.getName());
-
+                divisionResponseDTO.setName(division.getName()); // ✅ Fix here
                 dto.setDivisionId(divisionResponseDTO);
-
-
             }
+
 
             District district = atten.getDistrict();
             if (district != null) {
                 DistrictResponseDTO districtResponseDTO = new DistrictResponseDTO();
-                districtResponseDTO.setId(division.getId());
-                districtResponseDTO.setName(districtResponseDTO.getName());
-
+                districtResponseDTO.setId(district.getId()); // ✅ Fix here (was using division.getId())
+                districtResponseDTO.setName(district.getName()); // ✅ Fix here
                 dto.setDistrictId(districtResponseDTO);
+            }
 
-
+            PoliceStation policeStation = atten.getPoliceStation();
+            if (policeStation != null) {
+                PoliceStationResponseDTO policeDTO = new PoliceStationResponseDTO();
+                policeDTO.setId(policeStation.getId());
+                policeDTO.setName(policeStation.getName()); // ✅ Fix here
+                dto.setPoliceStationId(policeDTO);
             }
 
 
