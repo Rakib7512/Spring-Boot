@@ -6,14 +6,6 @@
   <div class="row">
     <div class="col-md-4 mb-3" *ngFor="let emp of employees">
       <div class="card h-100 shadow-sm">
-        <!-- Employee Photo -->
-        <img 
-          [src]="emp.photoUrl || 'assets/default-avatar.png'" 
-          class="card-img-top" 
-          alt="{{ emp.name }}" 
-          style="height:200px; object-fit:cover;"
-        />
-
         <div class="card-body">
           <h5 class="card-title">{{ emp.name }}</h5>
           <p class="card-text">
@@ -42,21 +34,15 @@
       </div>
       <div class="modal-body" *ngIf="selectedEmployee">
         <div class="row">
-          <div class="col-md-4 text-center">
-            <img 
-              [src]="selectedEmployee.photoUrl || 'assets/default-avatar.png'" 
-              class="img-fluid rounded mb-3" 
-              alt="{{ selectedEmployee.name }}" 
-              style="max-height:250px; object-fit:cover;"
-            />
-          </div>
-          <div class="col-md-8">
+          <div class="col-md-6">
             <p><strong>Email:</strong> {{ selectedEmployee.email }}</p>
             <p><strong>Phone:</strong> {{ selectedEmployee.phone }}</p>
             <p><strong>Gender:</strong> {{ selectedEmployee.gender }}</p>
             <p><strong>NID:</strong> {{ selectedEmployee.nid }}</p>
             <p><strong>Address:</strong> {{ selectedEmployee.address }}</p>
             <p><strong>Designation:</strong> {{ selectedEmployee.designation }}</p>
+          </div>
+          <div class="col-md-6">
             <p><strong>Join Date:</strong> {{ selectedEmployee.joindate }}</p>
             <p><strong>Salary:</strong> {{ selectedEmployee.salary }}</p>
             <p><strong>Hub:</strong> {{ selectedEmployee.empOnHub }}</p>

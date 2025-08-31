@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { HubTransfer } from '../../model/transferHub.model';
 import { TransferHubService } from '../service/transfer-hub.service';
 import { Parcel } from '../../model/parcel.model';
 import { ParcelService } from '../service/parcel.service';
 import { RecParcelEmpDetService } from '../service/rec-parcel-emp-det.service';
 import { RecParcelEmpDetModel } from '../../model/recParcelByEmpDet.modek';
+import { ParcelTrackingDTO } from '../../model/parcelTrackingDTO';
 
 @Component({
   selector: 'app-track-parcel',
@@ -13,36 +14,32 @@ import { RecParcelEmpDetModel } from '../../model/recParcelByEmpDet.modek';
   styleUrl: './track-parcel.css'
 })
 export class TrackParcel {
-  
- trackingId = '';
-  recParcelByEMp: RecParcelEmpDetModel | null = null;
-  errorMessage = '';
 
-  constructor(private recParcelEmpDetService: RecParcelEmpDetService
-    
-  ) {}
+  trackingList: ParcelTrackingDTO[] = [];
+  errorMessage: string = '';
 
-  track() {
-    if (!this.trackingId) {
-      this.errorMessage = 'Please enter a tracking ID.';
-      return;
-    }
+  trackingId: string = ''; // Bind to input
 
-    this.recParcelEmpDetService.getByTrackingId(this.trackingId).subscribe({
-      next: (res: any) => {
-        if (res.length > 0) {
-          this.recParcelByEMp = res[0]; // Since you used `?trackingId=`, backend returns array
-          this.errorMessage = '';
-          console.log(this.recParcelByEMp);
-        } else {
-          this.recParcelByEMp = null;
-          this.errorMessage = 'No parcel found with that tracking ID.';
-        }
-      },
-      error: () => {
-        this.recParcelByEMp = null;
-        this.errorMessage = 'Error fetching parcel.';
-      }
-    });
+  constructor(private parcelService: ParcelService, private cd: ChangeDetectorRef) { }
+
+  ngOnInit(): void { }
+
+  loadTracking(trackingId: string): void {
+  if (!trackingId) {
+    this.errorMessage = 'Please enter a tracking number';
+    return;
   }
+
+  this.parcelService.getParcelTracking(trackingId).subscribe({
+    next: (data) => {
+      this.trackingList = data;
+      this.errorMessage = '';
+    },
+    error: (err) => {
+      this.errorMessage = 'Parcel not found or failed to load';
+      this.trackingList = [];
+    }
+  });
+}
+
 }

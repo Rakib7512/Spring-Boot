@@ -99,4 +99,13 @@ public class EmployeeService {
         }).toList();
     }
 
+
+    public Long getEmployeeIdByEmail(String email) {
+        return employeeRepository.findByUserEmail(email)
+                .map(Employee::getId)
+                .orElse(null);
+    }
+
+
+
 }

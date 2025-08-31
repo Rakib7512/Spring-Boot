@@ -19,4 +19,13 @@ public interface IEmployeeRepo extends JpaRepository<Employee, Long> {
             Country country, Division division, District district, PoliceStation policeStation
     );
 
+
+
+    @Query("SELECT e.id FROM Employee e WHERE e.user.email = :email")
+    Optional<Long> findEmployeeIdByUserEmail(@Param("email") String email);
+
+
+
+
+
 }

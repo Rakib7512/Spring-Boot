@@ -2,11 +2,9 @@ package com.rakib.project.restcontroller;
 
 
 import com.rakib.project.dto.ParcelResponseDTO;
+import com.rakib.project.dto.ParcelTrackingDTO;
 import com.rakib.project.entity.*;
-import com.rakib.project.repository.IEmployeeRepo;
-import com.rakib.project.repository.INotificationRepo;
-import com.rakib.project.repository.IParcelRepository;
-import com.rakib.project.repository.IParcelTrackingRepository;
+import com.rakib.project.repository.*;
 import com.rakib.project.service.NotificationService;
 import com.rakib.project.service.ParcelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/parcels")
@@ -32,6 +31,8 @@ public class ParcelController {
 
     @Autowired
     private INotificationRepo notificationRepo;
+    @Autowired
+    private IPoliceStationRepo policeStationRepo;
 
 
     @Autowired
@@ -110,6 +111,7 @@ public class ParcelController {
 
 
         parcel.setCurrentHub(emp.getEmpOnHub());
+        parcel.setPreviousHub(emp.getEmpOnHub());
         parcel.setPickupDeliveryMan(emp);
         parcelRepo.save(parcel);
 
@@ -142,18 +144,59 @@ public class ParcelController {
 
 
 
+//    @PostMapping("/parcel/{trackingId}/transfer")
+//    public ResponseEntity<String> transferParcel(
+//            @PathVariable String trackingId,
+//            @RequestParam String hubName,
+//            @RequestParam Long employeeId) {
+//
+//        Parcel parcel = parcelRepo.findByTrackingId(trackingId)
+//                .orElseThrow(() -> new RuntimeException("Parcel not found"));
+//
+//        Employee emp = employeeRepo.findById(employeeId)
+//                .orElseThrow(() -> new RuntimeException("Employee not found"));
+//
+//        ParcelTracking tracking = new ParcelTracking();
+//        tracking.setParcel(parcel);
+//        tracking.setHubName(hubName);
+//        tracking.setHandledBy(emp);
+//        tracking.setStatus(ParcelStatus.IN_TRANSIT);
+//        parcelTrackingRepo.save(tracking);
+//
+//        return ResponseEntity.ok("Parcel transferred to " + hubName);
+//    }
+
+
     @PostMapping("/parcel/{trackingId}/transfer")
     public ResponseEntity<String> transferParcel(
             @PathVariable String trackingId,
             @RequestParam String hubName,
             @RequestParam Long employeeId) {
 
+        // 1. Find the parcel
         Parcel parcel = parcelRepo.findByTrackingId(trackingId)
                 .orElseThrow(() -> new RuntimeException("Parcel not found"));
 
+        // 2. Find the employee handling this transfer
         Employee emp = employeeRepo.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
 
+        // 3. Update Parcel hubs
+        parcel.setPreviousHub(parcel.getCurrentHub()); // current becomes previous
+        System.out.println(parcel.getCurrentHub()+"8888888888888888888888888888888888888888");
+
+
+        parcel.setCurrentHub(hubName);
+        System.out.println(parcel.getToHub()+"77777777777777777777777777777777777777777777777777");// toHub becomes current
+
+
+        parcel.setToHub(hubName);                    // new hub to transfer to
+        System.out.println(hubName+"666666666666666666666666666666666");
+
+        // 4. Save the updated parcel
+        parcelRepo.save(parcel);
+
+        // 5. Create a new tracking entry
         ParcelTracking tracking = new ParcelTracking();
         tracking.setParcel(parcel);
         tracking.setHubName(hubName);
@@ -164,7 +207,8 @@ public class ParcelController {
         return ResponseEntity.ok("Parcel transferred to " + hubName);
     }
 
-   // URL      http://localhost:8085/api/parcels/parcel/53e6c9d0-cd0c-47ee-a6e9-7c9366d8d34e/transfer?hubName=Central%20Hub%20Dhaka&employeeId=1
+
+    // URL      http://localhost:8085/api/parcels/parcel/53e6c9d0-cd0c-47ee-a6e9-7c9366d8d34e/transfer?hubName=Central%20Hub%20Dhaka&employeeId=1
 //   {
 //       "hubName": "Central Hub - Dhaka",
 //           "employeeId": 2
@@ -173,7 +217,7 @@ public class ParcelController {
 
 
     @GetMapping("/parcel/{trackingId}/tracking")
-    public ResponseEntity<List<ParcelTracking>> getParcelTracking(@PathVariable String trackingId) {
+    public ResponseEntity<List<ParcelTrackingDTO>> getParcelTracking(@PathVariable String trackingId) {
 
         Parcel parcel = parcelRepo.findByTrackingId(trackingId)
                 .orElseThrow(() -> new RuntimeException("Parcel not found"));
@@ -184,8 +228,28 @@ public class ParcelController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(trackingList);
+        // Convert hub ID to PoliceStation name
+        List<ParcelTrackingDTO> dtoList = trackingList.stream().map(pt -> {
+            ParcelTrackingDTO dto = new ParcelTrackingDTO(pt);
+            if (pt.getHubName() != null) {
+                try {
+                    int hubId = Integer.parseInt(pt.getHubName());
+                    PoliceStation station = policeStationRepo.findById(hubId)
+                            .orElse(null);
+                    if (station != null) {
+                        dto.setHubName(station.getName());
+                    }
+                } catch (NumberFormatException e) {
+                    // Already a name, keep as-is
+                }
+            }
+            return dto;
+        }).toList();
+
+        return ResponseEntity.ok(dtoList);
     }
+
+
 
 
     //    http://localhost:8085/api/parcels/parcel/53e6c9d0-cd0c-47ee-a6e9-7c9366d8d34e/tracking
@@ -194,6 +258,15 @@ public class ParcelController {
     public List<ParcelResponseDTO> getAllParcelsByTrackingId(@PathVariable String trackingId) {
         return parcelService.getAllParcelsByTrackingId(trackingId);
     }
+
+
+
+
+    @PutMapping("/")
+    public Parcel updateParcel(@RequestBody Parcel parcel){
+        return parcelService.updateParcel(parcel);
+    }
+
 
 
 

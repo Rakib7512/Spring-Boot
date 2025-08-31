@@ -102,5 +102,19 @@ public class EmployeeRestController {
 
 
 
+    @GetMapping("my-id")
+    public ResponseEntity<Long> getLoggedInEmployeeId(Authentication authentication) {
+        String email = authentication.getName(); // Spring Security sets this to username (your email)
+        Long employeeId = employeeService.getEmployeeIdByEmail(email);
+        System.out.println(employeeId+ "   25252525252525252522525");
+        if (employeeId != null) {
+            return ResponseEntity.ok(employeeId);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+
 
 }

@@ -1,6 +1,8 @@
 <div class="container">
   <h2>Transfer Parcel</h2>
+
   <form [formGroup]="transferForm" (ngSubmit)="onSubmit()">
+    <!-- Tracking ID -->
     <div class="form-group">
       <label for="trackingId">Tracking ID:</label>
       <input
@@ -13,30 +15,44 @@
       />
     </div>
 
+    <!-- From Hub (read-only) -->
     <div class="form-group">
-      <label for="fromHub">From Hub:</label>
+      <label for="previousHub">From Hub:</label>
       <input
-        id="fromHub"
+        id="previousHub"
         type="text"
         class="form-control"
-        formControlName="fromHub"
-        [value]="fromHub"
+        formControlName="previousHub"
         readonly
       />
     </div>
 
+    <!-- Current Hub (read-only) -->
     <div class="form-group">
-      <label for="hubName">To Hub:</label>
-      <select
-        id="hubName"
+      <label for="currentHub">Current Hub:</label>
+      <input
+        id="currentHub"
+        type="text"
         class="form-control"
-        formControlName="hubName"
-        placeholder="Select Target Hub"
+        formControlName="currentHub"
+        readonly
+      />
+    </div>
+
+    <!-- To Hub -->
+    <div class="form-group">
+      <label for="toHub">To Hub:</label>
+      <select
+        id="toHub"
+        class="form-control"
+        formControlName="toHub"
       >
-        <option *ngFor="let hub of allHub" [value]="hub.name">{{ hub.name }}</option>
+        <option value="">Select Target Hub</option>
+        <option *ngFor="let hub of allHub" [value]="hub.id">{{ hub.name }}</option>
       </select>
     </div>
 
+    <!-- Employee ID -->
     <div class="form-group">
       <label for="employeeId">Employee ID:</label>
       <input
@@ -48,24 +64,22 @@
       />
     </div>
 
-    <div class="form-group">
-      <label for="employeeHub">Employee Current Hub:</label>
-      <input
-        id="employeeHub"
-        type="text"
-        class="form-control"
-        formControlName="employeeCurrentHub"
-        [value]="employeeCurrentHub"
-        readonly
-      />
-    </div>
-
-    <button type="submit" class="btn btn-primary" [disabled]="transferForm.invalid">Transfer</button>
+    <!-- Submit Button -->
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="transferForm.invalid"
+    >
+      Transfer
+    </button>
   </form>
 
+  <!-- Success Message -->
   <div *ngIf="successMessage" class="alert alert-success mt-3">
     {{ successMessage }}
   </div>
+
+  <!-- Error Message -->
   <div *ngIf="errorMessage" class="alert alert-danger mt-3">
     {{ errorMessage }}
   </div>

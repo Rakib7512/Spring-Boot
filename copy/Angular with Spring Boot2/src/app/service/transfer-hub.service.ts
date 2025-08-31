@@ -11,7 +11,7 @@ import { environment } from '../../environment/environment';
 })
 export class TransferHubService {
 
-  private apiUrl=environment.apiBaseUrl+'/parcels/parcel/';
+  private apiUrl=environment.apiBaseUrl+'/parcels/parcel';
   constructor(private http: HttpClient) { }
 
 
@@ -23,7 +23,21 @@ export class TransferHubService {
     });
   }
 
+
+
+
+  
+
   getParcelDetails(trackingId: string): Observable<any> {
+    return this.http.get<any>('http://localhost:8085/api/parcels/parcel/' + trackingId + '/tracking');
+  }
+
+
+
+  getParcelDetailsForTransfer(trackingId: string): Observable<any> {
     return this.http.get<any>('http://localhost:8085/api/parcels/tracking/' + trackingId);
   }
+
+
+
 }

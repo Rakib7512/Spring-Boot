@@ -16,7 +16,9 @@ public class ParcelResponseDTO {
     private String addressLineForSender2;
     private String addressLineForReceiver1;
     private String addressLineForReceiver2;
+    private String previousHub;
     private String currentHub;
+    private String toHub;
     private String size;
     private int fee;
     private String verificationCode;
@@ -38,7 +40,7 @@ public class ParcelResponseDTO {
     public ParcelResponseDTO() {
     }
 
-    public ParcelResponseDTO(Long id, String trackingId, String senderName, String senderPhone, String receiverName, String receiverPhone, String addressLineForSender1, String addressLineForSender2, String addressLineForReceiver1, String addressLineForReceiver2, String currentHub, String size, int fee, String verificationCode, Date createdAt, Date bookingDate, String status, int pickupDeliveryManId, int deliveryManId, int bookingAgentId, int sendCountryId, int sendDivisionId, int sendDistrictId, int sendPoliceStationId, int receiveCountryId, int receiveDivisionId, int receiveDistrictId, int receivePoliceStationId) {
+    public ParcelResponseDTO(Long id, String trackingId, String senderName, String senderPhone, String receiverName, String receiverPhone, String addressLineForSender1, String addressLineForSender2, String addressLineForReceiver1, String addressLineForReceiver2, String previousHub, String currentHub, String toHub, String size, int fee, String verificationCode, Date createdAt, Date bookingDate, String status, int pickupDeliveryManId, int deliveryManId, int bookingAgentId, int sendCountryId, int sendDivisionId, int sendDistrictId, int sendPoliceStationId, int receiveCountryId, int receiveDivisionId, int receiveDistrictId, int receivePoliceStationId) {
         this.id = id;
         this.trackingId = trackingId;
         this.senderName = senderName;
@@ -49,7 +51,9 @@ public class ParcelResponseDTO {
         this.addressLineForSender2 = addressLineForSender2;
         this.addressLineForReceiver1 = addressLineForReceiver1;
         this.addressLineForReceiver2 = addressLineForReceiver2;
+        this.previousHub = previousHub;
         this.currentHub = currentHub;
+        this.toHub = toHub;
         this.size = size;
         this.fee = fee;
         this.verificationCode = verificationCode;
@@ -149,12 +153,28 @@ public class ParcelResponseDTO {
         this.addressLineForReceiver2 = addressLineForReceiver2;
     }
 
+    public String getPreviousHub() {
+        return previousHub;
+    }
+
+    public void setPreviousHub(String previousHub) {
+        this.previousHub = previousHub;
+    }
+
     public String getCurrentHub() {
         return currentHub;
     }
 
     public void setCurrentHub(String currentHub) {
         this.currentHub = currentHub;
+    }
+
+    public String getToHub() {
+        return toHub;
+    }
+
+    public void setToHub(String toHub) {
+        this.toHub = toHub;
     }
 
     public String getSize() {

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap, throwError } from 'rxjs';
 import { Employee } from '../../model/employee.model';
 import { environment } from '../../environment/environment';
 import { isPlatformBrowser } from '@angular/common';
@@ -55,6 +55,35 @@ export class EmployeeService {
   updateEmployee(id: number, employee: any): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/${id}`, employee);
   }
+
+
+  getMyEmployeeId(): Observable<number> {
+  if (!isPlatformBrowser(this.platformId)) {
+    return throwError(() => new Error('Not running in browser'));
+  }
+
+  const token = localStorage.getItem('authToken');
+  if (!token) {
+    return throwError(() => new Error('No auth token found'));
+  }
+
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`
+  });
+
+  return this.http.get<number>('http://localhost:8085/api/employee/my-id', { headers }).pipe(
+    tap(empId => {
+      if (isPlatformBrowser(this.platformId) && empId) {
+        localStorage.setItem('employeeId', empId.toString());
+        console.log("employee ID saved ");
+        console.log(localStorage.getItem('employeeId'));
+      }
+    })
+  );
+}
+
+
+
 
 
  

@@ -1,24 +1,32 @@
 import { ParcelTracking } from "./trackingParcel.model";
+
+export enum ParcelStatus {
+  BOOKED = 'BOOKED',
+  // Add other statuses if needed
+}
+
 export class Parcel {
   id?: number;
   trackingId?: string;
+
   senderName!: string;
   receiverName!: string;
   senderPhone!: string;
   receiverPhone!: string;
-  
+
   addressLineForSender1!: string;
   addressLineForSender2!: string;
-
   addressLineForReceiver1!: string;
   addressLineForReceiver2!: string;
 
-  status!: string;
+  status!: ParcelStatus | string; // safer if using enums
+  previousHub?: string;
   currentHub?: string;
-  deliveryPerson?: string;
-  createdAt?: Date;
-  bookingAgent!: string;
-  
+  toHub?: string;
+
+  deliveryPerson?: string; // Custom field, not in original model
+  bookingAgent!: string;   // Custom field, not in original model
+
   sendCountry!: string;
   sendDivision!: string;
   sendDistrict!: string;
@@ -28,16 +36,16 @@ export class Parcel {
   receiveDivision!: string;
   receiveDistrict!: string;
   receivePoliceStation!: string;
-  trackingHistory!: ParcelTracking[];
-  size!: string
+
+  size!: string;
   fee?: number;
-  verificationCode!:string
-  bookingDate!:Date;
+  verificationCode!: string;
 
+  bookingDate!: Date;
+  createdAt?: Date;
 
-   receivedByEmployeeId?: number;
-  receivedByEmployeeName?: string;
-  
+  trackingHistory!: ParcelTracking[];
 
-
+  receivedByEmployeeId?: number;     // Custom field
+  receivedByEmployeeName?: string;   // Custom field
 }

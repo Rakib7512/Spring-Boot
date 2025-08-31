@@ -39,8 +39,14 @@ public class Parcel {
     @Column(name = "receiver_phone")
     private String receiverPhone;
 
+    @Column(name = "previous_hub")
+    private String previousHub;
+
     @Column(name = "current_hub")
     private String currentHub;
+
+    @Column(name = "to_hub")
+    private String toHub;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", updatable = false)
@@ -127,6 +133,41 @@ public class Parcel {
 
     // You can add a full-args constructor if needed, but omitted here for brevity
 
+
+    public Parcel(Long id, String addressLineForSender1, String addressLineForSender2, String addressLineForReceiver1, String addressLineForReceiver2, String trackingId, String senderName, String receiverName, String senderPhone, String receiverPhone, String previousHub, String currentHub, String toHub, Date createdAt, Date bookingDate, String size, int fee, String verificationCode, ParcelStatus status, Employee pickupDeliveryMan, Employee deliveryMan, Employee bookingAgent, List<ParcelTracking> trackingHistory, Country sendCountry, Division sendDivision, District sendDistrict, PoliceStation sendPoliceStation, Country receiveCountry, Division receiveDivision, District receiveDistrict, PoliceStation receivePoliceStation) {
+        this.id = id;
+        this.addressLineForSender1 = addressLineForSender1;
+        this.addressLineForSender2 = addressLineForSender2;
+        this.addressLineForReceiver1 = addressLineForReceiver1;
+        this.addressLineForReceiver2 = addressLineForReceiver2;
+        this.trackingId = trackingId;
+        this.senderName = senderName;
+        this.receiverName = receiverName;
+        this.senderPhone = senderPhone;
+        this.receiverPhone = receiverPhone;
+        this.previousHub = previousHub;
+        this.currentHub = currentHub;
+        this.toHub = toHub;
+        this.createdAt = createdAt;
+        this.bookingDate = bookingDate;
+        this.size = size;
+        this.fee = fee;
+        this.verificationCode = verificationCode;
+        this.status = status;
+        this.pickupDeliveryMan = pickupDeliveryMan;
+        this.deliveryMan = deliveryMan;
+        this.bookingAgent = bookingAgent;
+        this.trackingHistory = trackingHistory;
+        this.sendCountry = sendCountry;
+        this.sendDivision = sendDivision;
+        this.sendDistrict = sendDistrict;
+        this.sendPoliceStation = sendPoliceStation;
+        this.receiveCountry = receiveCountry;
+        this.receiveDivision = receiveDivision;
+        this.receiveDistrict = receiveDistrict;
+        this.receivePoliceStation = receivePoliceStation;
+    }
+
     public Long getId() {
         return id;
     }
@@ -207,12 +248,28 @@ public class Parcel {
         this.receiverPhone = receiverPhone;
     }
 
+    public String getPreviousHub() {
+        return previousHub;
+    }
+
+    public void setPreviousHub(String previousHub) {
+        this.previousHub = previousHub;
+    }
+
     public String getCurrentHub() {
         return currentHub;
     }
 
     public void setCurrentHub(String currentHub) {
         this.currentHub = currentHub;
+    }
+
+    public String getToHub() {
+        return toHub;
+    }
+
+    public void setToHub(String toHub) {
+        this.toHub = toHub;
     }
 
     public Date getCreatedAt() {
@@ -223,36 +280,12 @@ public class Parcel {
         this.createdAt = createdAt;
     }
 
-    public Employee getPickupDeliveryMan() {
-        return pickupDeliveryMan;
+    public Date getBookingDate() {
+        return bookingDate;
     }
 
-    public void setPickupDeliveryMan(Employee pickupDeliveryMan) {
-        this.pickupDeliveryMan = pickupDeliveryMan;
-    }
-
-    public Employee getDeliveryMan() {
-        return deliveryMan;
-    }
-
-    public void setDeliveryMan(Employee deliveryMan) {
-        this.deliveryMan = deliveryMan;
-    }
-
-    public ParcelStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ParcelStatus status) {
-        this.status = status;
-    }
-
-    public List<ParcelTracking> getTrackingHistory() {
-        return trackingHistory;
-    }
-
-    public void setTrackingHistory(List<ParcelTracking> trackingHistory) {
-        this.trackingHistory = trackingHistory;
+    public void setBookingDate(Date bookingDate) {
+        this.bookingDate = bookingDate;
     }
 
     public String getSize() {
@@ -279,12 +312,44 @@ public class Parcel {
         this.verificationCode = verificationCode;
     }
 
-    public Date getBookingDate() {
-        return bookingDate;
+    public ParcelStatus getStatus() {
+        return status;
     }
 
-    public void setBookingDate(Date bookingDate) {
-        this.bookingDate = bookingDate;
+    public void setStatus(ParcelStatus status) {
+        this.status = status;
+    }
+
+    public Employee getPickupDeliveryMan() {
+        return pickupDeliveryMan;
+    }
+
+    public void setPickupDeliveryMan(Employee pickupDeliveryMan) {
+        this.pickupDeliveryMan = pickupDeliveryMan;
+    }
+
+    public Employee getDeliveryMan() {
+        return deliveryMan;
+    }
+
+    public void setDeliveryMan(Employee deliveryMan) {
+        this.deliveryMan = deliveryMan;
+    }
+
+    public Employee getBookingAgent() {
+        return bookingAgent;
+    }
+
+    public void setBookingAgent(Employee bookingAgent) {
+        this.bookingAgent = bookingAgent;
+    }
+
+    public List<ParcelTracking> getTrackingHistory() {
+        return trackingHistory;
+    }
+
+    public void setTrackingHistory(List<ParcelTracking> trackingHistory) {
+        this.trackingHistory = trackingHistory;
     }
 
     public Country getSendCountry() {
@@ -349,13 +414,5 @@ public class Parcel {
 
     public void setReceivePoliceStation(PoliceStation receivePoliceStation) {
         this.receivePoliceStation = receivePoliceStation;
-    }
-
-    public Employee getBookingAgent() {
-        return bookingAgent;
-    }
-
-    public void setBookingAgent(Employee bookingAgent) {
-        this.bookingAgent = bookingAgent;
     }
 }

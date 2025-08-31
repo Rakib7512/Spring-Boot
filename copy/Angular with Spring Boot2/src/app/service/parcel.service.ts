@@ -4,6 +4,7 @@ import { Parcel } from '../../model/parcel.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../environment/environment';
 import { ParcelTracking } from '../../model/trackingParcel.model';
+import { ParcelTrackingDTO } from '../../model/parcelTrackingDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -26,15 +27,15 @@ export class ParcelService {
     return this.http.get<Parcel[]>('http://localhost:8085/api/parcels');
   }
 
-  updateParcel(id: number, parcel: Parcel): Observable<Parcel> {
-    return this.http.put<Parcel>(`${this.baseUrl}/${id}`, parcel);
+  updateParcel(parcel: Parcel): Observable<Parcel> {
+    return this.http.put<Parcel>(`${this.baseUrl}/`, parcel);
   }
 
   patchParcel(id: number, partial: Partial<Parcel>): Observable<Parcel> {
     return this.http.patch<Parcel>(`${this.baseUrl}/${id}`, partial);
   }
 
-  getParcelById(id: number): Observable<Parcel> {
+  getParcelById(id: string): Observable<Parcel> {
     return this.http.get<Parcel>(`${this.baseUrl}/${id}`);
   }
 
@@ -92,9 +93,10 @@ getParcelsByUserId(userId: number): Observable<Parcel[]> {
 
   // 3. Get Tracking History
 
-  getParcelTracking(trackingId: string): Observable<ParcelTracking[]> {
-    const url = `${this.baseUrl2}${trackingId}/tracking`;
-    return this.http.get<ParcelTracking[]>(url);
+  getParcelTracking(trackingId: string): Observable<ParcelTrackingDTO[]> {
+    const url = `http://localhost:8085/api/parcels/parcel/${trackingId}/tracking`;
+
+    return this.http.get<ParcelTrackingDTO[]>(url);
   }
 
  
