@@ -1,45 +1,47 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { EmployeeService } from '../service/employee.service';
-import {EmployeeResponseDTO } from '../../model/employee.model';
+import { Router } from '@angular/router';
+import { CountryService } from '../service/country.service';
+import { DivisionService } from '../service/division.service';
+import { DistrictService } from '../service/district.service';
+import { PoliceStationService } from '../service/police-station.service';
+import { forkJoin } from 'rxjs';
+import { Employee } from '../../model/employee.model';
+import { Country } from '../../model/country.module';
+import { Division } from '../../model/division.model';
+import { District } from '../../model/district.model';
+import { PoliceStation } from '../../model/policeStation.model';
 
 @Component({
   selector: 'app-view-emp',
+  standalone: false,
   templateUrl: './view-emp.html',
-  styleUrls: ['./view-emp.css'],
-  standalone: false
+  styleUrl: './view-emp.css'
 })
-export class ViewEmp implements OnInit {
-  employees: EmployeeResponseDTO[] = [];
+export class ViewEmp implements OnInit{
+   
+  employees: any[] = [];
   message: string = '';
-  selectedEmployee: EmployeeResponseDTO | null = null;
+  selectedEmployee: any = null;
 
-  constructor(private employeeService: EmployeeService, private cd: ChangeDetectorRef) {}
+  constructor(private employeeService: EmployeeService, private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.loadEmployees();
   }
 
-  loadEmployees(): void {
-  this.employeeService.getAllEmployers().subscribe({
-    next: (res: EmployeeResponseDTO[]) => {
-      this.employees = res;
-      this.cd.markForCheck();
-    },
-    error: err => this.message = 'Fail: ' + (err.error?.Message || err.message)
-  });
-}
-
-
-  viewEmployee(emp: EmployeeResponseDTO) {
-    this.selectedEmployee = emp;
-    const modal = new (window as any).bootstrap.Modal(document.getElementById('employeeModal'));
-    modal.show();
+  // Load all employees
+  loadEmployees() {
+    this.employeeService.getAllEmployers().subscribe({
+      next: (res: any) => {
+        this.employees = res;
+        this.cd.markForCheck();
+      },
+      error: err => this.message = 'Fail: ' + (err.error?.Message || err.message)
+    });
   }
 
-  updateEmployee(emp: EmployeeResponseDTO) {
-    alert(`Redirect to update employee with ID: ${emp.id}`);
-  }
-
+  // Delete employee
   deleteEmployee(id: number) {
     if(confirm("Are you sure you want to delete this employee?")) {
       this.employeeService.deleteEmployee(id).subscribe({
@@ -50,5 +52,17 @@ export class ViewEmp implements OnInit {
         error: err => this.message = 'Fail: ' + (err.error?.Message || err.message)
       });
     }
+  }
+
+  // View details in modal
+  viewEmployee(emp: any) {
+    this.selectedEmployee = emp;
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('employeeModal'));
+    modal.show();
+  }
+
+  // Navigate to update page
+  updateEmployee(emp: any) {
+    alert(`Redirect to update employee with ID: ${emp.id}`);
   }
 }

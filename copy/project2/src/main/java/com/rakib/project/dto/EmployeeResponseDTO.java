@@ -14,21 +14,24 @@ public class EmployeeResponseDTO {
     private String designation;
     private Date joindate;
     private String phone;
-    private String salary;
+    private float salary;
     private String photo;
     private String empOnHub;
 
     // Instead of returning full objects, we will return only their IDs
-    private int countryId;
-    private int divisionId;
-    private int districtId;
-    private int policeStationId;
-    private int userId;
+
+
+    private CountryResponseDTO countryId;
+    private DivisionResponseDTO divisionId;
+    private DistrictResponseDTO districtId;
+    private PoliceStationResponseDTO policeStationId;
+    private UserDto userId;
+
 
     public EmployeeResponseDTO() {
     }
 
-    public EmployeeResponseDTO(Long id, String name, String email, String gender, String nid, String address, String designation, Date joindate, String phone, String salary, String photo, String empOnHub, int countryId, int divisionId, int districtId, int policeStationId, int userId) {
+    public EmployeeResponseDTO(Long id, String name, String email, String gender, String nid, String address, String designation, Date joindate, String phone, float salary, String photo, String empOnHub, CountryResponseDTO countryId, DivisionResponseDTO divisionId, DistrictResponseDTO districtId, PoliceStationResponseDTO policeStationId, UserDto userId) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -120,11 +123,11 @@ public class EmployeeResponseDTO {
         this.phone = phone;
     }
 
-    public String getSalary() {
+    public float getSalary() {
         return salary;
     }
 
-    public void setSalary(String salary) {
+    public void setSalary(float salary) {
         this.salary = salary;
     }
 
@@ -144,43 +147,43 @@ public class EmployeeResponseDTO {
         this.empOnHub = empOnHub;
     }
 
-    public int getCountryId() {
+    public CountryResponseDTO getCountryId() {
         return countryId;
     }
 
-    public void setCountryId(int countryId) {
+    public void setCountryId(CountryResponseDTO countryId) {
         this.countryId = countryId;
     }
 
-    public int getDivisionId() {
+    public DivisionResponseDTO getDivisionId() {
         return divisionId;
     }
 
-    public void setDivisionId(int divisionId) {
+    public void setDivisionId(DivisionResponseDTO divisionId) {
         this.divisionId = divisionId;
     }
 
-    public int getDistrictId() {
+    public DistrictResponseDTO getDistrictId() {
         return districtId;
     }
 
-    public void setDistrictId(int districtId) {
+    public void setDistrictId(DistrictResponseDTO districtId) {
         this.districtId = districtId;
     }
 
-    public int getPoliceStationId() {
+    public PoliceStationResponseDTO getPoliceStationId() {
         return policeStationId;
     }
 
-    public void setPoliceStationId(int policeStationId) {
+    public void setPoliceStationId(PoliceStationResponseDTO policeStationId) {
         this.policeStationId = policeStationId;
     }
 
-    public int getUserId() {
+    public UserDto getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(UserDto userId) {
         this.userId = userId;
     }
 }

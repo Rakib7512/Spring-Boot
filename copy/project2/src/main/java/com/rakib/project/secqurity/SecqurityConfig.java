@@ -41,8 +41,8 @@ public class SecqurityConfig {
                                         "/api/user/**", "/api/user/", "/images/**","/api/user/active/**",
                                         "/api/user/login", "/api/consumer/**","/api/policestation/**",
                                         "/api/district/**", "/api/policestation/**", "/api/parcels/",
-                                        "/api/division/**","/api/countries/**", "/api/employee/all**",
-                                        "/api/parcels/**").permitAll()
+                                        "/api/division/**","/api/countries/**", "/api/employee/**",
+                                        "/api/parcels/**","/api/employee/all**").permitAll()
 
                                 .requestMatchers("/api/user/all").hasAuthority("CONSUMER")
                                 .requestMatchers("/api/user/all","/api/consumer/profile").hasRole("EMPLOYEE")

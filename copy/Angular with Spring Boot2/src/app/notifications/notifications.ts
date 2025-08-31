@@ -19,15 +19,12 @@ export class Notifications implements OnInit {
 notifications: Notification[] = [];
   employeeId!: number;
 
-  constructor(private notificationService: NotificationService, 
-              private cd: ChangeDetectorRef,
-        ) {}
+  constructor(private notificationService: NotificationService, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     // 👇 Load logged-in employeeId (from localStorage after login)
     this.employeeId = Number(localStorage.getItem('employeeId')); 
     this.loadNotifications();
-    this.cd.markForCheck();
   }
 
   loadNotifications() {

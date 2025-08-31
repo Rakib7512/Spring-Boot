@@ -2,6 +2,7 @@ package com.rakib.project.restcontroller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rakib.project.dto.EmployeeResponseDTO;
 import com.rakib.project.entity.Consumer;
 import com.rakib.project.entity.Employee;
 import com.rakib.project.entity.User;
@@ -70,12 +71,21 @@ public class EmployeeRestController {
     }
 
 
-    @GetMapping("all")
-    public ResponseEntity<List<Employee>> getAllUsers() {
+    @GetMapping("")
+    public ResponseEntity<List<Employee>> getAllEmployee() {
         List<Employee> employeeList = employeeService.getAll();
         return ResponseEntity.ok(employeeList);
 
     }
+
+
+    @GetMapping("all")
+    public ResponseEntity<List<EmployeeResponseDTO>> getAllEmployees() {
+        List<EmployeeResponseDTO> employeeList = employeeService.getAllAttendanceResponseDTOS();
+        return ResponseEntity.ok(employeeList);
+
+    }
+
 
 
 

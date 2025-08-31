@@ -22,7 +22,7 @@ public class Employee {
     private String designation;
     private Date joindate;
     private String phone;
-    private Number salary;
+    private Float salary;
     private String photo;
     private String empOnHub;
 
@@ -128,11 +128,11 @@ public class Employee {
         this.phone = phone;
     }
 
-    public Number getSalary() {
+    public Float getSalary() {
         return salary;
     }
 
-    public void setSalary(Number salary) {
+    public void setSalary(Float salary) {
         this.salary = salary;
     }
 
