@@ -1,6 +1,0 @@
-<div *ngFor="let n of notifications">
-  <p [class.received]="n.received">{{ n.message }}</p>
-  <small>{{ n.createdAt | date:'short' }}</small>
-
-  <button *ngIf="!n.received" (click)="markAsReceived(n)">Receive</button>
-</div>
