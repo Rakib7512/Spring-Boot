@@ -4,7 +4,6 @@
     <p class="text-muted">Here’s your profile and parcel activity overview</p>
   </div>
 
-  <div *ngIf="user; else noUser">
     <!-- Profile Card -->
     <div class="card shadow-lg border-0 mb-5 rounded-4">
       <div class="card-header bg-success text-white fw-semibold fs-5 rounded-top-4 d-flex justify-content-between align-items-center">
@@ -13,7 +12,7 @@
       <div class="card-body row row-cols-1 row-cols-md-2 g-4">
         <!-- Profile Picture -->
         <div class="col-md-4 text-center">
-          <img [src]="user.photo || defaultImage" class="img-thumbnail rounded-circle shadow mb-3" alt="Profile Picture" width="150" height="150">
+          <img [src]="imageBaseUrl + user.photo || defaultImage" class="img-thumbnail rounded-circle shadow mb-3" alt="Profile Picture" width="150" height="150">
           <input type="file" class="form-control" (change)="onFileSelected($event)" accept="image/*">
           <button class="btn btn-outline-primary mt-2" (click)="saveProfilePic()">Save Picture</button>
         </div>
@@ -24,7 +23,7 @@
           <p><strong>Email:</strong> {{ user.email }}</p>
           <p><strong>Phone:</strong> {{ user.phone }}</p>
           <p><strong>NID:</strong> {{ user.nid }}</p>
-          <p><strong>Role:</strong> {{ user.role | titlecase }}</p>
+          <p><strong>Role:</strong> {{ user.role }}</p>
           <p><strong>Current Hub:</strong> {{ user.currentHub }}</p>
         </div>
       </div>
@@ -56,7 +55,7 @@
               <td>{{ parcel.receiverPhone }}</td>
               <td>{{ parcel.sendPoliceStation }}</td>
               <td>{{ parcel.receivePoliceStation }}</td>
-              <td>{{ parcel.createdAt | date:'medium' }}</td>
+              <td>{{ parcel.createdAt}}</td>
             </tr>
           </tbody>
         </table>
@@ -65,12 +64,4 @@
         </ng-template>
       </div>
     </div>
-  </div>
-
-  <!-- User Not Found -->
-  <ng-template #noUser>
-    <div class="alert alert-warning text-center p-4 fw-bold fs-5 rounded-3 shadow-sm">
-      <i class="bi bi-exclamation-triangle-fill me-2"></i> User not logged in or profile not found.
-    </div>
-  </ng-template>
 </div>

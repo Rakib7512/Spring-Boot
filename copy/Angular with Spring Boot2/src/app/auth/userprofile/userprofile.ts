@@ -1,12 +1,9 @@
-import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { User } from '../../../model/user.model';
-import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
-import { AuthService } from '../../service/auth.service';
-import { UserService } from '../../service/user.service';
 import { Parcel } from '../../../model/parcel.model';
 import { ParcelService } from '../../service/parcel.service';
 import { isPlatformBrowser } from '@angular/common';
+import { UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-userprofile',
@@ -15,41 +12,58 @@ import { isPlatformBrowser } from '@angular/common';
   styleUrl: './userprofile.css'
 })
 export class Userprofile implements OnInit {
-  user: User | null = null;
+  id!: number;
+  user!: User;
   userParcels: Parcel[] = [];
-  defaultImage: string = 'https://via.placeholder.com/150'; // fallback image
+  defaultImage: string = 'https://via.placeholder.com/150';
   selectedImage: string | null = null;
+  imageBaseUrl: string = 'http://localhost:8085/images/users/';
 
   constructor(
     private parcelService: ParcelService,
+    private userService: UserService,
+    private cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) { }
-
+  ) {}
 
   ngOnInit(): void {
-     if (isPlatformBrowser(this.platformId)) {
-    const loggedInUser = localStorage.getItem('loggedInUser');
-    if (loggedInUser) {
-      this.user = JSON.parse(loggedInUser);
-      // if (this.user?.id) {
-      //   this.loadUserParcels(this.user.id);  // ✅ This line is key
-      // }
-    } else {
-      console.error('User not logged in.');
+    if (isPlatformBrowser(this.platformId)) {
+      // ✅ Fetch logged-in user ID from localStorage
+      const loggedInUserId = Number(localStorage.getItem('employeeId'));
+      console.log(loggedInUserId);
+
+      if (!loggedInUserId) {
+        console.error('No logged-in user found!');
+        return;
+      }
+
+      // ✅ Fetch user profile
+      this.userService.getUserById(loggedInUserId + 1).subscribe({
+        next: (data) => {
+          this.user = data;
+          console.log(data)
+          this.cdr.markForCheck();
+          // ✅ Load user parcel history
+          this.loadUserParcels(loggedInUserId);
+        },
+        error: (err) => {
+          console.error('Failed to fetch user:', err);
+        }
+      });
     }
-  }
   }
 
- loadUserParcels(userId: number): void {
- this.parcelService.getParcelsByUserId(userId).subscribe({
-    next: (data) => {
-      this.userParcels = data;
-    },
-    error: (err) => {
-      console.error('Failed to load user parcel history:', err);
-    }
-  }); 
-}
+  loadUserParcels(userId: number): void {
+    this.parcelService.getParcelsByUserId(userId).subscribe({
+      next: (data) => {
+        this.userParcels = data;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to load user parcel history:', err);
+      }
+    });
+  }
 
   onFileSelected(event: any): void {
     const file = event.target.files[0];

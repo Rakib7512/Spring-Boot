@@ -33,8 +33,8 @@ export class UserService {
     return this.http.put<User>(`${this.baseUrl}/${user.id}`, user);
   }
   
-  getUserById(id: string): Observable<User> {
-  return this.http.get<User>(`/api/users/${id}`);
+  getUserById(id: number): Observable<User> {
+  return this.http.get<User>(`http://localhost:8085/api/user/${id}`);
 }
 
   

@@ -42,21 +42,15 @@ export class Login implements OnInit {
       this.successMessage = 'Login successful!';
       this.errorMessage = null;
 
-      // ✅ Call getMyEmployeeId() here
       this.employeeService.getMyEmployeeId().subscribe({
         next: (empId) => {
           console.log('Employee ID saved in localStorage:', empId);
-
-          // ✅ Navigate only after we have employeeId
-          this.router.navigate(['/']);
         },
         error: (err) => {
           console.error('Could not fetch Employee ID', err);
-
-          // You can still redirect even if EmployeeId is not found
-          this.router.navigate(['/']);
         }
       });
+      window.location.href = '/user_profile';
     },
     error: (err) => {
       this.errorMessage = 'Login failed. Please check your credentials.';

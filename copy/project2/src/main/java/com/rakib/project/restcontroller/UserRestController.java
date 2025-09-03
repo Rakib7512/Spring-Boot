@@ -57,6 +57,11 @@ public class UserRestController {
 
     }
 
+    @GetMapping("{id}")
+    public User getUserById(@PathVariable int id) {
+        return userService.findById(id);
+    }
+
 
     @PostMapping("login")
     public ResponseEntity<AuthenticationResponse>  login(@RequestBody User request){

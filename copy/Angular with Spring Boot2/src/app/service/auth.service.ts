@@ -102,6 +102,7 @@ private baseUrl = environment.apiBaseUrl + '/user/';
     if (this.isBrowser()) {
       localStorage.removeItem('userRole');
       localStorage.removeItem('authToken');
+      localStorage.removeItem('employeeId');
       this.userRoleSubject.next(null);
     }
     this.router.navigate(['/login']);
