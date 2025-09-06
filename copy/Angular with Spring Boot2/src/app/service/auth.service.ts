@@ -1,4 +1,4 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectorRef, Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject, catchError, map, Observable, switchMap, tap, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
@@ -23,7 +23,7 @@ private baseUrl = environment.apiBaseUrl + '/user/';
 
   constructor(
     private http: HttpClient,
-    private router: Router,
+    private router: Router,   
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
@@ -104,6 +104,7 @@ private baseUrl = environment.apiBaseUrl + '/user/';
       localStorage.removeItem('authToken');
       localStorage.removeItem('employeeId');
       this.userRoleSubject.next(null);
+      
     }
     this.router.navigate(['/login']);
   }
