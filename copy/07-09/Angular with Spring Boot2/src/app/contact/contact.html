@@ -1,0 +1,35 @@
+<div class="chat-wrapper">
+  <header class="chat-header">
+    <h2>Chat Room</h2>
+    <p>Logged in as <strong>{{ currentUserName }}</strong></p>
+  </header>
+
+  <section class="chat-messages" #scrollContainer>
+    <div *ngFor="let msg of messages" 
+         class="chat-message" 
+         [ngClass]="{'chat-message-self': msg.sender === currentUserName}">
+      <div class="avatar">{{ msg.sender.charAt(0) | uppercase }}</div>
+      <div class="message-content">
+        <div class="message-header">
+          <span class="sender-name">{{ msg.sender }}</span>
+          <span class="message-time">{{ msg.timestamp | date:'shortTime' }}</span>
+        </div>
+        <p>{{ msg.content }}</p>
+      </div>
+    </div>
+  </section>
+
+  <form class="chat-input" (ngSubmit)="sendMessage()">
+    <input
+      type="text"
+      placeholder="Write your message..."
+      [(ngModel)]="newMessage"
+      name="messageInput"
+      autocomplete="off"
+      required
+      #messageInput="ngModel"
+    />
+    <button type="submit" [disabled]="!messageInput.valid">Send</button>
+  </form>
+</div>
+

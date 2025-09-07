@@ -1,0 +1,43 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="text-primary">📦 Hub Transfer List</h2>
+    <button class="btn btn-success btn-sm" >🔄 Refresh</button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle shadow-sm">
+      <thead class="table-light">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Parcel ID</th>
+          <th scope="col">From Hub</th>
+          <th scope="col">To Hub</th>
+          <th scope="col">Transfer Date</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let transfer of hubTransfer; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ transfer.parcelId }}</td>
+          <td>{{ transfer.fromHub }}</td>
+          <td>{{ transfer.toHub }}</td>
+          <td>{{ transfer.transferDate | date: 'mediumDate' }}</td>
+          <td>
+            <button class="btn btn-outline-primary btn-sm me-2" (click)="updateParcel(transfer.id)">
+              <i class="bi bi-pencil-square"></i> Update
+            </button>
+            
+          </td>
+        </tr>
+
+        <tr *ngIf="!hubTransfer || hubTransfer.length === 0">
+          <td colspan="6" class="text-center text-muted py-4">
+            No hub transfers found.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

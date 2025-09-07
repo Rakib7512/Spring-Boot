@@ -1,0 +1,36 @@
+<div class="container mt-4">
+  <h3 class="mb-4 text-center text-success">📦 Hub Directory (Card View)</h3>
+
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let hub of hubs">
+      <div class="card h-100 shadow-sm border-success">
+        <div class="card-body">
+          <h5 class="card-title text-primary fw-bold">
+            🏢 {{ hub.hubName }}
+          </h5>
+
+          <p class="card-text mb-1">
+            <strong>🌍 Country:</strong> {{ hub.countryId }}
+          </p>
+          <p class="card-text mb-1">
+            <strong>🏛️ Division:</strong> {{ hub.divisionId }}
+          </p>
+          <p class="card-text mb-1">
+            <strong>📌 District:</strong> {{ hub.districtId }}
+          </p>
+          <p class="card-text mb-2">
+            <strong>🚓 Police Station:</strong> {{ hub.policeStationId }}
+          </p>
+        </div>
+        <div class="card-footer bg-transparent d-flex justify-content-between">
+          <button class="btn btn-sm btn-outline-primary" >
+            ✏️ Edit
+          </button>
+          <button class="btn btn-sm btn-outline-danger" (click)="deleteHub(hub.id)">
+            🗑️ Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
