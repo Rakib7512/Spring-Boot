@@ -5,22 +5,30 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rakib.project.dto.AuthenticationResponse;
 import com.rakib.project.entity.Consumer;
+import com.rakib.project.entity.Employee;
 import com.rakib.project.entity.User;
+import com.rakib.project.repository.IUserRepo;
 import com.rakib.project.service.ConsumerService;
 import com.rakib.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/consumer/")
 
 public class ConsumerRestController {
+
+    @Autowired
+    private IUserRepo userRepo;
 
     @Autowired
     private UserService userService;
@@ -64,7 +72,16 @@ public class ConsumerRestController {
 
 
 
+    @GetMapping("/profile")
+    public ResponseEntity<?> getProfile(Authentication authentication) {
+        System.out.println("Authenticated User: " + authentication.getName());
+        System.out.println("Authorities: " + authentication.getAuthorities());
+        String email = authentication.getName();
+        Optional<User> user = userRepo.findByEmail(email);
+        Consumer consumer = consumerService.getProfileByUserId(user.get().getId());
+        return ResponseEntity.ok(consumer);
 
+    }
 
 
 
