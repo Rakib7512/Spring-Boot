@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { User } from '../../../model/user.model';
 import { UserService } from '../../service/user.service';
 
@@ -13,17 +13,21 @@ export class AllUser implements OnInit{
  users: User[] = [];
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private crd:ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
     this.loadUsers();
+       this.crd.detectChanges
+   
   }
 
   loadUsers(): void {
     this.userService.getAllUser().subscribe({
       next: (res: User[]) => {
         this.users = res;
+      
         console.log('Users loaded:', this.users); // Debug log
       },
       error: (err) => {

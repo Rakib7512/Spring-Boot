@@ -4,6 +4,7 @@ import { environment } from '../../environment/environment';
 import { Observable } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { AuthService } from './auth.service';
+import { User } from '../../model/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,7 @@ export class ConsumerService {
 
 
 
-  getProfile(): Observable<any> {
+  getConsumerProfile(): Observable<any> {
     let headers = new HttpHeaders();
 
     if (isPlatformBrowser(this.platformId)) {
@@ -43,4 +44,8 @@ export class ConsumerService {
     }
     return this.http.get<any>(this.baseUrl + 'profile', { headers });
   }
+
+
+  
+  
 }

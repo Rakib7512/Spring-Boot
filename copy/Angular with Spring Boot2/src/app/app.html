@@ -7,7 +7,8 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav ms-auto">
       <li class="nav-item">
-        <a class="nav-link text-white" routerLink="allusers">Profile</a>
+        <a class="nav-link text-white" routerLink="user_profile">Profile</a>
+          <a class="nav-link text-white" routerLink="allusers">allusers</a>
       </li>
       <li class="nav-item">
         <a class="nav-link text-white" routerLink="registerConsumer">Consumer Registration</a>
@@ -74,11 +75,13 @@
 
 <div class="d-flex" style="min-height: 100vh; background: linear-gradient(135deg, #0d3b66, #FFD700);">
   <!-- Sidebar -->
+
+     <ng-container *ngIf="userRole === 'ADMIN'|| userRole==='EMPLOYEE'">
   <div class="bg-dark text-white p-3 shadow-lg rounded-3" style="width: 250px; position: sticky; top: 0;">
     <h4 class="text-warning mb-4 text-center">DHL Admin Panel</h4>
     <ul class="nav flex-column">
 
-      <ng-container *ngIf="userRole === 'ADMIN'|| userRole==='EMPLOYEE'">
+   
       <!-- Admin-Only Section -->
      <li class="nav-item dropdown">
   <a class="nav-link dropdown-toggle text-white fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -119,13 +122,15 @@
           <li><a class="dropdown-item text-white" routerLink="#">User Management</a></li>
           <li><a class="dropdown-item text-white" routerLink="#">Reports & Analytics</a></li>
           <li><a class="dropdown-item text-white" routerLink="#">Settings</a></li>
+          
         </ul>
       </li>
       <li class="nav-item"><a class="nav-link text-danger" routerLink="#">🚪 Logout</a></li>
-      </ng-container>
+    
     </ul>
-  </div>
 
+  </div>
+</ng-container>
   <!-- Main Content -->
   <div class="p-4 flex-grow-1 text-white">
     <h2 class="fw-bold text-warning">Welcome to DHL Courier Service</h2>

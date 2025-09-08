@@ -36,7 +36,7 @@ public class EmployeeService {
 
     public Employee getProfileByUserId(int userId) {
         return employeeRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Job Seeker not found"));
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
     }
 
 
