@@ -99,6 +99,12 @@ getParcelsByUserId(userId: number): Observable<Parcel[]> {
     return this.http.get<ParcelTrackingDTO[]>(url);
   }
 
+
+  // ✅ NEW: Return Parcel to Sender
+  returnParcel(trackingId: string, employeeId: number): Observable<any> {
+    return this.http.put(`${this.baseUrl}/${trackingId}/return/${employeeId}`, {});
+  }
+
  
 
   // Parcel receive/save by employee

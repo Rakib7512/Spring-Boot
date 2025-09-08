@@ -183,15 +183,15 @@ public class ParcelController {
 
         // 3. Update Parcel hubs
         parcel.setPreviousHub(parcel.getCurrentHub()); // current becomes previous
-        System.out.println(parcel.getCurrentHub()+"8888888888888888888888888888888888888888");
+        System.out.println(parcel.getCurrentHub());
 
 
         parcel.setCurrentHub(hubName);
-        System.out.println(parcel.getToHub()+"77777777777777777777777777777777777777777777777777");// toHub becomes current
+        System.out.println(parcel.getToHub());// toHub becomes current
 
 
         parcel.setToHub(hubName);                    // new hub to transfer to
-        System.out.println(hubName+"666666666666666666666666666666666");
+        System.out.println(hubName);
 
         // 4. Save the updated parcel
         parcelRepo.save(parcel);
@@ -269,7 +269,48 @@ public class ParcelController {
 
 
 
+    // ----------- Return Parcel (NEW FEATURE) ------------
+    @PutMapping("/parcel/{trackingId}/return/{employeeId}")
+    public ResponseEntity<String> returnParcel(
+            @PathVariable String trackingId,
+            @PathVariable Long employeeId) {
 
+        // 1. Find the parcel
+        Parcel parcel = parcelRepo.findByTrackingId(trackingId)
+                .orElseThrow(() -> new RuntimeException("Parcel not found"));
+
+        // 2. Check if already delivered
+        if (parcel.getStatus() == ParcelStatus.DELIVERED) {
+            return ResponseEntity.badRequest()
+                    .body("Parcel already delivered, can't return.");
+        }
+
+        // 3. Find the employee handling this return
+        Employee emp = employeeRepo.findById(employeeId)
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
+
+        // 4. Update parcel status and hub info
+        parcel.setPreviousHub(parcel.getCurrentHub());
+        parcel.setCurrentHub(parcel.getSendPoliceStation().getName()); // sender's hub
+        parcel.setStatus(ParcelStatus.RETURNED);
+        parcelRepo.save(parcel);
+
+        // 5. Save tracking info
+        ParcelTracking tracking = new ParcelTracking();
+        tracking.setParcel(parcel);
+        tracking.setHubName(parcel.getSendPoliceStation().getName());
+        tracking.setHandledBy(emp);
+        tracking.setStatus(ParcelStatus.RETURNED);
+        parcelTrackingRepo.save(tracking);
+
+        // 6. Send notification to sender
+        Notification notification = new Notification();
+        notification.setEmployee(emp);
+        notification.setMessage("Parcel #" + parcel.getTrackingId() + " has been returned to sender.");
+        notificationRepo.save(notification);
+
+        return ResponseEntity.ok("Parcel returned successfully to sender.");
+    }
 
 }
 
