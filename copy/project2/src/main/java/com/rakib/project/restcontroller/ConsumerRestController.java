@@ -85,4 +85,20 @@ public class ConsumerRestController {
 
 
 
+
+
+    @GetMapping("my-id")
+    public ResponseEntity<Long> getLoggedInConsumerId(Authentication authentication) {
+        String email = authentication.getName(); // Spring Security sets this to username (your email)
+        Long consumerId = consumerService.getConsumerIdByEmail(email);
+        System.out.println(consumerId);
+        if (consumerId != null) {
+            return ResponseEntity.ok(consumerId);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+
 }

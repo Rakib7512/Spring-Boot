@@ -24,11 +24,13 @@ export class TransferHub implements OnInit {
 
   // Parcel Status options
   parcelStatuses: string[] = [
-    'Pending',
+    'Booked',
     'In Transit',
+    'At_Hub',
+    'Out_For_Delivery',
     'Delivered',
     'Returned',
-    'Canceled'
+
   ];
 
   constructor(
