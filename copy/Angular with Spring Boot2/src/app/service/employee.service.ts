@@ -47,6 +47,9 @@ export class EmployeeService {
     return this.http.get<Employee>(`${environment.apiBaseUrl}/employee/profile`, { headers });
   }
 
+
+  
+
   deleteEmployee(id: number) {
   return this.http.delete(`/api/employees/${id}`);
 }

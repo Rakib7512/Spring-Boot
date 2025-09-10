@@ -12,7 +12,7 @@ import { EmployeeService } from '../../service/employee.service';
 })
 export class Login implements OnInit {
 
- loginForm!: FormGroup;
+  loginForm!: FormGroup;
   errorMessage: string | null = null;
   successMessage: string | null = null;
 
@@ -31,18 +31,20 @@ export class Login implements OnInit {
   }
 
   onSubmit(): void {
-  if (this.loginForm.invalid) {
-    return;
-  }
+    if (this.loginForm.invalid) {
+      return;
+    }
 
-  const { email, password } = this.loginForm.value;
+    const { email, password } = this.loginForm.value;
 
-  this.authService.login(email, password).subscribe({
+    this.authService.login(email, password).subscribe({
       next: (response) => {
         this.successMessage = 'Login successful!';
         this.errorMessage = null;
 
         const role = this.authService.getUserRole();
+
+        console.log(role);
 
         if (role === 'CONSUMER') {
           this.router.navigate(['/consumerProfile']);

@@ -4,6 +4,7 @@ import { environment } from '../../environment/environment';
 import { Observable } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { AuthService } from './auth.service';
+import { User } from '../../model/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -43,4 +44,19 @@ export class ConsumerService {
     }
     return this.http.get<any>(this.baseUrl + 'profile', { headers });
   }
+
+
+   getConsumerProfileById(): Observable<User> {
+      let headers = new HttpHeaders();
+  
+      if (isPlatformBrowser(this.platformId)) {
+        const token = localStorage.getItem('authToken');
+        if (token) {
+          headers = headers.set('Authorization', 'Bearer ' + token);
+          console.log(headers);
+        }
+      }
+  
+      return this.http.get<User>(`${environment.apiBaseUrl}/consumer/profile`, { headers });
+    }
 }

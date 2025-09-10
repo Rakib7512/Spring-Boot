@@ -39,6 +39,8 @@ private baseUrl = environment.apiBaseUrl + '/user/';
             const decodeToken = this.decodeToken(response.token);
             localStorage.setItem('userRole', decodeToken.role);
             this.userRoleSubject.next(decodeToken.role);
+
+            console.log("222222222222222222222222222222222222222222222222222")
           }
           return response;
 

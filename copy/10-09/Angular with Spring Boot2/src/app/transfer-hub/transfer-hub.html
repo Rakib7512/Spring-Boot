@@ -1,0 +1,86 @@
+<div class="container">
+  <h2>Transfer Parcel</h2>
+
+  <form [formGroup]="transferForm" (ngSubmit)="onSubmit()">
+    <!-- Tracking ID -->
+    <div class="form-group">
+      <label for="trackingId">Tracking ID:</label>
+      <input
+        id="trackingId"
+        type="text"
+        class="form-control"
+        formControlName="trackingId"
+        placeholder="Enter Tracking ID"
+        (blur)="onTrackingIdChange()"
+      />
+    </div>
+
+    <!-- From Hub (read-only) -->
+    <div class="form-group">
+      <label for="previousHub">From Hub:</label>
+      <input
+        id="previousHub"
+        type="text"
+        class="form-control"
+        formControlName="previousHub"
+        readonly
+      />
+    </div>
+
+    <!-- Current Hub (read-only) -->
+    <div class="form-group">
+      <label for="currentHub">Current Hub:</label>
+      <input
+        id="currentHub"
+        type="text"
+        class="form-control"
+        formControlName="currentHub"
+        readonly
+      />
+    </div>
+
+    <!-- To Hub -->
+    <div class="form-group">
+      <label for="toHub">To Hub:</label>
+      <select
+        id="toHub"
+        class="form-control"
+        formControlName="toHub"
+      >
+        <option value="">Select Target Hub</option>
+        <option *ngFor="let hub of allHub" [value]="hub.id">{{ hub.name }}</option>
+      </select>
+    </div>
+
+    <!-- Employee ID -->
+    <div class="form-group">
+      <label for="employeeId">Employee ID:</label>
+      <input
+        id="employeeId"
+        type="number"
+        class="form-control"
+        formControlName="employeeId"
+        placeholder="Enter Employee ID"
+      />
+    </div>
+
+    <!-- Submit Button -->
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="transferForm.invalid"
+    >
+      Transfer
+    </button>
+  </form>
+
+  <!-- Success Message -->
+  <div *ngIf="successMessage" class="alert alert-success mt-3">
+    {{ successMessage }}
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+    {{ errorMessage }}
+  </div>
+</div>

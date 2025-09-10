@@ -27,6 +27,8 @@ export class EmployeeProfileComponent implements OnInit {
     this.employerService.getEmployeeProfileById().subscribe({
       next: (data) => {
         this.profile = data;
+
+        console.log(this.profile);
         this.cdr.markForCheck();
         this.loading = false;
       },

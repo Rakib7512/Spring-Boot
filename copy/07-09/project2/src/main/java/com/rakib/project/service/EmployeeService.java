@@ -34,9 +34,69 @@ public class EmployeeService {
         employeeRepository.deleteById(id);
     }
 
-    public Employee getProfileByUserId(int userId) {
-        return employeeRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Job Seeker not found"));
+    // public Employee getProfileByUserId(int userId) {
+    //     return employeeRepository.findByUserId(userId)
+    //             .orElseThrow(() -> new RuntimeException("Job Seeker not found"));
+    // }
+
+
+
+    public EmployeeResponseDTO getProfileByUserId(int userId) {
+        Employee employee = employeeRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
+
+        // Convert Employee entity to EmployeeResponseDTO using setter style
+        EmployeeResponseDTO dto = new EmployeeResponseDTO();
+        dto.setId(employee.getId());
+        dto.setName(employee.getName());
+        dto.setEmail(employee.getEmail());
+        dto.setGender(employee.getGender());
+        dto.setNid(employee.getNid());
+        dto.setAddress(employee.getAddress());
+        dto.setDesignation(employee.getDesignation());
+        dto.setJoindate(employee.getJoindate());
+        dto.setPhone(employee.getPhone());
+        dto.setSalary(employee.getSalary());
+        dto.setPhoto(employee.getPhoto());
+        dto.setEmpOnHub(employee.getEmpOnHub());
+
+        if (employee.getCountry() != null) {
+            CountryResponseDTO country = new CountryResponseDTO();
+            country.setId(employee.getCountry().getId());
+            country.setName(employee.getCountry().getName());
+            dto.setCountryId(country);
+        }
+
+        if (employee.getDivision() != null) {
+            DivisionResponseDTO division = new DivisionResponseDTO();
+            division.setId(employee.getDivision().getId());
+            division.setName(employee.getDivision().getName());
+            dto.setDivisionId(division);
+        }
+
+        if (employee.getDistrict() != null) {
+            DistrictResponseDTO district = new DistrictResponseDTO();
+            district.setId(employee.getDistrict().getId());
+            district.setName(employee.getDistrict().getName());
+            dto.setDistrictId(district);
+        }
+
+        if (employee.getPoliceStation() != null) {
+            PoliceStationResponseDTO ps = new PoliceStationResponseDTO();
+            ps.setId(employee.getPoliceStation().getId());
+            ps.setName(employee.getPoliceStation().getName());
+            dto.setPoliceStationId(ps);
+        }
+
+        if (employee.getUser() != null) {
+            UserDto userDto = new UserDto();
+            userDto.setId(employee.getUser().getId());
+            userDto.setName(employee.getUser().getName());
+            userDto.setEmail(employee.getUser().getEmail());
+            dto.setUserId(userDto);
+        }
+
+        return dto;
     }
 
 

@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { EmployeeService } from '../../service/employee.service';
+import { console } from 'node:inspector';
 
 @Component({
   selector: 'app-employee-profile.component',
@@ -27,6 +28,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.employerService.getEmployeeProfileById().subscribe({
       next: (data) => {
         this.profile = data;
+        console.log(this.profile);
         this.cdr.markForCheck();
         this.loading = false;
       },

@@ -27,6 +27,7 @@ import { AddConsumer } from './add-consumer/add-consumer';
 import { ConsumerProfileComponent } from './consumer/consumer-profile.component/consumer-profile.component';
 import { AddNewParcel } from './add-new-parcel/add-new-parcel';
 import { Notifications } from './notifications/notifications';
+import { EmployeeProfileComponent } from './employee/employee-profile.component/employee-profile.component';
 
 
 
@@ -53,6 +54,7 @@ const routes: Routes = [
   {path:'creatHub', component:CreateHub},
   {path:'view_hub',component:ViewHub},
   {path:'user_profile', component:Userprofile},
+  {path:'employee-profile', component:EmployeeProfileComponent},
    {path:'allusers', component:AllUser},
    {path:'registerConsumer', component:AddConsumer},
    {path:'consumerProfile', component:ConsumerProfileComponent},

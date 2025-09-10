@@ -6,6 +6,13 @@ public class CountryResponseDTO {
     private int id;
     private String name;
 
+    public CountryResponseDTO(int id, String name) {
+    }
+
+    public CountryResponseDTO() {
+
+    }
+
 
     // Getters & setters
 

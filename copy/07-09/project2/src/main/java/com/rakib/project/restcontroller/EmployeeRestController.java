@@ -89,16 +89,16 @@ public class EmployeeRestController {
 
 
 
-    @GetMapping("/profile")
-    public ResponseEntity<?> getProfile(Authentication authentication) {
-        System.out.println("Authenticated User: " + authentication.getName());
-        System.out.println("Authorities: " + authentication.getAuthorities());
-        String email = authentication.getName();
-        Optional<User> user =userRepo.findByEmail(email);
-        Employee employee = employeeService.getProfileByUserId(user.get().getId());
-        return ResponseEntity.ok(employee);
-
-    }
+//    @GetMapping("/profile")
+//    public ResponseEntity<?> getProfile(Authentication authentication) {
+//        System.out.println("Authenticated User: " + authentication.getName());
+//        System.out.println("Authorities: " + authentication.getAuthorities());
+//        String email = authentication.getName();
+//        Optional<User> user =userRepo.findByEmail(email);
+//        Employee employee = employeeService.getProfileByUserId(user.get().getId());
+//        return ResponseEntity.ok(employee);
+//
+//    }
 
 
 
@@ -106,7 +106,7 @@ public class EmployeeRestController {
     public ResponseEntity<Long> getLoggedInEmployeeId(Authentication authentication) {
         String email = authentication.getName(); // Spring Security sets this to username (your email)
         Long employeeId = employeeService.getEmployeeIdByEmail(email);
-        System.out.println(employeeId+ "   25252525252525252522525");
+        System.out.println(employeeId);
         if (employeeId != null) {
             return ResponseEntity.ok(employeeId);
         } else {
@@ -114,6 +114,60 @@ public class EmployeeRestController {
         }
     }
 
+
+
+
+@GetMapping("/profile")
+    public ResponseEntity<EmployeeResponseDTO> getProfile(Authentication authentication) {
+        System.out.println("Authenticated User: " + authentication.getName());
+        System.out.println("Authorities: " + authentication.getAuthorities());
+        String email = authentication.getName();
+        Optional<User> user =userRepo.findByEmail(email);
+        EmployeeResponseDTO employee = employeeService.getProfileByUserId(user.get().getId());
+        return ResponseEntity.ok(employee);
+
+    }
+
+
+
+//    {
+//        "id": 1,
+//            "name": "Parvej",
+//            "email": "parvej@gmail.com",
+//            "gender": "MALE",
+//            "nid": "1452369",
+//            "address": "Agargaon",
+//            "designation": "Area Manager",
+//            "joindate": "2025-06-25T00:00:00.000+00:00",
+//            "phone": "01607005625",
+//            "salary": 100000.0,
+//            "photo": "Parvej_336b6369-5796-4b51-bbf5-6414e81c9c25",
+//            "empOnHub": "1",
+//            "countryId": {
+//        "id": 1,
+//                "name": "Bangladesh"
+//    },
+//        "divisionId": {
+//        "id": 1,
+//                "name": "Dhaka",
+//                "country": null
+//    },
+//        "districtId": {
+//        "id": 1,
+//                "name": "Dhaka",
+//                "division": null
+//    },
+//        "policeStationId": {
+//        "id": 1,
+//                "name": "Mohammadpur",
+//                "district": null
+//    },
+//        "userId": {
+//        "id": 2,
+//                "name": "Parvej",
+//                "email": "parvej@gmail.com"
+//    }
+//    }
 
 
 

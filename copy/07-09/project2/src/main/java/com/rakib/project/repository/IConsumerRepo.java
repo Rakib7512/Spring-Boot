@@ -1,6 +1,7 @@
 package com.rakib.project.repository;
 
 import com.rakib.project.entity.Consumer;
+import com.rakib.project.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface IConsumerRepo extends JpaRepository<Consumer, Long> {
 
-    Optional<Object> findByUserId(int userId);
+    Optional<Consumer> findByUserId(int userId);
 
     @Query("SELECT js FROM Consumer js WHERE js.user.email = :email")
     Optional<Consumer> findByUserEmail(@Param("email") String email);

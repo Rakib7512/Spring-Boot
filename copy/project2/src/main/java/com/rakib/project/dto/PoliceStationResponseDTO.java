@@ -14,6 +14,9 @@ public class PoliceStationResponseDTO {
         this.district = district;
     }
 
+    public PoliceStationResponseDTO(int id, String name) {
+    }
+
     public int getId() {
         return id;
     }

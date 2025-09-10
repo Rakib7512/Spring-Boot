@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IEmployeeRepo extends JpaRepository<Employee, Long> {
+
+
     Optional<Employee> findByUserId(int userId);
 
     @Query("SELECT js FROM Employee js WHERE js.user.email = :email")

@@ -1,6 +1,7 @@
 package com.rakib.project.service;
 
 import com.rakib.project.entity.Consumer;
+import com.rakib.project.entity.Employee;
 import com.rakib.project.repository.IConsumerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,9 +31,16 @@ public class ConsumerService {
         consumerRepository.deleteById(id);
     }
 
-//    public Consumer getProfileByUserId(int userId) {
-//        return consumerRepository.findByUserId(userId)
-//                .orElseThrow(() -> new RuntimeException("Job Seeker not found"));
-//    }
+
+    public Consumer getProfileByUserId(int userId) {
+        return consumerRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Job Seeker not found"));
+    }
+
+    public Long getConsumerIdByEmail(String email) {
+        return consumerRepository.findByUserEmail(email)
+                .map(Consumer::getId)
+                .orElse(null);
+    }
 
 }

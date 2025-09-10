@@ -17,6 +17,9 @@ public class DistrictResponseDTO {
         this.division = division;
     }
 
+    public DistrictResponseDTO(int id, String name) {
+    }
+
     public int getId() {
         return id;
     }

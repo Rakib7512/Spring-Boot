@@ -7,6 +7,18 @@
     <p class="mt-2">Loading profile...</p>
   </div>
 
+  <div class="text-center my-5">
+   
+    <p class="mt-2"><img
+              [src]="'http://localhost:8085/images/users/' + profile.photo"
+              alt="User Photo"
+              class="rounded-circle mb-3"
+              width="100"
+              height="100"
+              style="object-fit: cover; border: 3px solid #ddd;"
+            /></p>
+  </div>
+
   <!-- Error Message -->
   <div *ngIf="error" class="alert alert-danger text-center">
     {{ error }}
@@ -22,7 +34,7 @@
         </tr>
         <tr>
           <th>Full Name</th>
-          <td>{{ profile.fullName }}</td>
+          <td>{{ profile.name }}</td>
         </tr>
         <tr>
           <th>Email</th>
@@ -36,17 +48,38 @@
           <th>Designation</th>
           <td>{{ profile.designation }}</td>
         </tr>
-        <tr>
-          <th>Department</th>
-          <td>{{ profile.department }}</td>
-        </tr>
+        
         <tr>
           <th>Joining Date</th>
-          <td>{{ profile.joiningDate | date:'mediumDate' }}</td>
+          <td>{{ profile.joindate | date:'mediumDate' }}</td>
         </tr>
         <tr>
           <th>Address</th>
           <td>{{ profile.address }}</td>
+        </tr>
+        <tr>
+          <th>Country</th>
+          <td>{{ profile.countryId.name }}</td>
+        </tr>
+        <tr>
+          <th>Division</th>
+          <td>{{ profile.divisionId.name }}</td>
+        </tr>
+        <tr>
+          <th>District</th>
+          <td>{{ profile.districtId.name }}</td>
+        </tr>
+        <tr>
+          <th>Police Station</th>
+          <td>{{ profile.policeStationId.name }}</td>
+        </tr>
+        <tr>
+          <th>Current Hub name</th>
+          <td>{{ profile.policeStationId.name }}</td>
+        </tr>
+        <tr>
+          <th>Current Hub ID</th>
+          <td>{{ profile.empOnHub }}</td>
         </tr>
         <tr>
           <th>Status</th>

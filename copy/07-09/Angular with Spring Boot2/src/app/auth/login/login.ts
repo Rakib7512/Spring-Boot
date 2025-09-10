@@ -37,26 +37,30 @@ export class Login implements OnInit {
 
   const { email, password } = this.loginForm.value;
 
-  this.authService.login(email, password).subscribe({
-    next: (response) => {
-      this.successMessage = 'Login successful!';
-      this.errorMessage = null;
+ this.authService.login(email, password).subscribe({
+      next: (response) => {
+        this.successMessage = 'Login successful!';
+        this.errorMessage = null;
 
-      this.employeeService.getMyEmployeeId().subscribe({
-        next: (empId) => {
-          console.log('Employee ID saved in localStorage:', empId);
-        },
-        error: (err) => {
-          console.error('Could not fetch Employee ID', err);
+        const role = this.authService.getUserRole();
+
+        console.log(role);
+
+        if (role === 'CONSUMER') {
+          this.router.navigate(['/user_profile']);
+        } else if (role === 'EMPLOYEE') {
+          this.router.navigate(['/employee-profile']);
+        } else if (role === 'ADMIN') {
+          this.router.navigate(['/admin-dashboard']);
+        } else {
+          this.router.navigate(['/']); // fallback
         }
-      });
-      window.location.href = '/user_profile';
-    },
-    error: (err) => {
-      this.errorMessage = 'Login failed. Please check your credentials.';
-      this.successMessage = null;
-    }
-  });
+      },
+      error: (err) => {
+        this.errorMessage = 'Login failed. Please check your credentials.';
+        this.successMessage = null;
+      }
+    });
 }
 
 
