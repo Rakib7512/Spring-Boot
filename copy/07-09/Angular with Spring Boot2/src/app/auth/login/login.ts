@@ -20,7 +20,8 @@ export class Login implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+ 
   ) { }
 
   ngOnInit(): void {
@@ -41,6 +42,18 @@ export class Login implements OnInit {
       next: (response) => {
         this.successMessage = 'Login successful!';
         this.errorMessage = null;
+        this.employeeService.getMyEmployeeId().subscribe({
+          next:(empId)=>{
+             console.log('Employee ID saved in localStorage:', empId)
+          },
+           error: (err) => {
+          console.error('Could not fetch Employee ID', err);
+
+          // You can still redirect even if EmployeeId is not found
+          this.router.navigate(['/']);
+        }
+        })
+        
 
         const role = this.authService.getUserRole();
 

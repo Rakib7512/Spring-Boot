@@ -57,7 +57,7 @@ public class ParcelController {
     // ✅ Get All Parcels (DTO-based)
     @GetMapping
     public ResponseEntity<List<ParcelResponseDTO>> getAllParcels() {
-        List<ParcelResponseDTO> parcelDTOs = parcelService.getAllParcels();
+        List<ParcelResponseDTO> parcelDTOs = parcelService.getAllParcelResponseDTOS();
         return ResponseEntity.ok(parcelDTOs);
     }
 
@@ -183,15 +183,15 @@ public class ParcelController {
 
         // 3. Update Parcel hubs
         parcel.setPreviousHub(parcel.getCurrentHub()); // current becomes previous
-        System.out.println(parcel.getCurrentHub()+"8888888888888888888888888888888888888888");
+        System.out.println(parcel.getCurrentHub());
 
 
         parcel.setCurrentHub(hubName);
-        System.out.println(parcel.getToHub()+"77777777777777777777777777777777777777777777777777");// toHub becomes current
+        System.out.println(parcel.getToHub());// toHub becomes current
 
 
         parcel.setToHub(hubName);                    // new hub to transfer to
-        System.out.println(hubName+"666666666666666666666666666666666");
+        System.out.println(hubName);
 
         // 4. Save the updated parcel
         parcelRepo.save(parcel);
@@ -254,10 +254,19 @@ public class ParcelController {
 
     //    http://localhost:8085/api/parcels/parcel/53e6c9d0-cd0c-47ee-a6e9-7c9366d8d34e/tracking
 
-    @GetMapping("/tracking/{trackingId}")
-    public List<ParcelResponseDTO> getAllParcelsByTrackingId(@PathVariable String trackingId) {
-        return parcelService.getAllParcelsByTrackingId(trackingId);
+    @GetMapping("tracking/{trackingId}")
+    public ParcelResponseDTO getAllParcelsByTrackingId(@PathVariable String trackingId) {
+
+
+
+        return parcelService.getParcelByParcelId(trackingId);
+
+
+
     }
+
+
+    // http://localhost:8085/api/parcels/tracking/9dc6d625-863c-470a-9c5e-9820b4ee17d8
 
 
 

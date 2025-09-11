@@ -42,7 +42,10 @@ public class SecqurityConfig {
                                         "/api/user/login", "/api/consumer/**","/api/policestation/**",
                                         "/api/district/**", "/api/policestation/**", "/api/parcels/",
                                         "/api/division/**","/api/countries/**", "/api/employee/**",
-                                        "/api/parcels/**","/api/employee/all**", "/api/user/login/**","/api/consumer/profile").permitAll()
+                                        "/api/parcels/**","/api/employee/all**", "/api/user/login/**","/api/consumer/profile",
+                                        "/api/parcels/tracking/**"
+
+                                        ).permitAll()
 
                                 .requestMatchers("/api/user/all").hasAuthority("CONSUMER")
                                 .requestMatchers("/api/user/all").hasAnyRole("EMPLOYEE","CONSUMER")

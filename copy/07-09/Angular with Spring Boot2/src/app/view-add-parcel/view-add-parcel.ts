@@ -2,6 +2,8 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ParcelService } from '../service/parcel.service';
 import { Parcel } from '../../model/parcel.model';
+import { Observable } from 'rxjs';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-view-add-parcel',
@@ -81,4 +83,17 @@ deleteParcel(id: number | undefined) {
     });
   }
 }
+
+
+//  getParcelById(): Observable<Parcel> {
+//     let headers = new HttpHeaders();
+
+//     this.selectedParcel = Parcel;
+//     const modal = document.getElementById('parcelDetailsModal');
+//     if (modal) {
+//       (modal as any).style.display = 'block';
+//     }
+
+//     return this.http.get<Parcel>(`${environment.apiBaseUrl}/pa/profile`, { headers });
+//   }
 }

@@ -6,72 +6,45 @@ import java.util.List;
 
 public class ParcelResponseDTO {
 
+
     private Long id;
     private String trackingId;
     private String senderName;
     private String senderPhone;
     private String receiverName;
     private String receiverPhone;
+
     private String addressLineForSender1;
     private String addressLineForSender2;
     private String addressLineForReceiver1;
     private String addressLineForReceiver2;
+
     private String previousHub;
     private String currentHub;
     private String toHub;
+
     private String size;
     private int fee;
     private String verificationCode;
+
     private Date createdAt;
     private Date bookingDate;
     private String status;
+
     private int pickupDeliveryManId;
     private int deliveryManId;
     private int bookingAgentId;
-    private int sendCountryId;
-    private int sendDivisionId;
-    private int sendDistrictId;
-    private int sendPoliceStationId;
-    private int receiveCountryId;
-    private int receiveDivisionId;
-    private int receiveDistrictId;
-    private int receivePoliceStationId;
 
-    public ParcelResponseDTO() {
-    }
+    //  এখন nested DTO
+    private LocationResponseDTO sendCountry;
+    private LocationResponseDTO sendDivision;
+    private LocationResponseDTO sendDistrict;
+    private LocationResponseDTO sendPoliceStation;
 
-    public ParcelResponseDTO(Long id, String trackingId, String senderName, String senderPhone, String receiverName, String receiverPhone, String addressLineForSender1, String addressLineForSender2, String addressLineForReceiver1, String addressLineForReceiver2, String previousHub, String currentHub, String toHub, String size, int fee, String verificationCode, Date createdAt, Date bookingDate, String status, int pickupDeliveryManId, int deliveryManId, int bookingAgentId, int sendCountryId, int sendDivisionId, int sendDistrictId, int sendPoliceStationId, int receiveCountryId, int receiveDivisionId, int receiveDistrictId, int receivePoliceStationId) {
-        this.id = id;
-        this.trackingId = trackingId;
-        this.senderName = senderName;
-        this.senderPhone = senderPhone;
-        this.receiverName = receiverName;
-        this.receiverPhone = receiverPhone;
-        this.addressLineForSender1 = addressLineForSender1;
-        this.addressLineForSender2 = addressLineForSender2;
-        this.addressLineForReceiver1 = addressLineForReceiver1;
-        this.addressLineForReceiver2 = addressLineForReceiver2;
-        this.previousHub = previousHub;
-        this.currentHub = currentHub;
-        this.toHub = toHub;
-        this.size = size;
-        this.fee = fee;
-        this.verificationCode = verificationCode;
-        this.createdAt = createdAt;
-        this.bookingDate = bookingDate;
-        this.status = status;
-        this.pickupDeliveryManId = pickupDeliveryManId;
-        this.deliveryManId = deliveryManId;
-        this.bookingAgentId = bookingAgentId;
-        this.sendCountryId = sendCountryId;
-        this.sendDivisionId = sendDivisionId;
-        this.sendDistrictId = sendDistrictId;
-        this.sendPoliceStationId = sendPoliceStationId;
-        this.receiveCountryId = receiveCountryId;
-        this.receiveDivisionId = receiveDivisionId;
-        this.receiveDistrictId = receiveDistrictId;
-        this.receivePoliceStationId = receivePoliceStationId;
-    }
+    private LocationResponseDTO receiveCountry;
+    private LocationResponseDTO receiveDivision;
+    private LocationResponseDTO receiveDistrict;
+    private LocationResponseDTO receivePoliceStation;
 
     public Long getId() {
         return id;
@@ -249,68 +222,67 @@ public class ParcelResponseDTO {
         this.bookingAgentId = bookingAgentId;
     }
 
-    public int getSendCountryId() {
-        return sendCountryId;
+    public LocationResponseDTO getSendCountry() {
+        return sendCountry;
     }
 
-    public void setSendCountryId(int sendCountryId) {
-        this.sendCountryId = sendCountryId;
+    public void setSendCountry(LocationResponseDTO sendCountry) {
+        this.sendCountry = sendCountry;
     }
 
-    public int getSendDivisionId() {
-        return sendDivisionId;
+    public LocationResponseDTO getSendDivision() {
+        return sendDivision;
     }
 
-    public void setSendDivisionId(int sendDivisionId) {
-        this.sendDivisionId = sendDivisionId;
+    public void setSendDivision(LocationResponseDTO sendDivision) {
+        this.sendDivision = sendDivision;
     }
 
-    public int getSendDistrictId() {
-        return sendDistrictId;
+    public LocationResponseDTO getSendDistrict() {
+        return sendDistrict;
     }
 
-    public void setSendDistrictId(int sendDistrictId) {
-        this.sendDistrictId = sendDistrictId;
+    public void setSendDistrict(LocationResponseDTO sendDistrict) {
+        this.sendDistrict = sendDistrict;
     }
 
-    public int getSendPoliceStationId() {
-        return sendPoliceStationId;
+    public LocationResponseDTO getSendPoliceStation() {
+        return sendPoliceStation;
     }
 
-    public void setSendPoliceStationId(int sendPoliceStationId) {
-        this.sendPoliceStationId = sendPoliceStationId;
+    public void setSendPoliceStation(LocationResponseDTO sendPoliceStation) {
+        this.sendPoliceStation = sendPoliceStation;
     }
 
-    public int getReceiveCountryId() {
-        return receiveCountryId;
+    public LocationResponseDTO getReceiveCountry() {
+        return receiveCountry;
     }
 
-    public void setReceiveCountryId(int receiveCountryId) {
-        this.receiveCountryId = receiveCountryId;
+    public void setReceiveCountry(LocationResponseDTO receiveCountry) {
+        this.receiveCountry = receiveCountry;
     }
 
-    public int getReceiveDivisionId() {
-        return receiveDivisionId;
+    public LocationResponseDTO getReceiveDivision() {
+        return receiveDivision;
     }
 
-    public void setReceiveDivisionId(int receiveDivisionId) {
-        this.receiveDivisionId = receiveDivisionId;
+    public void setReceiveDivision(LocationResponseDTO receiveDivision) {
+        this.receiveDivision = receiveDivision;
     }
 
-    public int getReceiveDistrictId() {
-        return receiveDistrictId;
+    public LocationResponseDTO getReceiveDistrict() {
+        return receiveDistrict;
     }
 
-    public void setReceiveDistrictId(int receiveDistrictId) {
-        this.receiveDistrictId = receiveDistrictId;
+    public void setReceiveDistrict(LocationResponseDTO receiveDistrict) {
+        this.receiveDistrict = receiveDistrict;
     }
 
-    public int getReceivePoliceStationId() {
-        return receivePoliceStationId;
+    public LocationResponseDTO getReceivePoliceStation() {
+        return receivePoliceStation;
     }
 
-    public void setReceivePoliceStationId(int receivePoliceStationId) {
-        this.receivePoliceStationId = receivePoliceStationId;
+    public void setReceivePoliceStation(LocationResponseDTO receivePoliceStation) {
+        this.receivePoliceStation = receivePoliceStation;
     }
 }
-

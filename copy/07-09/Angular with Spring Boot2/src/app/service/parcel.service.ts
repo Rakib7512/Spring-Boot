@@ -27,6 +27,10 @@ export class ParcelService {
     return this.http.get<Parcel[]>('http://localhost:8085/api/parcels');
   }
 
+  getAllParcels2(): Observable<Parcel[]> {
+    return this.http.get<Parcel[]>('http://localhost:8085/api/parcels/tracking');
+  }
+
   updateParcel(parcel: Parcel): Observable<Parcel> {
     return this.http.put<Parcel>(`${this.baseUrl}/`, parcel);
   }
