@@ -24,7 +24,7 @@ export class ParcelService {
   }
 
   getAllParcels(): Observable<Parcel[]> {
-    return this.http.get<Parcel[]>('http://localhost:8085/api/parcels');
+    return this.http.get<any[]>('http://localhost:8085/api/parcels');
   }
 
   getAllParcels2(): Observable<Parcel[]> {
@@ -110,5 +110,8 @@ getParcelsByUserId(userId: number): Observable<Parcel[]> {
   //   return this.http.post<Parcel>(`${this.baseUrl}/${parcelId}/receive?employeeId=${employeeId}&employeeName=${employeeName}&currentHub=${currentHub}`, {});
   // }
 
+getParcelByTrackingId(trackingId: string): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/parcels/tracking/${trackingId}`);
+}
 
 }

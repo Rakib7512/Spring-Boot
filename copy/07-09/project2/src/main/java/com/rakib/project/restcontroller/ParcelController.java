@@ -256,14 +256,19 @@ public class ParcelController {
 
     @GetMapping("tracking/{trackingId}")
     public ParcelResponseDTO getAllParcelsByTrackingId(@PathVariable String trackingId) {
-
-
-
         return parcelService.getParcelByParcelId(trackingId);
 
 
 
     }
+
+
+
+
+//    @GetMapping("/tracking/{trackingId}")
+//    public Optional<ParcelResponseDTO> getAllParcelsByTrackingId(@PathVariable String trackingId) {
+//        return parcelService.getParcelByParcelId(trackingId);
+//    }
 
 
     // http://localhost:8085/api/parcels/tracking/9dc6d625-863c-470a-9c5e-9820b4ee17d8
