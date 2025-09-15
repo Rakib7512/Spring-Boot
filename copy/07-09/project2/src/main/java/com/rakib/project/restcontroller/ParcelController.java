@@ -290,6 +290,12 @@ public class ParcelController {
 //        return ResponseEntity.ok(dto);
 //    }
 
+
+    // Consumer এর Parcel history
+    @GetMapping("/history/{consumerId}")
+    public ResponseEntity<List<ParcelResponseDTO>> getParcelHistory(@PathVariable Long consumerId) {
+        return ResponseEntity.ok(parcelService.getParcelHistoryByConsumer(consumerId));
+    }
 }
 
 

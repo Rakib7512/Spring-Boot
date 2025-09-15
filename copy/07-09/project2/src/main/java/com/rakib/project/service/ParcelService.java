@@ -362,7 +362,7 @@ public class ParcelService {
     public List<ParcelResponseDTO> getParcelHistoryByConsumer(Long consumerId) {
         return parcelRepository.findByConsumerId(consumerId)
                 .stream()
-                .map(this::mapToResponseDTO)
+                .map(this::mapToResponseDTO) // নিচের helper method use করব
                 .collect(Collectors.toList());
     }
 
@@ -372,7 +372,12 @@ public class ParcelService {
         dto.setTrackingId(parcel.getTrackingId());
         dto.setSenderName(parcel.getSenderName());
         dto.setReceiverName(parcel.getReceiverName());
-        // এখানে চাইলে আর details যোগ করতে পারো
+        dto.setSenderPhone(parcel.getSenderPhone());
+        dto.setReceiverPhone(parcel.getReceiverPhone());
+        dto.setFee(parcel.getFee());
+        dto.setStatus(parcel.getStatus().toString());
+        dto.setCurrentHub(parcel.getCurrentHub());
+        dto.setBookingDate(parcel.getBookingDate());
         return dto;
     }
 }

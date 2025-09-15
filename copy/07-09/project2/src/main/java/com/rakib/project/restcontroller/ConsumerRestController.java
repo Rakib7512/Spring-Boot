@@ -100,13 +100,25 @@ public class ConsumerRestController {
     }
 
     // ✅ Consumer's parcel history
-    @GetMapping("/{consumerId}/parcels")
-    public ResponseEntity<List<ParcelResponseDTO>> getConsumerParcelHistory(@PathVariable Long consumerId) {
-        List<ParcelResponseDTO> parcels = parcelService.getParcelHistoryByConsumer(consumerId);
-        return ResponseEntity.ok(parcels);
-    }
+
+
+//    @GetMapping("/{consumerId}/parcels")
+//    public ResponseEntity<List<ParcelResponseDTO>> getConsumerParcelHistory(@PathVariable Long consumerId) {
+//        List<ParcelResponseDTO> parcels = parcelService.getParcelHistoryByConsumer(consumerId);
+//        return ResponseEntity.ok(parcels);
+//    }
+    // Consumer profile + তার সব parcel history
 
     //http://localhost:8085/api/consumer/3/parcels
+
+
+    @GetMapping("/{id}/profile")
+    public ResponseEntity<Consumer> getConsumerProfile(@PathVariable Long id) {
+        Consumer consumer = consumerService.getConsumerWithParcels(id);
+        return ResponseEntity.ok(consumer);
+    }
+
+
 
 
 }

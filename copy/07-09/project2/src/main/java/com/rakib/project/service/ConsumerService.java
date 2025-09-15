@@ -34,7 +34,7 @@ public class ConsumerService {
 
     public Consumer getProfileByUserId(int userId) {
         return consumerRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Consumernot found"));
+                .orElseThrow(() -> new RuntimeException("Consumer not found"));
     }
 
     public Long getConsumerIdByEmail(String email) {
@@ -43,7 +43,10 @@ public class ConsumerService {
                 .orElse(null);
     }
 
-
+    public Consumer getConsumerWithParcels(Long consumerId) {
+        return consumerRepository.findByIdWithParcels(consumerId)
+                .orElseThrow(() -> new RuntimeException("Consumer not found"));
+    }
 
 
 }

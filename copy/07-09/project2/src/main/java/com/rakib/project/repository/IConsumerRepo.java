@@ -18,6 +18,6 @@ public interface IConsumerRepo extends JpaRepository<Consumer, Long> {
     @Query("SELECT js FROM Consumer js WHERE js.user.email = :email")
     Optional<Consumer> findByUserEmail(@Param("email") String email);
 
-//    @Query("SELECT j FROM Consumer j LEFT JOIN FETCH j.educations WHERE j.id = :id")
-//    Optional<JobSeeker> findByIdWithEducations(@Param("id") Long id);
+    @Query("SELECT c FROM Consumer c LEFT JOIN FETCH c.parcels WHERE c.id = :id")
+    Optional<Consumer> findByIdWithParcels(@Param("id") Long id);
 }
