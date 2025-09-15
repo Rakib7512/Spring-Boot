@@ -1,0 +1,34 @@
+<div class="container mt-5 mb-5">
+  <div class="text-center mb-4">
+    <h2 class="fw-bold text-primary display-6">Welcome to Your Dashboard</h2>
+    <p class="text-muted">Here’s your profile and parcel activity overview</p>
+  </div>
+
+  <!-- Profile Card -->
+  <div class="card shadow-lg border-0 mb-5 rounded-4">
+    <div
+      class="card-header bg-success text-white fw-semibold fs-5 rounded-top-4 d-flex justify-content-between align-items-center">
+      <div><i class="bi bi-person-fill me-2"></i> Profile Information</div>
+    </div>
+    <div class="card-body row row-cols-1 row-cols-md-2 g-4">
+      <!-- Profile Picture -->
+      <div class="col-md-4 text-center">
+        <img [src]="imageBaseUrl + profile.photo " class="img-thumbnail rounded-circle shadow mb-3"
+          alt="Profile Picture" width="150" height="150" />
+        <!-- <input type="file" class="form-control" (change)="onFileSelected($event)" accept="image/*">
+        <button class="btn btn-outline-primary mt-2" (click)="saveProfilePic()">Save Picture</button> -->
+      </div>
+
+      <!-- Info -->
+      <div class="col-md-8">
+        <p><strong>Name:</strong> {{ profile.name }}</p>
+        <p><strong>Email:</strong> {{ profile.user.email }}</p>
+        <p><strong>Phone:</strong> {{ profile.user.phone }}</p>
+        <p><strong>NID:</strong> {{ profile.nid }}</p>
+        <p><strong>Role:</strong> {{ profile.user.role }}</p>
+      
+      </div>
+    </div>
+  </div>
+
+</div>
