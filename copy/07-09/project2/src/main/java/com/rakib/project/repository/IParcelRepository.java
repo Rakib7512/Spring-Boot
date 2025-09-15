@@ -16,6 +16,7 @@ public interface IParcelRepository extends JpaRepository<Parcel, Long> {
 
     List<Parcel> findParcelByTrackingId(String trackingId);
 
+    List<Parcel> findByConsumerId(Long consumerId);
 
 
 

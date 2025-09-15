@@ -356,6 +356,25 @@ public class ParcelService {
     public Parcel updateParcel(Parcel parcel) {
         return parcelRepository.save(parcel);
     }
+
+
+    // ✅ Get history of parcels booked by a consumer
+    public List<ParcelResponseDTO> getParcelHistoryByConsumer(Long consumerId) {
+        return parcelRepository.findByConsumerId(consumerId)
+                .stream()
+                .map(this::mapToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    private ParcelResponseDTO mapToResponseDTO(Parcel parcel) {
+        ParcelResponseDTO dto = new ParcelResponseDTO();
+        dto.setId(parcel.getId());
+        dto.setTrackingId(parcel.getTrackingId());
+        dto.setSenderName(parcel.getSenderName());
+        dto.setReceiverName(parcel.getReceiverName());
+        // এখানে চাইলে আর details যোগ করতে পারো
+        return dto;
+    }
 }
 
 

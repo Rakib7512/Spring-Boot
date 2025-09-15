@@ -2,6 +2,9 @@ package com.rakib.project.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "consumers")
 public class Consumer {
@@ -23,6 +26,11 @@ public class Consumer {
     private User user;
 
 
+    // ✅ One Consumer -> Many Parcels
+    @OneToMany(mappedBy = "consumer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Parcel> parcels = new ArrayList<>();
+
+
 
     
 
@@ -30,7 +38,7 @@ public class Consumer {
 
     }
 
-    public Consumer(Long id, String name, String email, String phone, String gender, String address, String nid, String photo, User user) {
+    public Consumer(Long id, String name, String email, String phone, String gender, String address, String nid, String photo, User user, List<Parcel> parcels) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -40,6 +48,7 @@ public class Consumer {
         this.nid = nid;
         this.photo = photo;
         this.user = user;
+        this.parcels = parcels;
     }
 
     public Long getId() {
@@ -112,5 +121,13 @@ public class Consumer {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Parcel> getParcels() {
+        return parcels;
+    }
+
+    public void setParcels(List<Parcel> parcels) {
+        this.parcels = parcels;
     }
 }

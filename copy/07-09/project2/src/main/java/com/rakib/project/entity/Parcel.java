@@ -120,6 +120,12 @@ public class Parcel {
     @JoinColumn(name = "receive_police_station_id")
     private PoliceStation receivePoliceStation;
 
+
+    // ✅ Many Parcels -> One Consumer
+    @ManyToOne
+    @JoinColumn(name = "consumer_id")
+    private Consumer consumer;
+
     // Auto-set timestamps
     @PrePersist
     protected void onCreate() {
@@ -134,7 +140,7 @@ public class Parcel {
     // You can add a full-args constructor if needed, but omitted here for brevity
 
 
-    public Parcel(Long id, String addressLineForSender1, String addressLineForSender2, String addressLineForReceiver1, String addressLineForReceiver2, String trackingId, String senderName, String receiverName, String senderPhone, String receiverPhone, String previousHub, String currentHub, String toHub, Date createdAt, Date bookingDate, String size, int fee, String verificationCode, ParcelStatus status, Employee pickupDeliveryMan, Employee deliveryMan, Employee bookingAgent, List<ParcelTracking> trackingHistory, Country sendCountry, Division sendDivision, District sendDistrict, PoliceStation sendPoliceStation, Country receiveCountry, Division receiveDivision, District receiveDistrict, PoliceStation receivePoliceStation) {
+    public Parcel(Long id, String addressLineForSender1, String addressLineForSender2, String addressLineForReceiver1, String addressLineForReceiver2, String trackingId, String senderName, String receiverName, String senderPhone, String receiverPhone, String previousHub, String currentHub, String toHub, Date createdAt, Date bookingDate, String size, int fee, String verificationCode, ParcelStatus status, Employee pickupDeliveryMan, Employee deliveryMan, Employee bookingAgent, List<ParcelTracking> trackingHistory, Country sendCountry, Division sendDivision, District sendDistrict, PoliceStation sendPoliceStation, Country receiveCountry, Division receiveDivision, District receiveDistrict, PoliceStation receivePoliceStation, Consumer consumer) {
         this.id = id;
         this.addressLineForSender1 = addressLineForSender1;
         this.addressLineForSender2 = addressLineForSender2;
@@ -166,6 +172,7 @@ public class Parcel {
         this.receiveDivision = receiveDivision;
         this.receiveDistrict = receiveDistrict;
         this.receivePoliceStation = receivePoliceStation;
+        this.consumer = consumer;
     }
 
     public Long getId() {
@@ -415,4 +422,14 @@ public class Parcel {
     public void setReceivePoliceStation(PoliceStation receivePoliceStation) {
         this.receivePoliceStation = receivePoliceStation;
     }
+
+    public Consumer getConsumer() {
+        return consumer;
+    }
+
+    public void setConsumer(Consumer consumer) {
+        this.consumer = consumer;
+    }
+
+
 }

@@ -4,11 +4,13 @@ package com.rakib.project.restcontroller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rakib.project.dto.AuthenticationResponse;
+import com.rakib.project.dto.ParcelResponseDTO;
 import com.rakib.project.entity.Consumer;
 import com.rakib.project.entity.Employee;
 import com.rakib.project.entity.User;
 import com.rakib.project.repository.IUserRepo;
 import com.rakib.project.service.ConsumerService;
+import com.rakib.project.service.ParcelService;
 import com.rakib.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +37,8 @@ public class ConsumerRestController {
 
     @Autowired
     private ConsumerService consumerService;
+    @Autowired
+    private ParcelService parcelService;
 
     @PostMapping("")
     public ResponseEntity<Map<String, String>> registerJobSeeker(
@@ -95,7 +99,14 @@ public class ConsumerRestController {
         }
     }
 
+    // ✅ Consumer's parcel history
+    @GetMapping("/{consumerId}/parcels")
+    public ResponseEntity<List<ParcelResponseDTO>> getConsumerParcelHistory(@PathVariable Long consumerId) {
+        List<ParcelResponseDTO> parcels = parcelService.getParcelHistoryByConsumer(consumerId);
+        return ResponseEntity.ok(parcels);
+    }
 
+    //http://localhost:8085/api/consumer/3/parcels
 
 
 }

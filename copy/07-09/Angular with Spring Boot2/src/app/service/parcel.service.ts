@@ -65,20 +65,6 @@ getParcelsByUserId(userId: number): Observable<Parcel[]> {
 }
 
 
- // -------- Notification APIs --------
-
-  // getEmployerNotifications(employerId: number): Observable<Notification[]> {
-  //   return this.http.get<Notification[]>(`${this.baseUrl}/notifications/${employerId}`);
-  // }
-
-  // markNotificationAsRead(notificationId: number): Observable<void> {
-  //   return this.http.put<void>(`${this.baseUrl}/notifications/${notificationId}/read`, {});
-  // }
-
-
-
-
-
 
    // 1. Claim Pickup
 
@@ -105,13 +91,14 @@ getParcelsByUserId(userId: number): Observable<Parcel[]> {
 
  
 
-  // Parcel receive/save by employee
-  // receiveParcel(parcelId: number, employeeId: number, employeeName: string, currentHub: string): Observable<Parcel> {
-  //   return this.http.post<Parcel>(`${this.baseUrl}/${parcelId}/receive?employeeId=${employeeId}&employeeName=${employeeName}&currentHub=${currentHub}`, {});
-  // }
-
+ 
 getParcelByTrackingId(trackingId: string): Observable<any> {
   return this.http.get<any>(`${this.baseUrl}/parcels/tracking/${trackingId}`);
 }
+
+  // ✅ Get all parcels booked by a consumer
+  getConsumerParcels(consumerId: number): Observable<Parcel[]> {
+    return this.http.get<Parcel[]>(`${this.baseUrl}/consumers/${consumerId}/parcels`);
+  }
 
 }

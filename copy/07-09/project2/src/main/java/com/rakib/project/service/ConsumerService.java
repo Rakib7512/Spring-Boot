@@ -34,7 +34,7 @@ public class ConsumerService {
 
     public Consumer getProfileByUserId(int userId) {
         return consumerRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Job Seeker not found"));
+                .orElseThrow(() -> new RuntimeException("Consumernot found"));
     }
 
     public Long getConsumerIdByEmail(String email) {
@@ -42,5 +42,8 @@ public class ConsumerService {
                 .map(Consumer::getId)
                 .orElse(null);
     }
+
+
+
 
 }

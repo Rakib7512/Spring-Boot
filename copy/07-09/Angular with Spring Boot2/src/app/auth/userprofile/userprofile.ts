@@ -13,7 +13,9 @@ import { ConsumerService } from '../../service/consumer.service';
   styleUrl: './userprofile.css'
 })
 export class Userprofile implements OnInit {
-  
+    parcels: Parcel[] = [];
+   consumerId!: number; // ✅ এখানে লগইন করা user এর ID বসবে (auth থেকে আনবে)
+
   profile: any = null;
   loading = true;
   error = '';
@@ -31,6 +33,16 @@ export class Userprofile implements OnInit {
   ngOnInit(): void {
 
     this.getProfile();
+     
+    
+    // ✅ localStorage থেকে consumerId আনো
+    const id = localStorage.getItem('consumerId');
+    if (id) {
+      this.consumerId = Number(id);
+      this.loadParcelHistory();
+    } else {
+      console.error('Consumer not logged in!');
+    }
    
   }
 
@@ -53,38 +65,15 @@ export class Userprofile implements OnInit {
     });
   }
 
+   loadParcelHistory(): void {
+    this.parcelService.getConsumerParcels(this.consumerId).subscribe({
+      next: (data) => {
+        this.parcels = data;
+      },
+      error: (err) => {
+        console.error('Error loading parcel history:', err);
+      }
+    });
+  }
 
-
-
-
-  // loadUserParcels(userId: number): void {
-  //   this.parcelService.getParcelsByUserId(userId).subscribe({
-  //     next: (data) => {
-  //       this.userParcels = data;
-  //       this.cdr.detectChanges();
-  //     },
-  //     error: (err) => {
-  //       console.error('Failed to load user parcel history:', err);
-  //     }
-  //   });
-  // }
-
-  // onFileSelected(event: any): void {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-  //       this.selectedImage = reader.result as string;
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // }
-
-  // saveProfilePic(): void {
-  //   if (this.selectedImage && this.user) {
-  //     this.user.photo = this.selectedImage;
-  //     localStorage.setItem('loggedInUser', JSON.stringify(this.user));
-  //     alert('Profile picture updated!');
-  //   }
-  // }
-}
+  }

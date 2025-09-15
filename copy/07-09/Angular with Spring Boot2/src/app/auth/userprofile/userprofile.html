@@ -32,3 +32,33 @@
   </div>
 
 </div>
+
+
+
+
+<div class="container mt-4">
+  <h3 class="text-center text-primary">📦 My Parcel History</h3>
+
+  <table class="table table-bordered table-hover mt-3" *ngIf="parcels.length > 0; else noParcels">
+    <thead class="table-dark">
+      <tr>
+        <th>Tracking ID</th>
+        <th>Sender</th>
+        <th>Receiver</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let parcel of parcels">
+        <td>{{ parcel.trackingId }}</td>
+        <td>{{ parcel.senderName }}</td>
+        <td>{{ parcel.receiverName }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #noParcels>
+    <div class="alert alert-info text-center mt-3">
+      No parcel history found.
+    </div>
+  </ng-template>
+</div>
