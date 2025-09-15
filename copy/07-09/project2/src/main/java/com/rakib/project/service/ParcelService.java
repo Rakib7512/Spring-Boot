@@ -1,6 +1,7 @@
 package com.rakib.project.service;
 
 import com.rakib.project.dto.LocationResponseDTO;
+import com.rakib.project.dto.ParcelDto;
 import com.rakib.project.dto.ParcelResponseDTO;
 import com.rakib.project.entity.Employee;
 import com.rakib.project.entity.Parcel;
@@ -163,79 +164,114 @@ public class ParcelService {
 
 
     // বিদ্যমান DTO ব্যবহার করব
-    public ParcelResponseDTO getParcelByParcelId(String trackingId) {
-        Parcel parcel = parcelRepository.findByTrackingId(trackingId)
-                .orElseThrow(() -> new RuntimeException("Parcel not found"));
 
-        ParcelResponseDTO dto = new ParcelResponseDTO();
-        dto.setId(parcel.getId());
-        dto.setTrackingId(parcel.getTrackingId());
-        dto.setSenderName(parcel.getSenderName());
-        dto.setSenderPhone(parcel.getSenderPhone());
-        dto.setReceiverName(parcel.getReceiverName());
-        dto.setReceiverPhone(parcel.getReceiverPhone());
+    public List<ParcelDto> getAllParcelsByTrackingId(String trackingId) {
+        List<ParcelDto> newParcels = parcelRepository.findParcelByTrackingId(trackingId).stream().map(parcel -> {
+            ParcelDto dto = new ParcelDto();
+            dto.setId(parcel.getId());
+            dto.setTrackingId(parcel.getTrackingId());
+            dto.setSenderName(parcel.getSenderName());
+            dto.setReceiverName(parcel.getReceiverName());
+            dto.setSenderPhone(parcel.getSenderPhone());
+            dto.setReceiverPhone(parcel.getReceiverPhone());
+            dto.setAddressLineForSender1(parcel.getAddressLineForSender1());
+            dto.setAddressLineForSender2(parcel.getAddressLineForSender2());
+            dto.setSendCountryId(parcel.getSendCountry().getId());
+            dto.setSendDivisionId(parcel.getSendDivision().getId());
+            dto.setSendDistrictId(parcel.getSendDistrict().getId());
+            dto.setSendPoliceStationId(parcel.getSendPoliceStation().getId());
+            dto.setReceiveCountryId(parcel.getReceiveCountry().getId());
+            dto.setReceiveDivisionId(parcel.getReceiveDivision().getId());
+            dto.setReceiveDistrictId(parcel.getReceiveDistrict().getId());
+            dto.setReceivePoliceStationId(parcel.getReceivePoliceStation().getId());
+            dto.setSize(parcel.getSize());
+            dto.setFee(parcel.getFee());
+            dto.setStatus(dto.getStatus());
+            dto.setCreatedAt(parcel.getCreatedAt());
+            dto.setBookingDate(parcel.getBookingDate());
+            dto.setCurrentHub(parcel.getCurrentHub());
+            dto.setPreviousHub(parcel.getPreviousHub());
+            dto.setToHub(parcel.getToHub());
+            return dto;
+        }).toList();
 
-        dto.setAddressLineForSender1(parcel.getAddressLineForSender1());
-        dto.setAddressLineForSender2(parcel.getAddressLineForSender2());
-        dto.setAddressLineForReceiver1(parcel.getAddressLineForReceiver1());
-        dto.setAddressLineForReceiver2(parcel.getAddressLineForReceiver2());
-
-        dto.setFee(parcel.getFee());
-        dto.setStatus(parcel.getStatus().toString());
-
-        // 🔥 Country/Division/District mapping with name
-        if (parcel.getSendCountry() != null) {
-            dto.setSendCountry(new LocationResponseDTO(
-                    parcel.getSendCountry().getId(),
-                    parcel.getSendCountry().getName()
-            ));
-        }
-        if (parcel.getSendDivision() != null) {
-            dto.setSendDivision(new LocationResponseDTO(
-                    parcel.getSendDivision().getId(),
-                    parcel.getSendDivision().getName()
-            ));
-        }
-        if (parcel.getSendDistrict() != null) {
-            dto.setSendDistrict(new LocationResponseDTO(
-                    parcel.getSendDistrict().getId(),
-                    parcel.getSendDistrict().getName()
-            ));
-        }
-        if (parcel.getSendPoliceStation() != null) {
-            dto.setSendPoliceStation(new LocationResponseDTO(
-                    parcel.getSendPoliceStation().getId(),
-                    parcel.getSendPoliceStation().getName()
-            ));
-        }
-
-        if (parcel.getReceiveCountry() != null) {
-            dto.setReceiveCountry(new LocationResponseDTO(
-                    parcel.getReceiveCountry().getId(),
-                    parcel.getReceiveCountry().getName()
-            ));
-        }
-        if (parcel.getReceiveDivision() != null) {
-            dto.setReceiveDivision(new LocationResponseDTO(
-                    parcel.getReceiveDivision().getId(),
-                    parcel.getReceiveDivision().getName()
-            ));
-        }
-        if (parcel.getReceiveDistrict() != null) {
-            dto.setReceiveDistrict(new LocationResponseDTO(
-                    parcel.getReceiveDistrict().getId(),
-                    parcel.getReceiveDistrict().getName()
-            ));
-        }
-        if (parcel.getReceivePoliceStation() != null) {
-            dto.setReceivePoliceStation(new LocationResponseDTO(
-                    parcel.getReceivePoliceStation().getId(),
-                    parcel.getReceivePoliceStation().getName()
-            ));
-        }
-
-        return dto;
+        return newParcels;
     }
+
+
+//    public ParcelResponseDTO getParcelByParcelId(String trackingId) {
+//        Parcel parcel = parcelRepository.findByTrackingId(trackingId)
+//                .orElseThrow(() -> new RuntimeException("Parcel not found"));
+//
+//        ParcelResponseDTO dto = new ParcelResponseDTO();
+//        dto.setId(parcel.getId());
+//        dto.setTrackingId(parcel.getTrackingId());
+//        dto.setSenderName(parcel.getSenderName());
+//        dto.setSenderPhone(parcel.getSenderPhone());
+//        dto.setReceiverName(parcel.getReceiverName());
+//        dto.setReceiverPhone(parcel.getReceiverPhone());
+//
+//        dto.setAddressLineForSender1(parcel.getAddressLineForSender1());
+//        dto.setAddressLineForSender2(parcel.getAddressLineForSender2());
+//        dto.setAddressLineForReceiver1(parcel.getAddressLineForReceiver1());
+//        dto.setAddressLineForReceiver2(parcel.getAddressLineForReceiver2());
+//
+//        dto.setFee(parcel.getFee());
+//        dto.setStatus(parcel.getStatus().toString());
+//
+//        // 🔥 Country/Division/District mapping with name
+//        if (parcel.getSendCountry() != null) {
+//            dto.setSendCountry(new LocationResponseDTO(
+//                    parcel.getSendCountry().getId(),
+//                    parcel.getSendCountry().getName()
+//            ));
+//        }
+//        if (parcel.getSendDivision() != null) {
+//            dto.setSendDivision(new LocationResponseDTO(
+//                    parcel.getSendDivision().getId(),
+//                    parcel.getSendDivision().getName()
+//            ));
+//        }
+//        if (parcel.getSendDistrict() != null) {
+//            dto.setSendDistrict(new LocationResponseDTO(
+//                    parcel.getSendDistrict().getId(),
+//                    parcel.getSendDistrict().getName()
+//            ));
+//        }
+//        if (parcel.getSendPoliceStation() != null) {
+//            dto.setSendPoliceStation(new LocationResponseDTO(
+//                    parcel.getSendPoliceStation().getId(),
+//                    parcel.getSendPoliceStation().getName()
+//            ));
+//        }
+//
+//        if (parcel.getReceiveCountry() != null) {
+//            dto.setReceiveCountry(new LocationResponseDTO(
+//                    parcel.getReceiveCountry().getId(),
+//                    parcel.getReceiveCountry().getName()
+//            ));
+//        }
+//        if (parcel.getReceiveDivision() != null) {
+//            dto.setReceiveDivision(new LocationResponseDTO(
+//                    parcel.getReceiveDivision().getId(),
+//                    parcel.getReceiveDivision().getName()
+//            ));
+//        }
+//        if (parcel.getReceiveDistrict() != null) {
+//            dto.setReceiveDistrict(new LocationResponseDTO(
+//                    parcel.getReceiveDistrict().getId(),
+//                    parcel.getReceiveDistrict().getName()
+//            ));
+//        }
+//        if (parcel.getReceivePoliceStation() != null) {
+//            dto.setReceivePoliceStation(new LocationResponseDTO(
+//                    parcel.getReceivePoliceStation().getId(),
+//                    parcel.getReceivePoliceStation().getName()
+//            ));
+//        }
+//
+//        return dto;
+//    }
 
 
 

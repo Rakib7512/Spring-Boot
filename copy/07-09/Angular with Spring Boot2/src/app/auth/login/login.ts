@@ -12,7 +12,7 @@ import { EmployeeService } from '../../service/employee.service';
 })
 export class Login implements OnInit {
 
- loginForm!: FormGroup;
+  loginForm!: FormGroup;
   errorMessage: string | null = null;
   successMessage: string | null = null;
 
@@ -21,7 +21,7 @@ export class Login implements OnInit {
     private authService: AuthService,
     private router: Router,
     private employeeService: EmployeeService,
- 
+
   ) { }
 
   ngOnInit(): void {
@@ -32,32 +32,28 @@ export class Login implements OnInit {
   }
 
   onSubmit(): void {
-  if (this.loginForm.invalid) {
-    return;
-  }
+    if (this.loginForm.invalid) {
+      return;
+    }
 
-  const { email, password } = this.loginForm.value;
+    const { email, password } = this.loginForm.value;
 
- this.authService.login(email, password).subscribe({
+    this.authService.login(email, password).subscribe({
       next: (response) => {
         this.successMessage = 'Login successful!';
         this.errorMessage = null;
         this.employeeService.getMyEmployeeId().subscribe({
-          next:(empId)=>{
-             console.log('Employee ID saved in localStorage:', empId)
-          },
-           error: (err) => {
-          console.error('Could not fetch Employee ID', err);
+          next: (empId) => {
 
-          // You can still redirect even if EmployeeId is not found
-          this.router.navigate(['/']);
-        }
+            console.log('Employee ID saved in localStorage:', empId)
+          },
+          error: (err) => {
+            console.error('Could not fetch Employee ID', err);
+          }
         })
-        
+
 
         const role = this.authService.getUserRole();
-
-        console.log(role);
 
         if (role === 'CONSUMER') {
           this.router.navigate(['/user_profile']);
@@ -66,7 +62,7 @@ export class Login implements OnInit {
         } else if (role === 'ADMIN') {
           this.router.navigate(['/admin-dashboard']);
         } else {
-          this.router.navigate(['/']); // fallback
+          this.router.navigate(['/']); 
         }
       },
       error: (err) => {
@@ -74,7 +70,7 @@ export class Login implements OnInit {
         this.successMessage = null;
       }
     });
-}
+  }
 
 
 }

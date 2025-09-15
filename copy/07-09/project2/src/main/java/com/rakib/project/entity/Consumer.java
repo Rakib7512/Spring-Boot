@@ -23,6 +23,9 @@ public class Consumer {
     private User user;
 
 
+
+    
+
     public Consumer() {
 
     }
