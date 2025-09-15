@@ -284,6 +284,11 @@ public class ParcelController {
 
 
 
+//    @GetMapping("/trackP/{trackingId}")
+//    public ResponseEntity<ParcelResponseDTO> getParcelDetailsByTrackingId(@PathVariable String trackingId) {
+//        ParcelResponseDTO dto = parcelService.getParcelByParcelId(trackingId);
+//        return ResponseEntity.ok(dto);
+//    }
 
 }
 

@@ -43,7 +43,7 @@ public class SecqurityConfig {
                                         "/api/district/**", "/api/policestation/**", "/api/parcels/",
                                         "/api/division/**","/api/countries/**", "/api/employee/**",
                                         "/api/parcels/**","/api/employee/all**", "/api/user/login/**","/api/consumer/profile",
-                                        "/api/parcels/tracking/**"
+                                        "/api/parcels/tracking/**","/api/parcels/trackingP/**"
 
                                         ).permitAll()
 
