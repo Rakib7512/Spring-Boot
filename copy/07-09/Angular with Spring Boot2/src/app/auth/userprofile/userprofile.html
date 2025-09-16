@@ -1,64 +1,225 @@
 <div class="container mt-5 mb-5">
-  <div class="text-center mb-4">
-    <h2 class="fw-bold text-primary display-6">Welcome to Your Dashboard</h2>
-    <p class="text-muted">Here’s your profile and parcel activity overview</p>
+
+  <!-- Welcome Section -->
+  <div class="text-center mb-5">
+    <h1 class="fw-bold text-gradient display-5">
+      Welcome Back, {{ profile.name }} 👋
+    </h1>
+    <p class="text-muted fs-5">Here’s your personalized dashboard overview</p>
   </div>
 
-  <!-- Profile Card -->
-  <div class="card shadow-lg border-0 mb-5 rounded-4">
-    <div
-      class="card-header bg-success text-white fw-semibold fs-5 rounded-top-4 d-flex justify-content-between align-items-center">
-      <div><i class="bi bi-person-fill me-2"></i> Profile Information</div>
+  <!-- Profile + Parcel Dashboard -->
+  <div class="card shadow-lg border-0 rounded-4 overflow-hidden bg-light-glass">
+
+    <!-- Profile Header -->
+    <div class="profile-header p-4 text-center text-white position-relative">
+      <img [src]="imageBaseUrl + profile.photo"
+           class="profile-pic shadow-lg border border-4 border-white"
+           alt="Profile Picture" width="160" height="160" />
+      <h3 class="mt-3 fw-bold">{{ profile.name }}</h3>
+      <span class="badge role-badge mt-2 px-3 py-2">{{ profile.user.role }}</span>
+      <span class="position-absolute top-0 start-0 w-100 h-100 gradient-overlay rounded-top-4"></span>
     </div>
-    <div class="card-body row row-cols-1 row-cols-md-2 g-4">
-      <!-- Profile Picture -->
-      <div class="col-md-4 text-center">
-        <img [src]="imageBaseUrl + profile.photo " class="img-thumbnail rounded-circle shadow mb-3"
-          alt="Profile Picture" width="150" height="150" />
-        <!-- <input type="file" class="form-control" (change)="onFileSelected($event)" accept="image/*">
-        <button class="btn btn-outline-primary mt-2" (click)="saveProfilePic()">Save Picture</button> -->
+
+    <!-- Profile Info -->
+    <div class="p-4">
+      <h5 class="fw-bold text-dark mb-4">
+        <i class="bi bi-person-badge-fill me-2 text-primary"></i> Profile Information
+      </h5>
+      <div class="row g-3">
+        <div class="col-sm-6">
+          <div class="info-card shadow-sm p-3 rounded-4 glass-card">
+            <i class="bi bi-envelope-fill text-primary me-2"></i>
+            <strong>Email</strong>
+            <p class="mb-0 text-muted small">{{ profile.user.email }}</p>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="info-card shadow-sm p-3 rounded-4 glass-card">
+            <i class="bi bi-telephone-fill text-success me-2"></i>
+            <strong>Phone</strong>
+            <p class="mb-0 text-muted small">{{ profile.user.phone }}</p>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="info-card shadow-sm p-3 rounded-4 glass-card">
+            <i class="bi bi-credit-card-2-front-fill text-warning me-2"></i>
+            <strong>NID</strong>
+            <p class="mb-0 text-muted small">{{ profile.nid }}</p>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="info-card shadow-sm p-3 rounded-4 glass-card">
+            <i class="bi bi-geo-alt-fill text-danger me-2"></i>
+            <strong>Address</strong>
+            <p class="mb-0 text-muted small">{{ profile.address }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="m-0">
+
+    <!-- Parcel History Section -->
+    <div class="p-4">
+      <div class="d-flex align-items-center mb-3">
+        <i class="bi bi-box-seam-fill me-2 text-dark fs-5"></i>
+        <h5 class="fw-semibold m-0">Parcel History</h5>
       </div>
 
-      <!-- Info -->
-      <div class="col-md-8">
-        <p><strong>Name:</strong> {{ profile.name }}</p>
-        <p><strong>Email:</strong> {{ profile.user.email }}</p>
-        <p><strong>Phone:</strong> {{ profile.user.phone }}</p>
-        <p><strong>NID:</strong> {{ profile.nid }}</p>
-        <p><strong>Role:</strong> {{ profile.user.role }}</p>
-      
+      <div class="table-responsive">
+        <table class="table table-borderless align-middle text-center shadow-sm rounded modern-table"
+               *ngIf="parcels.length > 0; else noParcels">
+          <thead class="table-dark rounded-top">
+            <tr>
+              <th>Tracking ID</th>
+              <th>Sender</th>
+              <th>Receiver</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let parcel of parcels" class="parcel-row">
+              <td class="fw-semibold text-dark">{{ parcel.trackingId }}</td>
+              <td>{{ parcel.senderName }}</td>
+              <td>{{ parcel.receiverName }}</td>
+              <td>
+                <span class="px-3 py-2 text-white fw-semibold status-badge"
+                      [ngClass]="{
+                        'in-transit': parcel.status === 'In Transit',
+                        'pending': parcel.status === 'Pending',
+                        'delayed': parcel.status === 'Delayed'
+                      }">
+                  {{ parcel.status }}
+                </span>
+              </td>
+              <td>
+                <button class="btn btn-sm btn-outline-primary me-2 modern-btn">
+                  <i class="bi bi-search"></i> Track
+                </button>
+                <button class="btn btn-sm btn-outline-danger modern-btn">
+                  <i class="bi bi-file-earmark-pdf"></i> PDF
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+
+      <ng-template #noParcels>
+        <div class="alert alert-info text-center mt-4 rounded-3 shadow-sm">
+          <i class="bi bi-inbox me-2"></i> No parcel history found.
+        </div>
+      </ng-template>
     </div>
   </div>
-
 </div>
 
+<style>
+/* Background glass effect */
+.bg-light-glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  border-radius: 1rem;
+}
 
+/* Profile Header */
+.profile-header {
+  background: linear-gradient(135deg, #0d6efd, #20c997);
+  position: relative;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
 
+/* Profile pic */
+.profile-pic {
+  border-radius: 50%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 1;
+}
+.profile-pic:hover {
+  transform: scale(1.1);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+}
 
-<div class="container mt-4">
-  <h3 class="text-center text-primary">📦 My Parcel History</h3>
+/* Role Badge */
+.role-badge {
+  background: #ffffff;
+  color: #0d6efd;
+  font-size: 0.9rem;
+  border-radius: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.role-badge:hover {
+  transform: scale(1.05);
+}
 
-  <table class="table table-bordered table-hover mt-3" *ngIf="parcels.length > 0; else noParcels">
-    <thead class="table-dark">
-      <tr>
-        <th>Tracking ID</th>
-        <th>Sender</th>
-        <th>Receiver</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let parcel of parcels">
-        <td>{{ parcel.trackingId }}</td>
-        <td>{{ parcel.senderName }}</td>
-        <td>{{ parcel.receiverName }}</td>
-      </tr>
-    </tbody>
-  </table>
+/* Glass cards */
+.glass-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.glass-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
 
-  <ng-template #noParcels>
-    <div class="alert alert-info text-center mt-3">
-      No parcel history found.
-    </div>
-  </ng-template>
-</div>
+/* Gradient overlay */
+.gradient-overlay {
+  opacity: 0.15;
+  pointer-events: none;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #0d6efd, #20c997);
+  z-index: 0;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+/* Parcel Table */
+.modern-table {
+  border-radius: 0.8rem;
+  overflow: hidden;
+  background: rgba(255,255,255,0.95);
+}
+.parcel-row:hover {
+  background-color: rgba(13, 110, 253, 0.05) !important;
+  transition: background 0.3s ease;
+}
+
+/* Status badges */
+.status-badge {
+  border-radius: 16px;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+.status-badge.in-transit {
+  background: linear-gradient(135deg, #28a745, #20c997);
+}
+.status-badge.pending {
+  background: linear-gradient(135deg, #ffc107, #fd7e14);
+}
+.status-badge.delayed {
+  background: linear-gradient(135deg, #dc3545, #c82333);
+}
+.status-badge:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Buttons */
+.modern-btn {
+  border-radius: 12px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.modern-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+</style>

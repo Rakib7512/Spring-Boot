@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Parcel } from '../../model/parcel.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../environment/environment';
-import { ParcelTracking } from '../../model/trackingParcel.model';
 import { ParcelTrackingDTO } from '../../model/parcelTrackingDTO';
 
 @Injectable({

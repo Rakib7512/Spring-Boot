@@ -43,13 +43,20 @@
             <p><strong>Designation:</strong> {{ selectedEmployee.designation }}</p>
           </div>
           <div class="col-md-6">
-            <p><strong>Join Date:</strong> {{ selectedEmployee.joindate }}</p>
+            <p><strong>Join Date:</strong> {{ selectedEmployee.joindate | date:'mediumDate' }}</p>
             <p><strong>Salary:</strong> {{ selectedEmployee.salary }}</p>
-            <p><strong>Hub:</strong> {{ selectedEmployee.empOnHub }}</p>
-            <p><strong>Country:</strong> {{ selectedEmployee.country?.name }}</p>
-            <p><strong>Division:</strong> {{ selectedEmployee.division?.name }}</p>
-            <p><strong>District:</strong> {{ selectedEmployee.district?.name }}</p>
-            <p><strong>Police Station:</strong> {{ selectedEmployee.policeStation?.name }}</p>
+            <p><strong>Current Hub Name:</strong> {{ selectedEmployee.policeStationId?.name }}</p>
+            <p><strong>Current Hub ID:</strong> {{ selectedEmployee.empOnHub }}</p>
+            <p><strong>Country:</strong> {{ selectedEmployee.countryId?.name }}</p>
+            <p><strong>Division:</strong> {{ selectedEmployee.divisionId?.name }}</p>
+            <p><strong>District:</strong> {{ selectedEmployee.districtId?.name }}</p>
+            <p><strong>Police Station:</strong> {{ selectedEmployee.policeStationId?.name }}</p>
+            <p><strong>Status:</strong>
+              <span class="badge"
+                    [ngClass]="selectedEmployee.status === 'Active' ? 'bg-success' : 'bg-danger'">
+                {{ selectedEmployee.status }}
+              </span>
+            </p>
           </div>
         </div>
       </div>
