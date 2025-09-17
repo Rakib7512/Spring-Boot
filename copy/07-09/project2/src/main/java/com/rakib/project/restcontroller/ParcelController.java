@@ -1,6 +1,7 @@
 package com.rakib.project.restcontroller;
 
 
+import com.rakib.project.dto.ConsumerResponseDTO;
 import com.rakib.project.dto.ParcelDto;
 import com.rakib.project.dto.ParcelResponseDTO;
 import com.rakib.project.dto.ParcelTrackingDTO;
@@ -10,6 +11,7 @@ import com.rakib.project.service.NotificationService;
 import com.rakib.project.service.ParcelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,11 +31,17 @@ public class ParcelController {
     @Autowired
     private IEmployeeRepo employeeRepo;
 
+    @Autowired
+    private  IConsumerRepo consumerRepo;
+
 
     @Autowired
     private INotificationRepo notificationRepo;
     @Autowired
     private IPoliceStationRepo policeStationRepo;
+
+    @Autowired
+    private IUserRepo  userRepo;
 
 
     @Autowired
@@ -292,9 +300,15 @@ public class ParcelController {
 
 
     // Consumer এর Parcel history
-    @GetMapping("/history/{consumerId}")
-    public ResponseEntity<List<ParcelResponseDTO>> getParcelHistory(@PathVariable Long consumerId) {
-        return ResponseEntity.ok(parcelService.getParcelHistoryByConsumer(consumerId));
+    @GetMapping("/history")
+    public ResponseEntity<List<ParcelResponseDTO>> getParcelHistory(Authentication authentication) {
+
+        String email = authentication.getName();
+
+        Consumer consumer = consumerRepo.findByUserEmail(email)
+                .orElseThrow(()-> new RuntimeException("Consumer not found"));
+
+        return ResponseEntity.ok(parcelService.getParcelHistoryByConsumer(consumer.getId()));
     }
 }
 

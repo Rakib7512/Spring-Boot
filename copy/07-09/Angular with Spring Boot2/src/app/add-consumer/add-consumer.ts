@@ -29,13 +29,13 @@ export class AddConsumer {
     });
   }
 
-onPhotoSelected(event: Event): void {
-  const input = event.target as HTMLInputElement;
-  if (input.files && input.files.length > 0) {
-    this.photoFile = input.files[0];
-    console.log('Selected file:', this.photoFile);
+  onPhotoSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.photoFile = input.files[0];
+      console.log('Selected file:', this.photoFile);
+    }
   }
-}
 
   onSubmit(): void {
     if (!this.photoFile) {
@@ -56,9 +56,12 @@ onPhotoSelected(event: Event): void {
     };
 
     const consumer = {
+      name: this.registrationForm.value.name,
       gender: this.registrationForm.value.gender,
       nid: this.registrationForm.value.nid,
-      address: this.registrationForm.value.address
+      address: this.registrationForm.value.address,
+      email: this.registrationForm.value.email,
+      phone: this.registrationForm.value.phone,
     };
 
     this.consumerService.registerConsumer(user, consumer, this.photoFile).subscribe({

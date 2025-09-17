@@ -1,7 +1,7 @@
 package com.rakib.project.service;
 
-import com.rakib.project.entity.Consumer;
-import com.rakib.project.entity.Employee;
+import com.rakib.project.dto.*;
+import com.rakib.project.entity.*;
 import com.rakib.project.repository.IConsumerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +23,9 @@ public class ConsumerService {
         return consumerRepository.findById(id);
     }
 
-    public Consumer save(Consumer jobSeeker) {
-        return consumerRepository.save(jobSeeker);
+
+    public Consumer save(Consumer consumer) {
+        return consumerRepository.save(consumer);
     }
 
     public void delete(Long id) {
@@ -47,6 +48,46 @@ public class ConsumerService {
         return consumerRepository.findByIdWithParcels(consumerId)
                 .orElseThrow(() -> new RuntimeException("Consumer not found"));
     }
+
+
+    public ConsumerResponseDTO getProfileByConsumerId(long consumerId) {
+
+
+        Consumer consumer = consumerRepository.findById(consumerId)
+                .orElseThrow(() -> new RuntimeException("Consumer not found"));
+
+        // Convert Employee entity to EmployeeResponseDTO using setter style
+        ConsumerResponseDTO dto = new ConsumerResponseDTO();
+        dto.setId(consumer.getId());
+        dto.setName(consumer.getName());
+        dto.setEmail(consumer.getEmail());
+        dto.setGender(consumer.getGender());
+        dto.setNid(consumer.getNid());
+        dto.setPhone(consumer.getPhone());
+        dto.setPhoto(consumer.getPhoto());
+        dto.setAddress(consumer.getAddress());
+        return dto;
+    }
+
+
+
+
+    public List<ConsumerResponseDTO> getAllAttendanceResponseDTOS() {
+        return consumerRepository.findAll().stream().map(atten -> {
+            ConsumerResponseDTO dto = new ConsumerResponseDTO();
+            dto.setId(atten.getId());
+            dto.setName(atten.getName());
+            dto.setEmail(atten.getEmail());
+            dto.setPhone(atten.getPhone());
+            dto.setGender(atten.getGender());
+            dto.setNid(atten.getNid());
+            dto.setAddress(atten.getAddress());
+            dto.setPhoto(atten.getPhoto());
+
+            return dto;
+        }).toList();
+    }
+
 
 
 }

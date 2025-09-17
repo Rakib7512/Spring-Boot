@@ -4,6 +4,8 @@ package com.rakib.project.restcontroller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rakib.project.dto.AuthenticationResponse;
+import com.rakib.project.dto.ConsumerResponseDTO;
+import com.rakib.project.dto.EmployeeResponseDTO;
 import com.rakib.project.dto.ParcelResponseDTO;
 import com.rakib.project.entity.Consumer;
 import com.rakib.project.entity.Employee;
@@ -76,12 +78,12 @@ public class ConsumerRestController {
 
 
     @GetMapping("/profile")
-    public ResponseEntity<?> getProfile(Authentication authentication) {
+    public ResponseEntity<ConsumerResponseDTO> getProfile(Authentication authentication) {
         System.out.println("Authenticated User: " + authentication.getName());
         System.out.println("Authorities: " + authentication.getAuthorities());
         String email = authentication.getName();
         Optional<User> user =userRepo.findByEmail(email);
-        Consumer consumer = consumerService.getProfileByUserId(user.get().getId());
+        ConsumerResponseDTO consumer = consumerService.getProfileByConsumerId(user.get().getId());
         return ResponseEntity.ok(consumer);
 
     }
@@ -102,19 +104,20 @@ public class ConsumerRestController {
     // ✅ Consumer's parcel history
 
 
-//    @GetMapping("/{consumerId}/parcels")
-//    public ResponseEntity<List<ParcelResponseDTO>> getConsumerParcelHistory(@PathVariable Long consumerId) {
-//        List<ParcelResponseDTO> parcels = parcelService.getParcelHistoryByConsumer(consumerId);
-//        return ResponseEntity.ok(parcels);
-//    }
+    @GetMapping("/{consumerId}/parcels")
+    public ResponseEntity<List<ParcelResponseDTO>> getConsumerParcelHistory(@PathVariable Long consumerId) {
+        List<ParcelResponseDTO> parcels = parcelService.getParcelHistoryByConsumer(consumerId);
+        return ResponseEntity.ok(parcels);
+    }
+
     // Consumer profile + তার সব parcel history
 
     //http://localhost:8085/api/consumer/3/parcels
 
 
     @GetMapping("/{id}/profile")
-    public ResponseEntity<Consumer> getConsumerProfile(@PathVariable Long id) {
-        Consumer consumer = consumerService.getConsumerWithParcels(id);
+    public ResponseEntity<ConsumerResponseDTO> getConsumerProfile(@PathVariable int id) {
+        ConsumerResponseDTO consumer = consumerService.getProfileByConsumerId(id);
         return ResponseEntity.ok(consumer);
     }
 

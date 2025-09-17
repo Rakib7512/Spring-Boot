@@ -1,9 +1,11 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Parcel } from '../../model/parcel.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../environment/environment';
 import { ParcelTrackingDTO } from '../../model/parcelTrackingDTO';
+import { ParcelResponseDTO } from '../../model/parcelResponseDTO.model';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,9 @@ export class ParcelService {
 
 
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   saveParcel(parcel: any): Observable<any> {
     return this.http.post<any>(this.baseUrl, parcel);
@@ -98,6 +102,27 @@ getParcelByTrackingId(trackingId: string): Observable<any> {
   // ✅ Get all parcels booked by a consumer
   getConsumerParcels(consumerId: number): Observable<Parcel[]> {
     return this.http.get<Parcel[]>(`${this.baseUrl}/consumers/${consumerId}/parcels`);
+  }
+
+
+   // ✅ Consumer অনুযায়ী বুক করা সব পার্সেল লোড করো
+  getParcelHistoryByConsumer(consumerId: number): Observable<any[]> {
+
+    let headers = new HttpHeaders();
+
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+        console.log(headers);
+      }
+    }
+
+
+    return this.http.get<any[]>(`${this.baseUrl}history`, {headers});
+
+
+
   }
 
 }

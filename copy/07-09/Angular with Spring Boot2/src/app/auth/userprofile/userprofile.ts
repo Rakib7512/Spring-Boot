@@ -5,6 +5,7 @@ import { ParcelService } from '../../service/parcel.service';
 import { isPlatformBrowser } from '@angular/common';
 import { UserService } from '../../service/user.service';
 import { ConsumerService } from '../../service/consumer.service';
+import { ParcelResponseDTO } from '../../../model/parcelResponseDTO.model';
 
 @Component({
   selector: 'app-userprofile',
@@ -13,7 +14,7 @@ import { ConsumerService } from '../../service/consumer.service';
   styleUrl: './userprofile.css'
 })
 export class Userprofile implements OnInit {
-    parcels: Parcel[] = [];
+  parcels: any;
    consumerId!: number; // ✅ এখানে লগইন করা user এর ID বসবে (auth থেকে আনবে)
 
   profile: any = null;
@@ -33,16 +34,7 @@ export class Userprofile implements OnInit {
   ngOnInit(): void {
 
     this.getProfile();
-     
-    
-    // ✅ localStorage থেকে consumerId আনো
-    const id = localStorage.getItem('consumerId');
-    if (id) {
-      this.consumerId = Number(id);
-      this.loadParcelHistory();
-    } else {
-      console.error('Consumer not logged in!');
-    }
+     this.loadParcelHistory()
    
   }
 
@@ -51,7 +43,7 @@ export class Userprofile implements OnInit {
   getProfile() {
     this.consumerService.getConsumerProfileById().subscribe({
       next: (data) => {
-        this.profile = data;
+        this.profile = data;        
 
         console.log(this.profile);
         this.cdr.markForCheck();
@@ -66,12 +58,14 @@ export class Userprofile implements OnInit {
   }
 
    loadParcelHistory(): void {
-    this.parcelService.getConsumerParcels(this.consumerId).subscribe({
+    this.parcelService.getParcelHistoryByConsumer(this.consumerId).subscribe({
       next: (data) => {
         this.parcels = data;
+        this.cdr.markForCheck();
+        console.log("parcel"+this.parcels);
       },
       error: (err) => {
-        console.error('Error loading parcel history:', err);
+        console.error('Error fetching parcel history', err);
       }
     });
   }

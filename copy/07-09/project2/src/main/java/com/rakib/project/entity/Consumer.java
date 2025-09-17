@@ -1,5 +1,6 @@
 package com.rakib.project.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -22,7 +23,9 @@ public class Consumer {
     private String photo;
 
     @OneToOne
+
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
 
 

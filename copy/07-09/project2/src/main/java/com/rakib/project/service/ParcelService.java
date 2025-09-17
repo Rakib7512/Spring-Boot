@@ -366,6 +366,26 @@ public class ParcelService {
                 .collect(Collectors.toList());
     }
 
+
+//    private ParcelResponseDTO mapToResponseDTO(Parcel parcel) {
+//        ParcelResponseDTO dto = new ParcelResponseDTO();
+//        dto.setId(parcel.getId());
+//        dto.setTrackingId(parcel.getTrackingId());
+//        dto.setSenderName(parcel.getSenderName());
+//        dto.setReceiverName(parcel.getReceiverName());
+//        dto.setSenderPhone(parcel.getSenderPhone());
+//        dto.setReceiverPhone(parcel.getReceiverPhone());
+//        dto.setFee(parcel.getFee());
+//        dto.setStatus(parcel.getStatus().toString());
+//        dto.setCurrentHub(parcel.getCurrentHub());
+//        dto.setBookingDate(parcel.getBookingDate());
+//        dto.setSendCountry();
+//
+//        return dto;
+//    }
+
+
+
     private ParcelResponseDTO mapToResponseDTO(Parcel parcel) {
         ParcelResponseDTO dto = new ParcelResponseDTO();
         dto.setId(parcel.getId());
@@ -378,8 +398,27 @@ public class ParcelService {
         dto.setStatus(parcel.getStatus().toString());
         dto.setCurrentHub(parcel.getCurrentHub());
         dto.setBookingDate(parcel.getBookingDate());
+
+        // Mapping sender country
+        if(parcel.getSendCountry() != null){
+            LocationResponseDTO sendCountryDTO = new LocationResponseDTO();
+            sendCountryDTO.setId(parcel.getSendCountry().getId());
+            sendCountryDTO.setName(parcel.getSendCountry().getName());
+            dto.setSendCountry(sendCountryDTO);
+        }
+
+        // Mapping receiver country
+        if(parcel.getReceiveCountry() != null){
+            LocationResponseDTO receiveCountryDTO = new LocationResponseDTO();
+            receiveCountryDTO.setId(parcel.getReceiveCountry().getId());
+            receiveCountryDTO.setName(parcel.getReceiveCountry().getName());
+            dto.setReceiveCountry(receiveCountryDTO);
+        }
+
         return dto;
     }
+
+
 }
 
 
