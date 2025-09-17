@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { environment } from '../../environment/environment';
-import { Observable } from 'rxjs';
+import { Observable, tap, throwError } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { AuthService } from './auth.service';
 import { User } from '../../model/user.model';
@@ -59,4 +59,29 @@ export class ConsumerService {
   
       return this.http.get<User>(`${environment.apiBaseUrl}/consumer/profile`, { headers });
     }
+      // ✅ Consumer ID আনার মেথড
+ getMyConsumerId(): Observable<number> {
+  if (!isPlatformBrowser(this.platformId)) {
+    return throwError(() => new Error('Not running in browser'));
+  }
+
+  const token = localStorage.getItem('authToken');
+  if (!token) {
+    return throwError(() => new Error('No auth token found'));
+  }
+
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`
+  });
+
+  return this.http.get<number>('http://localhost:8085/api/consumer/my-id', { headers }).pipe(
+    tap(consumerId => {
+      if (isPlatformBrowser(this.platformId) && consumerId) {
+        localStorage.setItem('consumerId', consumerId.toString());
+        console.log("consumerId ID saved ");
+        console.log(localStorage.getItem('consumerId'));
+      }
+    })
+  );
+}
 }

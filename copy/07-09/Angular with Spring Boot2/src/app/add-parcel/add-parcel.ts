@@ -127,6 +127,14 @@ export class AddParcel implements OnInit {
   }
 
   submitParcel() {
+
+     // ✅ localStorage থেকে সরাসরি consumerId আনলাম
+  const consumerId = localStorage.getItem("consumerId");
+
+  if (!consumerId) {
+    alert("Consumer ID not found. Please login again.");
+    return;
+  }
     const parcelData = {
       senderName: this.senderName,
       senderPhone: this.senderPhone,
@@ -147,6 +155,7 @@ export class AddParcel implements OnInit {
       receivePoliceStation: { id: this.selectedReceivePoliceStation },
       size: this.size,
       fee: this.fee,
+      consumer: { id: Number(consumerId) }   // ✅ string → number convert
     };
 
     this.parcelService.saveParcel(parcelData).subscribe({

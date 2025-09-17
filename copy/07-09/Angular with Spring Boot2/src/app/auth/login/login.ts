@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
 import { EmployeeService } from '../../service/employee.service';
+import { ConsumerService } from '../../service/consumer.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ export class Login implements OnInit {
     private authService: AuthService,
     private router: Router,
     private employeeService: EmployeeService,
-
+    private consumerService: ConsumerService
   ) { }
 
   ngOnInit(): void {
@@ -39,38 +40,49 @@ export class Login implements OnInit {
     const { email, password } = this.loginForm.value;
 
     this.authService.login(email, password).subscribe({
-      next: (response) => {
+      next: () => {
         this.successMessage = 'Login successful!';
         this.errorMessage = null;
-        this.employeeService.getMyEmployeeId().subscribe({
-          next: (empId) => {
-
-            console.log('Employee ID saved in localStorage:', empId)
-          },
-          error: (err) => {
-            console.error('Could not fetch Employee ID', err);
-          }
-        })
-
 
         const role = this.authService.getUserRole();
 
-        if (role === 'CONSUMER') {
-          this.router.navigate(['/user_profile']);
-        } else if (role === 'EMPLOYEE') {
-          this.router.navigate(['/employee-profile']);
-        } else if (role === 'ADMIN') {
+        if (role === 'EMPLOYEE') {
+          // ✅ শুধু Employee ID save করবো
+          this.employeeService.getMyEmployeeId().subscribe({
+            next: (empId: number) => {
+              localStorage.setItem('employeeId', empId.toString());
+              console.log('Employee ID saved in localStorage:', empId);
+              this.router.navigate(['/employee-profile']);
+            },
+            error: (err) => {
+              console.error('Could not fetch Employee ID', err);
+            }
+          });
+        } 
+        else if (role === 'CONSUMER') {
+          // ✅ শুধু Consumer ID save করবো
+          this.consumerService.getMyConsumerId().subscribe({
+            next: (consumerId: number) => {
+              localStorage.setItem('consumerId', consumerId.toString());
+              console.log('Consumer ID saved in localStorage:', consumerId);
+              this.router.navigate(['/user_profile']);
+            },
+            error: (err) => {
+              console.error('Could not fetch Consumer ID', err);
+            }
+          });
+        } 
+        else if (role === 'ADMIN') {
           this.router.navigate(['/admin-dashboard']);
-        } else {
+        } 
+        else {
           this.router.navigate(['/']); 
         }
       },
-      error: (err) => {
+      error: () => {
         this.errorMessage = 'Login failed. Please check your credentials.';
         this.successMessage = null;
       }
     });
   }
-
-
 }
