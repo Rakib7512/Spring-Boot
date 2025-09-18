@@ -176,45 +176,84 @@ public class ParcelController {
 //    }
 
 
+
+
+
     @PostMapping("/parcel/{trackingId}/transfer")
     public ResponseEntity<String> transferParcel(
             @PathVariable String trackingId,
             @RequestParam String hubName,
-            @RequestParam Long employeeId) {
+            @RequestParam Long employeeId,
+            @RequestParam ParcelStatus status) {  // employee frontend থেকে পাঠাবে
 
-        // 1. Find the parcel
         Parcel parcel = parcelRepo.findByTrackingId(trackingId)
                 .orElseThrow(() -> new RuntimeException("Parcel not found"));
 
-        // 2. Find the employee handling this transfer
         Employee emp = employeeRepo.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
 
-        // 3. Update Parcel hubs
-        parcel.setPreviousHub(parcel.getCurrentHub()); // current becomes previous
-        System.out.println(parcel.getCurrentHub());
-
-
+        parcel.setPreviousHub(parcel.getCurrentHub());
         parcel.setCurrentHub(hubName);
-        System.out.println(parcel.getToHub());// toHub becomes current
 
+        // এখানে status সেট হবে dynamic ভাবে
+        parcel.setStatus(status);
 
-        parcel.setToHub(hubName);                    // new hub to transfer to
-        System.out.println(hubName);
-
-        // 4. Save the updated parcel
         parcelRepo.save(parcel);
 
-        // 5. Create a new tracking entry
         ParcelTracking tracking = new ParcelTracking();
         tracking.setParcel(parcel);
         tracking.setHubName(hubName);
         tracking.setHandledBy(emp);
-        tracking.setStatus(ParcelStatus.IN_TRANSIT);
+        tracking.setStatus(status);   // Tracking টেবিলেও সেট হবে
         parcelTrackingRepo.save(tracking);
 
-        return ResponseEntity.ok("Parcel transferred to " + hubName);
+        return ResponseEntity.ok("Parcel transferred to " + hubName + " with status " + status);
     }
+
+
+
+
+
+
+//    @PostMapping("/parcel/{trackingId}/transfer")
+//    public ResponseEntity<String> transferParcel(
+//            @PathVariable String trackingId,
+//            @RequestParam String hubName,
+//            @RequestParam Long employeeId) {
+//
+//        // 1. Find the parcel
+//        Parcel parcel = parcelRepo.findByTrackingId(trackingId)
+//                .orElseThrow(() -> new RuntimeException("Parcel not found"));
+//
+//        // 2. Find the employee handling this transfer
+//        Employee emp = employeeRepo.findById(employeeId)
+//                .orElseThrow(() -> new RuntimeException("Employee not found"));
+//
+//        // 3. Update Parcel hubs
+//        parcel.setPreviousHub(parcel.getCurrentHub()); // current becomes previous
+//        System.out.println(parcel.getCurrentHub());
+//
+//
+//        parcel.setCurrentHub(hubName);
+//        System.out.println(parcel.getToHub());// toHub becomes current
+//
+//
+//        parcel.setToHub(hubName);                    // new hub to transfer to
+//        System.out.println(hubName);
+//
+//        // 4. Save the updated parcel
+//        parcelRepo.save(parcel);
+//
+//        // 5. Create a new tracking entry
+//        ParcelTracking tracking = new ParcelTracking();
+//        tracking.setParcel(parcel);
+//        tracking.setHubName(hubName);
+//        tracking.setHandledBy(emp);
+//        tracking.setStatus(ParcelStatus.IN_TRANSIT);
+//        parcelTrackingRepo.save(tracking);
+//
+//        return ResponseEntity.ok("Parcel transferred to " + hubName);
+//    }
 
 
     // URL      http://localhost:8085/api/parcels/parcel/53e6c9d0-cd0c-47ee-a6e9-7c9366d8d34e/transfer?hubName=Central%20Hub%20Dhaka&employeeId=1
