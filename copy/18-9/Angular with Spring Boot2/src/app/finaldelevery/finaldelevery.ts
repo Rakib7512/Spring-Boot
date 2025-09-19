@@ -1,11 +1,6 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PoliceStation } from '../../model/policeStation.model';
-import { TransferHubService } from '../service/transfer-hub.service';
-import { ParcelService } from '../service/parcel.service';
-import { PoliceStationService } from '../service/police-station.service';
 import { isPlatformBrowser } from '@angular/common';
-import { Parcel } from '../../model/parcel.model';
 import { DeleveryService } from '../service/delevery.service';
 
 @Component({
@@ -14,146 +9,72 @@ import { DeleveryService } from '../service/delevery.service';
   templateUrl: './finaldelevery.html',
   styleUrl: './finaldelevery.css'
 })
-export class Finaldelevery implements OnInit {id!: string;
-  transferForm: FormGroup;
-  successMessage: string = '';
-  errorMessage: string = '';
-  allHub: PoliceStation[] = [];
-  previousHubModel?: PoliceStation;
-  currentHubModel?: PoliceStation;
+export class Finaldelevery implements OnInit {
+  id!: string;
+  deliveryForm: FormGroup;
+  message: string = '';
+  loading: boolean = false;
+  employeeId!: number;
+  hubName!: string;
 
   constructor(
-    private fb: FormBuilder,
     private deleveryService: DeleveryService,
-    private parcelService: ParcelService,
-    private ps: PoliceStationService,
+    private fb: FormBuilder,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
-    this.transferForm = this.fb.group({
+    this.deliveryForm = this.fb.group({
       trackingId: ['', Validators.required],
-      previousHub: [{ value: '', disabled: true }],
-      currentHub: [{ value: '', disabled: true }],
-      toHub: ['', Validators.required],
-      employeeId: ['', [Validators.required, Validators.min(1)]],
+      employeeId: [{ value: '', disabled: true }], // readonly
+      hubName: [{ value: '', disabled: true }]     // readonly
     });
   }
 
   ngOnInit(): void {
-    this.loadAllHub();
-
-
     // ✅ Safe localStorage access
     if (isPlatformBrowser(this.platformId)) {
       const empId = localStorage.getItem('employeeId');
+      const empHub = localStorage.getItem('employeeHub');
+
       if (empId) {
-        this.transferForm.patchValue({
-          employeeId: +empId   // convert to number
-        });
+        this.employeeId = +empId;
       }
+      if (empHub) {
+        this.hubName = empHub;
+      }
+
+      // patch value to form (readonly fields)
+      this.deliveryForm.patchValue({
+        employeeId: this.employeeId,
+        hubName: this.hubName
+      });
     }
-
-  }
-
-  loadAllHub(): void {
-    this.ps.getAll().subscribe({
-      next: (data) => {
-        this.allHub = data;
-        this.transferForm.get('trackingId')?.enable();
-      },
-      error: (err) => {
-        console.error('Error loading hubs:', err);
-        this.errorMessage = 'Failed to load hubs. Please try again.';
-      },
-    });
-  }
-
-  onTrackingIdChange(): void {
-    const trackingId = this.transferForm.get('trackingId')?.value;
-
-    if (!trackingId || this.allHub.length === 0) return;
-
-    this.deleveryService.getParcelDetailsForTransfer(trackingId).subscribe({
-      next: (parcelDetails) => {
-        if (!parcelDetails || parcelDetails.length === 0) {
-          this.errorMessage = 'No parcel found with the provided tracking ID.';
-          return;
-        }
-
-        const parcel = parcelDetails[0];
-        console.log('Parcel Details:', parcel);
-
-        this.id = parcel.id;
-
-        this.previousHubModel = this.allHub.find(h => String(h.id) === String(parcel.previousHub));
-        this.currentHubModel = this.allHub.find(h => String(h.id) === String(parcel.currentHub));
-console.log(this.previousHubModel);
-
-        const previousHub = this.previousHubModel?.name || 'Unknown Hub';
-        const currentHub = this.currentHubModel?.name || 'Unknown Hub';
-
-
-
-        this.transferForm.patchValue({
-          previousHub: previousHub,
-          currentHub: currentHub,
-        });
-
-        this.errorMessage = '';
-      },
-      error: (err) => {
-        console.error('API Error:', err);
-        this.errorMessage = 'Failed to load parcel details. Please try again!';
-      },
-    });
   }
 
   onSubmit(): void {
-    if (this.transferForm.invalid) return;
+    if (this.deliveryForm.invalid) {
+      this.message = 'Please enter tracking ID!';
+      return;
+    }
 
-    const { trackingId, toHub, employeeId } = this.transferForm.getRawValue();
+    const trackingId = this.deliveryForm.get('trackingId')?.value;
 
-    this.transferHubService.delevery(trackingId, toHub, employeeId).subscribe({
-      next: (message) => {
-        // After successful transfer, update the parcel's hub values
-        this.parcelService.getParcelById(this.id).subscribe({
-          next: (parcel) => {
-            const updatedParcel: Parcel = {
-              ...parcel,
-              previousHub: parcel.currentHub, // current becomes from
-              currentHub: toHub,          // to becomes current
-            };
+    this.loading = true;
+    this.deleveryService.deliverParcel(trackingId, this.hubName, this.employeeId).subscribe({
+      next: (res) => {
+        this.message = '✅ ' + "Delevary Successfull";
+        this.loading = false;
+        this.deliveryForm.reset();
 
-            this.parcelService.updateParcel(updatedParcel).subscribe({
-              next: (updated) => {
-                this.successMessage = 'Parcel successfully transferred and updated.';
-                this.errorMessage = '';
-                this.transferForm.reset();
-                this.transferForm.get('previousHub')?.disable();
-                this.transferForm.get('currentHub')?.disable();
-              
-              },
-              error: (err) => {
-                console.error('Parcel update failed:', err);
-                this.errorMessage = 'Transfer succeeded, but updating parcel hubs failed.';
-                this.successMessage = '';
-              },
-            });
-          },
-          error: (err) => {
-            console.error('Failed to fetch parcel by ID:', err);
-            this.errorMessage = 'Transfer succeeded, but fetching parcel failed.';
-            this.successMessage = '';
-          },
+        // keep employee info visible after reset
+        this.deliveryForm.patchValue({
+          employeeId: this.employeeId,
+          hubName: this.hubName
         });
       },
       error: (err) => {
-        console.error('Transfer error:', err);
-        this.errorMessage = 'Error transferring parcel. Please try again!';
-        this.successMessage = '';
-      },
+        this.message = '❌ Error: ' + (err.error || 'Something went wrong');
+        this.loading = false;
+      }
     });
   }
 }
-
-
-

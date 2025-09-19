@@ -339,20 +339,23 @@ public class ParcelController {
 
         parcel.setToHub(hubName);                    // new hub to transfer to
         System.out.println(hubName);
-
+        // 4. Assign DeliveryMan
+        parcel.setDeliveryMan(emp);
         parcel.setStatus(ParcelStatus.DELIVERED);
 
-        // 4. Save the updated parcel
+        // 5. Save the updated parcel
         parcelRepo.save(parcel);
 
-        // 5. Create a new tracking entry
+
+
+        // 6. Create a new tracking entry
         ParcelTracking tracking = new ParcelTracking();
         tracking.setParcel(parcel);
         tracking.setHubName(hubName);
         tracking.setHandledBy(emp);
         tracking.setStatus(ParcelStatus.DELIVERED);
         parcelTrackingRepo.save(tracking);
-
+        parcel.setDeliveryMan(emp);
         return ResponseEntity.ok("Parcel transferred to " + hubName);
     }
 

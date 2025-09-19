@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environment/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,8 +9,23 @@ import { Observable } from 'rxjs';
 export class DeleveryService {
 
 
+
+
   private apiUrl=environment.apiBaseUrl+'/parcels/parcel';
   constructor(private http: HttpClient) { }
+
+  // Delivery request
+  deliverParcel(trackingId: string, hubName: string, employeeId: number): Observable<any> {
+    const params = new HttpParams()
+      .set('hubName', hubName)
+      .set('employeeId', employeeId);
+
+    return this.http.post(`${this.apiUrl}/${trackingId}/delevery`, {}, { params, responseType: 'text' });
+  }
+
+
+
+
 
 
 

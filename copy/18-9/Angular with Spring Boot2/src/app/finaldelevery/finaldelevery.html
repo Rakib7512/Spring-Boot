@@ -1,87 +1,58 @@
-<div class="container">
-  <h2>Transfer Parcel</h2>
-
-  <form [formGroup]="transferForm" (ngSubmit)="onSubmit()">
-    <!-- Tracking ID -->
-    <div class="form-group">
-      <label for="trackingId">Tracking ID:</label>
-      <input
-        id="trackingId"
-        type="text"
-        class="form-control"
-        formControlName="trackingId"
-        placeholder="Enter Tracking ID"
-        (blur)="onTrackingIdChange()"
-      />
+<div class="container mt-5">
+  <div class="card shadow-lg border-0 rounded-4">
+    <div class="card-header bg-primary text-white text-center fw-bold fs-4">
+      📦 Final Delivery
     </div>
 
-    <!-- From Hub (read-only) -->
-    <div class="form-group">
-      <label for="previousHub">From Hub:</label>
-      <input
-        id="previousHub"
-        type="text"
-        class="form-control"
-        formControlName="previousHub"
-        readonly
-      />
+    <div class="card-body p-4">
+      <form [formGroup]="deliveryForm" (ngSubmit)="onSubmit()">
+
+        <!-- Employee Info -->
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Employee ID</label>
+            <input type="text" class="form-control" formControlName="employeeId" readonly />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Hub Name</label>
+            <input type="text" class="form-control" formControlName="hubName" readonly />
+          </div>
+        </div>
+
+        <!-- Tracking ID -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Tracking ID</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Tracking ID"
+            formControlName="trackingId"
+            [ngClass]="{'is-invalid': deliveryForm.get('trackingId')?.invalid && deliveryForm.get('trackingId')?.touched}"
+          />
+          <div *ngIf="deliveryForm.get('trackingId')?.invalid && deliveryForm.get('trackingId')?.touched"
+               class="invalid-feedback">
+            Tracking ID is required
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+          <button class="btn btn-success px-4" type="submit" [disabled]="loading || deliveryForm.invalid">
+            <span *ngIf="!loading">🚚 Deliver Parcel</span>
+            <span *ngIf="loading">
+              <span class="spinner-border spinner-border-sm"></span> Processing...
+            </span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Message Section -->
+      <div class="mt-4 text-center">
+        <div *ngIf="message" 
+             [ngClass]="{'text-success fw-bold': message.startsWith('✅'), 'text-danger fw-bold': message.startsWith('❌')}">
+          {{ message }}
+        </div>
+      </div>
     </div>
-
-    <!-- Current Hub (read-only) -->
-    <div class="form-group">
-      <label for="currentHub">Current Hub:</label>
-      <input
-        id="currentHub"
-        type="text"
-        class="form-control"
-        formControlName="currentHub"
-        readonly
-      />
-    </div>
-
-    <!-- To Hub -->
-    <div class="form-group">
-      <label for="toHub">To Hub:</label>
-      <select
-        id="toHub"
-        class="form-control"
-        formControlName="toHub"
-      >
-        <option value="">Select Target Hub</option>
-        <option *ngFor="let hub of allHub" [value]="hub.id">{{ hub.name }}</option>
-      </select>
-    </div>
-
-    <!-- Employee ID -->
-    <div class="form-group">
-      <label for="employeeId">Employee ID:</label>
-      <input
-        id="employeeId"
-        type="number"
-        class="form-control"
-        formControlName="employeeId"
-        placeholder="Enter Employee ID"
-      />
-    </div>
-
-    <!-- Submit Button -->
-    <button
-      type="submit"
-      class="btn btn-primary"
-      [disabled]="transferForm.invalid"
-    >
-      Transfer
-    </button>
-  </form>
-
-  <!-- Success Message -->
-  <div *ngIf="successMessage" class="alert alert-success mt-3">
-    {{ successMessage }}
-  </div>
-
-  <!-- Error Message -->
-  <div *ngIf="errorMessage" class="alert alert-danger mt-3">
-    {{ errorMessage }}
   </div>
 </div>
-

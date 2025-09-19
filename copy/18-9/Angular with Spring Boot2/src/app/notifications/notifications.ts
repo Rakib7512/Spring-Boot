@@ -12,54 +12,44 @@ import { Notification } from '../../model/Notification.model';
 })
 export class Notifications implements OnInit {
 
-
-  
-
-
-notifications: Notification[] = [];
+ notifications: Notification[] = [];
   employeeId!: number;
+  showToast = false; // 👈 For toast visibility
 
   constructor(private notificationService: NotificationService, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    // 👇 Load logged-in employeeId (from localStorage after login)
     this.employeeId = Number(localStorage.getItem('employeeId')); 
     this.loadNotifications();
   }
 
   loadNotifications() {
-    this.notificationService.getEmployeeNotifications(1).subscribe(
-      data => {
+    this.notificationService.getEmployeeNotifications(this.employeeId).subscribe(data => {
       this.notifications = data;
       this.cd.markForCheck();
-      console.log(this.notifications);
     });
   }
 
-markAsReceived(notification: Notification) {
-  // ✅ Extract tracking ID from message using regex
-  const match = notification.message.match(/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/);
-  const trackingId = match ? match[0] : null;
+  markAsReceived(notification: Notification) {
+    const match = notification.message.match(/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/);
+    const trackingId = match ? match[0] : null;
+    if (!trackingId) return;
 
-console.log(trackingId);
-console.log(notification.id);
+    this.notificationService.receiveNotification(this.employeeId, trackingId, notification.id).subscribe({
+      next: () => {
+        // Show toast
+        this.showToast = true;
+        setTimeout(() => this.showToast = false, 3000); // auto-hide after 3s
 
-  if (!trackingId) return; // no tracking ID found
-
-  // Call both APIs
-
-  this.notificationService.receiveNotification( 1, trackingId , notification.id).subscribe({
-    next: (res) => console.log('Pickup claimed:', res),
-    error: (err) => console.error(err)
-  });
-}
-
+        // Mark notification as received
+        notification.received = true;
+        this.cd.markForCheck();
+      },
+      error: err => console.error(err)
+    });
+  }
 
   get unreadCount() {
     return this.notifications.filter(n => !n.received).length;
   }
-
-
-
-
 }
