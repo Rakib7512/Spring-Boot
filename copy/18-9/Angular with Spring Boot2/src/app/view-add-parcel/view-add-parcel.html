@@ -27,6 +27,7 @@
         <th>Send Location</th>
         <th>Receive Location</th>
         <th>Fee</th>
+        <th>Delevery Man</th>
         <th>Status</th>
       </tr>
     </thead>
@@ -51,6 +52,9 @@
           {{ p.receiveDistrict?.name }}, {{ p.receivePoliceStation?.name }}
         </td>
         <td>{{ p.fee | currency:'BDT':'symbol' }}</td>
+        <td>
+        {{ p.deliveryManId?.name }}
+        </td>
         <td>
           <span class="badge bg-primary">{{ p.status }}</span>
         </td>

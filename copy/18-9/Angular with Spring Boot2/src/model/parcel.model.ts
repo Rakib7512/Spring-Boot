@@ -24,7 +24,7 @@ export class Parcel {
   currentHub?: string;
   toHub?: string;
 
-  deliveryPerson?: string; // Custom field, not in original model
+  deliveryManId?: number; // Custom field, not in original model
   bookingAgent!: string;   // Custom field, not in original model
 
   sendCountry!: string;
