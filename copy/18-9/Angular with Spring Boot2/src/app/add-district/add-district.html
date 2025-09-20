@@ -1,43 +1,80 @@
 <div class="container mt-4">
-  <form [formGroup]="districtForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="districtForm" (ngSubmit)="onSubmit()" novalidate>
+    <!-- District Name -->
     <div class="mb-3">
-      <label for="name" class="form-label">District Name</label>
-      <input id="name" type="text" formControlName="name" class="form-control" placeholder="Enter district name" />
+      <label for="name" class="form-label fw-semibold">
+        <i class="bi bi-geo-alt me-1"></i> District Name
+      </label>
+      <input 
+        id="name" 
+        type="text" 
+        formControlName="name" 
+        class="form-control" 
+        placeholder="Enter district name"
+        [ngClass]="{'is-invalid': districtForm.get('name')?.invalid && districtForm.get('name')?.touched}"
+      />
+      <div *ngIf="districtForm.get('name')?.invalid && districtForm.get('name')?.touched" class="invalid-feedback">
+        District name is required.
+      </div>
     </div>
 
+    <!-- Division Select -->
     <div class="mb-3">
-      <label for="division" class="form-label">Division</label>
-      <select id="division" formControlName="divisionId" class="form-select">
-        <option value="" disabled>Select division</option>
+      <label for="division" class="form-label fw-semibold">
+        <i class="bi bi-building me-1"></i> Division
+      </label>
+      <select 
+        id="division" 
+        formControlName="divisionId" 
+        class="form-select"
+        [ngClass]="{'is-invalid': districtForm.get('divisionId')?.invalid && districtForm.get('divisionId')?.touched}"
+      >
+        <option value="" disabled selected>Select division</option>
         <option *ngFor="let div of divisions" [value]="div.id">{{ div.name }}</option>
       </select>
+      <div *ngIf="districtForm.get('divisionId')?.invalid && districtForm.get('divisionId')?.touched" class="invalid-feedback">
+        Division is required.
+      </div>
     </div>
 
+    <!-- Buttons -->
     <button type="submit" class="btn btn-primary me-2" [disabled]="districtForm.invalid">
-      {{ editMode ? 'Update' : 'Add' }} District
+      <i class="bi bi-save me-1"></i> {{ editMode ? 'Update' : 'Add' }} District
     </button>
-    <button type="button" class="btn btn-secondary" (click)="resetForm()" *ngIf="editMode">Cancel</button>
+    <button type="button" class="btn btn-secondary" (click)="resetForm()" *ngIf="editMode">
+      <i class="bi bi-x-circle me-1"></i> Cancel
+    </button>
   </form>
 
-  <table class="table table-striped mt-4">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Division</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let d of districts">
-        <td>{{ d.id }}</td>
-        <td>{{ d.name }}</td>
-        <td>{{ d.division?.name || 'N/A' }}</td>
-        <td>
-          <button class="btn btn-sm btn-warning me-2" (click)="onEdit(d)">Edit</button>
-          <button class="btn btn-sm btn-danger" (click)="onDelete(d.id)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- Districts Table -->
+  <div class="table-responsive mt-4">
+    <table class="table table-striped align-middle">
+      <thead class="table-light">
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Division</th>
+          <th scope="col" class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let d of districts">
+          <td>{{ d.id }}</td>
+          <td>{{ d.name }}</td>
+          <td>{{ d.division?.name || 'N/A' }}</td>
+          <td class="text-center">
+            <button class="btn btn-sm btn-warning me-2" (click)="onEdit(d)" title="Edit">
+              <i class="bi bi-pencil"></i> Edit
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="onDelete(d.id)" title="Delete">
+              <i class="bi bi-trash"></i> Delete
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="!districts.length">
+          <td colspan="4" class="text-center text-muted">No districts found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

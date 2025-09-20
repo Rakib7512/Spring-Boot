@@ -1,38 +1,43 @@
-<div class="container mt-4">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="text-primary">📦 Hub Transfer List</h2>
-    <button class="btn btn-success btn-sm" >🔄 Refresh</button>
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-primary fw-bold">📦 Hub Transfer List</h2>
+    <button class="btn btn-success btn-sm d-flex align-items-center gap-1">
+      <i class="fas fa-sync-alt"></i> Refresh
+    </button>
   </div>
 
-  <div class="table-responsive">
-    <table class="table table-bordered table-hover align-middle shadow-sm">
+  <div class="table-responsive shadow-sm rounded-3">
+    <table class="table table-bordered table-hover align-middle mb-0">
       <thead class="table-light">
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">Parcel ID</th>
+          <th scope="col" style="width: 5%;">#</th>
+          <th scope="col" style="width: 15%;">Parcel ID</th>
           <th scope="col">From Hub</th>
           <th scope="col">To Hub</th>
-          <th scope="col">Transfer Date</th>
-          <th scope="col">Actions</th>
+          <th scope="col" style="width: 20%;">Transfer Date</th>
+          <th scope="col" style="width: 15%;">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let transfer of hubTransfer; let i = index">
-          <th scope="row">{{ i + 1 }}</th>
-          <td>{{ transfer.parcelId }}</td>
+        <tr *ngFor="let transfer of hubTransfer; let i = index" class="align-middle">
+          <th scope="row" class="text-center">{{ i + 1 }}</th>
+          <td class="text-center">{{ transfer.parcelId }}</td>
           <td>{{ transfer.fromHub }}</td>
           <td>{{ transfer.toHub }}</td>
-          <td>{{ transfer.transferDate | date: 'mediumDate' }}</td>
-          <td>
-            <button class="btn btn-outline-primary btn-sm me-2" (click)="updateParcel(transfer.id)">
-              <i class="bi bi-pencil-square"></i> Update
+          <td class="text-center">{{ transfer.transferDate | date: 'mediumDate' }}</td>
+          <td class="text-center">
+            <button
+              class="btn btn-outline-primary btn-sm d-flex align-items-center justify-content-center gap-2 mx-auto"
+              (click)="updateParcel(transfer.id)"
+              aria-label="Update Parcel"
+            >
+              <i class="fas fa-pen"></i> Update
             </button>
-            
           </td>
         </tr>
 
         <tr *ngIf="!hubTransfer || hubTransfer.length === 0">
-          <td colspan="6" class="text-center text-muted py-4">
+          <td colspan="6" class="text-center text-muted py-5 fst-italic">
             No hub transfers found.
           </td>
         </tr>
@@ -40,4 +45,3 @@
     </table>
   </div>
 </div>
-

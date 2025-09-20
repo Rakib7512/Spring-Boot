@@ -1,51 +1,82 @@
-<div class="container mt-3">
-  <form [formGroup]="policeStationForm" (ngSubmit)="onSubmit()">
+<div class="container mt-4">
+  <form [formGroup]="policeStationForm" (ngSubmit)="onSubmit()" novalidate>
+    <!-- Police Station Name -->
     <div class="mb-3">
-      <label for="name" class="form-label">Police Station Name</label>
-      <input type="text" id="name" formControlName="name" class="form-control" />
-      <div *ngIf="policeStationForm.get('name')?.invalid && policeStationForm.get('name')?.touched" class="text-danger">
+      <label for="name" class="form-label fw-semibold">
+        <i class="bi bi-building me-1"></i> Police Station Name
+      </label>
+      <input 
+        type="text" 
+        id="name" 
+        formControlName="name" 
+        class="form-control" 
+        placeholder="Enter police station name" 
+        [ngClass]="{'is-invalid': policeStationForm.get('name')?.invalid && policeStationForm.get('name')?.touched}"
+      />
+      <div *ngIf="policeStationForm.get('name')?.invalid && policeStationForm.get('name')?.touched" class="invalid-feedback">
         Name is required.
       </div>
     </div>
 
-    <div formGroupName="district" class="mb-3">
-      <label for="district" class="form-label">District</label>
-      <select id="district" formControlName="id" class="form-select">
-        <option value="" disabled>Select District</option>
+    <!-- District Select -->
+    <div formGroupName="district" class="mb-4">
+      <label for="district" class="form-label fw-semibold">
+        <i class="bi bi-geo-alt me-1"></i> District
+      </label>
+      <select 
+        id="district" 
+        formControlName="id" 
+        class="form-select"
+        [ngClass]="{'is-invalid': policeStationForm.get('district.id')?.invalid && policeStationForm.get('district.id')?.touched}"
+      >
+        <option value="" disabled selected>Select District</option>
         <option *ngFor="let d of districts" [value]="d.id">{{ d.name }}</option>
       </select>
-      <div *ngIf="policeStationForm.get('district.id')?.invalid && policeStationForm.get('district.id')?.touched" class="text-danger">
+      <div *ngIf="policeStationForm.get('district.id')?.invalid && policeStationForm.get('district.id')?.touched" class="invalid-feedback">
         District is required.
       </div>
     </div>
 
-    <button type="submit" class="btn btn-primary" [disabled]="policeStationForm.invalid">
-      {{ editMode ? 'Update' : 'Add' }}
+    <!-- Buttons -->
+    <button type="submit" class="btn btn-primary">
+      <i class="bi bi-save me-1"></i> {{ editMode ? 'Update' : 'Add' }}
     </button>
-    <button type="button" class="btn btn-secondary ms-2" (click)="resetForm()" *ngIf="editMode">Cancel</button>
+    <button type="button" class="btn btn-secondary ms-2" (click)="resetForm()" *ngIf="editMode">
+      <i class="bi bi-x-circle me-1"></i> Cancel
+    </button>
   </form>
 
-  <hr />
+  <hr class="my-4"/>
 
-  <table class="table table-striped mt-3">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>District</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let ps of policeStations">
-        <td>{{ ps.id }}</td>
-        <td>{{ ps.name }}</td>
-        <td>{{ ps.district?.name || 'N/A' }}</td>
-        <td>
-          <button class="btn btn-sm btn-warning me-2" (click)="onEdit(ps)">Edit</button>
-          <button class="btn btn-sm btn-danger" (click)="onDelete(ps.id)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- Police Stations Table -->
+  <div class="table-responsive">
+    <table class="table table-striped align-middle">
+      <thead class="table-light">
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">District</th>
+          <th scope="col" class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ps of policeStations">
+          <td>{{ ps.id }}</td>
+          <td>{{ ps.name }}</td>
+          <td>{{ ps.district?.name || 'N/A' }}</td>
+          <td class="text-center">
+            <button class="btn btn-sm btn-warning me-2" (click)="onEdit(ps)" title="Edit">
+              <i class="bi bi-pencil"></i> Edit
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="onDelete(ps.id)" title="Delete">
+              <i class="bi bi-trash"></i> Delete
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="!policeStations.length">
+          <td colspan="4" class="text-center text-muted">No police stations found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

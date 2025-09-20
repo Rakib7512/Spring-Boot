@@ -1,178 +1,149 @@
-<!-- Header -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 shadow-lg">
-  <a class="navbar-brand fw-bold fs-3" href="#" style="color: #FFD700; font-family: 'Roboto', sans-serif;">DHL Express</a>
+<!-- TOP NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm border-bottom px-4">
+  <a class="navbar-brand fw-bold fs-3" href="#" style="color: #DAA520;">DHL Express</a>
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
     <span class="navbar-toggler-icon"></span>
   </button>
+
+  <!-- Sidebar toggle (mobile) -->
+  <button class="btn btn-outline-secondary d-lg-none ms-2" id="toggleSidebar">☰</button>
+
   <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav ms-auto">
+    <ul class="navbar-nav ms-auto align-items-center gap-2">
 
-        <ng-container *ngIf="userRole === 'CONSUMER'">
-      <li class="nav-item">
-        <a class="nav-link text-white" routerLink="user_profile">Profile</a>
-             <a class="nav-link text-white" routerLink="allusers">All User</a>
-      </li>
-      </ng-container>
-
-
- <ng-container *ngIf="userRole === 'EMPLOYEE'">
-       <li class="nav-item">
-          <a class="nav-link text-white" routerLink="employee-profile">Profile</a>
-        <a class="nav-link text-white" routerLink="allusers">All User</a>
-      </li>
-</ng-container>
-
-      <li class="nav-item">
-        <a class="nav-link text-white" routerLink="registerConsumer">Consumer Registration</a>
-      </li>
-
-      <!-- Employee Panel -->
- 
-         <ng-container *ngIf="userRole === 'ADMIN' || userRole==='EMPLOYEE'">
+      <!-- 👤 User Panel -->
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          View Panel
-        </a>
-        <ul class="dropdown-menu bg-dark border-0 shadow-lg dropdown-animation">
-          <li><a class="dropdown-item text-warning" routerLink="viewParcel">View All Parcel</a></li>
-          <li><a class="dropdown-item text-warning" routerLink="transferHub">Hub Transfer</a></li>
-          <li><a class="dropdown-item text-warning" routerLink="delevary">Delevery</a></li>
-          
+        <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown">👤 User Panel</a>
+        <ul class="dropdown-menu shadow-sm">
+          <li><a class="dropdown-item" routerLink="user_profile">Profile</a></li>
+          <li><a class="dropdown-item" routerLink="allusers">All Users</a></li>
+          <li><a class="dropdown-item" routerLink="registerConsumer">Consumer Registration</a></li>
         </ul>
       </li>
-      </ng-container>
 
-      <!-- Admin Panel -->
-        <ng-container *ngIf="userRole === 'ADMIN'|| userRole==='EMPLOYEE'">
+      <!-- 🛠 Admin Panel -->
       <li class="nav-item dropdown">
-  <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="collapse" data-bs-target="#adminPanel" aria-expanded="false" aria-controls="adminPanel">
-    Admin Panel
-  </a>
-  <div class="collapse" id="adminPanel">
-    <ul class="list-unstyled bg-dark border-0 shadow-lg dropdown-animation">
-      <li><a class="dropdown-item text-warning" routerLink="viewParcel">View All Parcel</a></li>
-      <li><a class="dropdown-item text-warning" routerLink="viewEmp">View All Employees</a></li>
-      <li><a class="dropdown-item text-warning" routerLink="viewHubTrans">View Transfer Hub to Hub</a></li>
-      <li><a class="dropdown-item text-warning" routerLink="view_RecParcel">View Received Parcel List</a></li>
-      <li><a class="dropdown-item text-warning" routerLink="view_hub">View Hub</a></li>
-    </ul>
-  </div>
-</li>
-</ng-container>
+        <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown">🛠 Admin Panel</a>
+        <ul class="dropdown-menu shadow-sm">
+          <li><a class="dropdown-item" routerLink="viewParcel">View All Parcel</a></li>
+          <li><a class="dropdown-item" routerLink="viewEmp">View All Employees</a></li>
+          <li><a class="dropdown-item" routerLink="viewHubTrans">View Transfer Hub to Hub</a></li>
+          <li><a class="dropdown-item" routerLink="view_RecParcel">View Received Parcel List</a></li>
+          <li><a class="dropdown-item" routerLink="view_hub">View Hub</a></li>
+        </ul>
+      </li>
 
+      <!-- 🚚 Operations -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown">🚚 Operations</a>
+        <ul class="dropdown-menu shadow-sm">
+          <li><a class="dropdown-item" routerLink="addParcel">Book Parcel</a></li>
+          <li>
+            <form class="px-3 py-2" (submit)="onSearch()" role="search">
+              <input class="form-control form-control-sm rounded-pill mb-2" type="search" placeholder="Tracking Number" [(ngModel)]="trackingNumber" name="tracking" required>
+              <button class="btn btn-sm btn-outline-warning rounded-pill w-100" type="submit">Track</button>
+            </form>
+          </li>
+        </ul>
+      </li>
 
-      <!-- Shared Sections for Admin and Employee -->
-            <li class="nav-item"><a class="nav-link text-white" routerLink="addParcel">Booking Parcel</a></li>
-
-
-                 <!-- Search Form -->
+      <!-- 🔔 Notifications -->
       <li class="nav-item">
-        <form class="d-flex" role="search" (submit)="onSearch()">
-          <input class="form-control me-2 rounded-pill" type="search" placeholder="Tracking Number" [(ngModel)]="trackingNumber" name="tracking" required>
-          <button class="btn btn-warning fw-bold rounded-pill" type="submit">Track</button>
-        </form>
+        <a class="nav-link text-dark" routerLink="notification">🔔 Notifications</a>
       </li>
 
-          <!-- Authentication Buttons -->
-     <li class="nav-item me-2">
-  <button class="btn btn-outline-warning btn-lg px-4" type="button" routerLink="login">Login</button>
-</li>
-
-<li class="nav-item me-2">
-  <button class="btn btn-outline-light btn-lg px-4" type="button" routerLink="/logout">Logout</button>
-</li>
-
-<li class="nav-item">
-  <a class="btn btn-primary btn-lg px-4 text-white fw-semibold shadow-sm" 
-     style="background: linear-gradient(135deg, #007bff, #0056b3); border: none;" 
-     role="button" 
-     routerLink="registerConsumer">
-    Registration
-  </a>
-</li>
-
-
-      <ng-container *ngIf="userRole === 'ADMIN'|| userRole==='EMPLOYEE'">
-      <div>
-          <li class="nav-item"><a class="nav-link text-white" routerLink="notification">Notifi</a></li>
-        </div>
-      </ng-container>
-    </ul>
-  </div>
-   </nav>
-
-<div class="d-flex" style="min-height: 100vh; background: linear-gradient(135deg, #0d3b66, #FFD700);">
-  <!-- Sidebar -->
-
-
-   <ng-container *ngIf="userRole === 'ADMIN'|| userRole==='EMPLOYEE'">
-  <div class="bg-dark text-white p-3 shadow-lg rounded-3" style="width: 250px; position: sticky; top: 0;">
-    <h4 class="text-warning mb-4 text-center">DHL Admin Panel</h4>
-    <ul class="nav flex-column">
-
-     
-      <!-- Admin-Only Section -->
-     <li class="nav-item dropdown">
-  <a class="nav-link dropdown-toggle text-white fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    👥 Employee Panel
-  </a>
-
-  <ul class="dropdown-menu bg-dark border-0 shadow-lg rounded-3 p-3 dropdown-animation">
-    <li><a class="dropdown-item text-warning fw-semibold" routerLink="addEmp">🧑‍💼 Add Employee</a></li>
-    <li><a class="dropdown-item text-warning fw-semibold" routerLink="addpolice">🚓 Add Police Station</a></li>
-    <li><a class="dropdown-item text-warning fw-semibold" routerLink="addDist">📍 Add District</a></li>
-    <li><a class="dropdown-item text-warning fw-semibold" routerLink="addDivi">🏙 Add Division</a></li>
-    <li><a class="dropdown-item text-warning fw-semibold" routerLink="addCountry">🌎 Add Country</a></li>
-    <li><a class="dropdown-item text-warning fw-semibold" routerLink="creatHub">🏢 Add Hub</a></li>
-  </ul>
-</li>
-
-
-
-      <!-- Shared Sections for Admin and Employee -->
-      <li class="nav-item"><a class="nav-link text-white" routerLink="#">🏠 Dashboard</a></li>
+      <!-- 🔐 Auth -->
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button">📦 Shipments</a>
-        <ul class="dropdown-menu bg-dark border-0 shadow-lg dropdown-animation">
-          <li><a class="dropdown-item text-white" routerLink="#">Track Shipment</a></li>
-          <li><a class="dropdown-item text-white" routerLink="#">Book Pickup</a></li>
-          <li><a class="dropdown-item text-white" routerLink="#">My Shipments</a></li>
-          <li><a class="dropdown-item text-white" routerLink="#">Return Package</a></li>
-          <li><a class="dropdown-item text-white" routerLink="#">Shipping History</a></li>
+        <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown">🔐 Account</a>
+        <ul class="dropdown-menu shadow-sm">
+          <li><a class="dropdown-item" routerLink="login">Login</a></li>
+          <li><a class="dropdown-item" routerLink="/logout">Logout</a></li>
+          <li><a class="dropdown-item" routerLink="registerConsumer">Register</a></li>
         </ul>
       </li>
-      <li class="nav-item"><a class="nav-link text-white" routerLink="#">💰 Get Quote</a></li>
-      <li class="nav-item"><a class="nav-link text-white" routerLink="#">📧 Notifications</a></li>
-      <li class="nav-item"><a class="nav-link text-white" routerLink="#">🧭 Delivery Routes</a></li>
-      <li class="nav-item"><a class="nav-link text-white" routerLink="#">🧾 Invoices</a></li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown" href="#" role="button">⚙️ Administration</a>
-        <ul class="dropdown-menu bg-dark border-0 shadow-lg dropdown-animation">
-          <li><a class="dropdown-item text-white" routerLink="#">User Management</a></li>
-          <li><a class="dropdown-item text-white" routerLink="#">Reports & Analytics</a></li>
-          <li><a class="dropdown-item text-white" routerLink="#">Settings</a></li>
-        </ul>
-      </li>
-      <li class="nav-item"><a class="nav-link text-danger" routerLink="#">🚪 Logout</a></li>
-     
+
     </ul>
   </div>
-</ng-container>
-  <!-- Main Content -->
-  <div class="p-4 flex-grow-1 text-white">
-    <h2 class="fw-bold text-warning">Welcome to DHL Courier Service</h2>
-    <p class="lead">Choose an option from the sidebar to get started.</p>
-    
-    <!-- Dashboard Image Section -->
+</nav>
+
+<!-- SIDEBAR + MAIN CONTENT -->
+<div class="d-flex">
+  <!-- SIDEBAR -->
+  <div class="sidebar bg-white border-end p-4 shadow-sm" id="sidebar">
+    <h5 class="text-warning text-center">📋 DHL Admin Panel</h5>
+    <ul class="nav flex-column small gap-2 mt-3">
+
+      <li><a class="nav-link text-dark" routerLink="/">🏠 Dashboard</a></li>
+
+      <!-- 👥 Employee Panel -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown">👥 Employee Panel</a>
+        <ul class="dropdown-menu shadow-sm">
+          <li><a class="dropdown-item" routerLink="addEmp">🧑‍💼 Add Employee</a></li>
+          <li><a class="dropdown-item" routerLink="addpolice">🚓 Add Police Station</a></li>
+          <li><a class="dropdown-item" routerLink="addDist">📍 Add District</a></li>
+          <li><a class="dropdown-item" routerLink="addDivi">🏙 Add Division</a></li>
+          <li><a class="dropdown-item" routerLink="addCountry">🌎 Add Country</a></li>
+          <li><a class="dropdown-item" routerLink="creatHub">🏢 Add Hub</a></li>
+        </ul>
+      </li>
+
+      <!-- 📦 Shipments -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown">📦 Shipments</a>
+        <ul class="dropdown-menu shadow-sm">
+          <li><a class="dropdown-item" routerLink="trackShipment">Track Shipment</a></li>
+          <li><a class="dropdown-item" routerLink="bookPickup">Book Pickup</a></li>
+          <li><a class="dropdown-item" routerLink="myShipments">My Shipments</a></li>
+          <li><a class="dropdown-item" routerLink="returnPackage">Return Package</a></li>
+          <li><a class="dropdown-item" routerLink="shippingHistory">Shipping History</a></li>
+        </ul>
+      </li>
+
+      <li><a class="nav-link text-dark" routerLink="getQuote">💰 Get Quote</a></li>
+      <li><a class="nav-link text-dark" routerLink="invoices">🧾 Invoices</a></li>
+
+      <!-- ⚙️ Admin Tools -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown">⚙️ Administration</a>
+        <ul class="dropdown-menu shadow-sm">
+          <li><a class="dropdown-item" routerLink="userManagement">User Management</a></li>
+          <li><a class="dropdown-item" routerLink="reports">Reports & Analytics</a></li>
+          <li><a class="dropdown-item" routerLink="settings">Settings</a></li>
+        </ul>
+      </li>
+
+      <li><a class="nav-link text-danger" routerLink="/logout">🚪 Logout</a></li>
+
+    </ul>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="flex-grow-1 p-4">
+    <h2 class="fw-bold text-dark">Welcome to <span class="text-warning">DHL Courier Service</span></h2>
+    <p class="lead text-muted">Choose an option from the sidebar to get started.</p>
+
+    <!-- Image -->
     <div class="text-center mb-4">
-      <img src="/assets/images/2.jpg" alt="DHL Par555cel" class="img-fluid rounded-3 shadow-lg" style="max-height: 400px; width: auto;">
+      <img src="/assets/images/2.jpg" alt="DHL Parcel" class="img-fluid rounded shadow" style="max-height: 400px;">
     </div>
 
+    <!-- Angular Router Outlet -->
     <router-outlet></router-outlet>
   </div>
 </div>
 
-<!-- Footer -->
-<footer class="bg-warning text-dark text-center py-4 mt-5">
-  <p class="mb-0">&copy; 2025 DHL Courier Services. All rights reserved.</p>
+<!-- FOOTER -->
+<footer class="bg-white border-top text-center py-3">
+  <p class="mb-0 text-secondary">&copy; 2025 DHL Courier Services. All rights reserved.</p>
 </footer>
+
+<!-- Sidebar Toggle Script -->
+<script>
+  const toggleBtn = document.getElementById("toggleSidebar");
+  const sidebar = document.getElementById("sidebar");
+
+  toggleBtn?.addEventListener("click", () => {
+    sidebar.classList.toggle("active");
+  });
+</script>
