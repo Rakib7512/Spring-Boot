@@ -1,0 +1,103 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Employee Profile</h2>
+
+  <!-- Loader -->
+  <div *ngIf="loading" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status"></div>
+   
+  </div>
+
+  <div class="text-center my-5">
+   
+    <p class="mt-2"><img
+              [src]="'http://localhost:8085/images/users/' + profile.photo"
+              alt="User Photo"
+              class="rounded-circle mb-3"
+              width="100"
+              height="100"
+              style="object-fit: cover; border: 3px solid #ddd;"
+            /></p>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="alert alert-danger text-center">
+    {{ error }}
+  </div>
+
+  <!-- Profile Table -->
+  <div *ngIf="!loading && profile" class="card shadow p-3">
+    <table class="table table-bordered table-hover">
+      <tbody>
+        <tr>
+          <th style="width: 30%">Employee ID</th>
+          <td>{{ profile.id }}</td>
+        </tr>
+        <tr>
+          <th>Full Name</th>
+          <td>{{ profile.name }}</td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td>{{ profile.email }}</td>
+        </tr>
+        <tr>
+          <th>Phone</th>
+          <td>{{ profile.phone }}</td>
+        </tr>
+        <tr>
+          <th>Designation</th>
+          <td>{{ profile.designation }}</td>
+        </tr>
+        
+        <tr>
+          <th>Joining Date</th>
+          <td>{{ profile.joindate | date:'mediumDate' }}</td>
+        </tr>
+        <tr>
+          <th>Address</th>
+          <td>{{ profile.address }}</td>
+        </tr>
+        <tr>
+          <th>Country</th>
+          <td>{{ profile.countryId.name }}</td>
+        </tr>
+        <tr>
+          <th>Division</th>
+          <td>{{ profile.divisionId.name }}</td>
+        </tr>
+        <tr>
+          <th>District</th>
+          <td>{{ profile.districtId.name }}</td>
+        </tr>
+        <tr>
+          <th>Police Station</th>
+          <td>{{ profile.policeStationId.name }}</td>
+        </tr>
+        <tr>
+          <th>Current Hub name</th>
+          <td>{{ profile.policeStationId.name }}</td>
+        </tr>
+        <tr>
+          <th>Current Hub ID</th>
+          <td>{{ profile.empOnHub }}</td>
+        </tr>
+        <tr>
+          <th>Status</th>
+          <td>
+            <span
+              class="badge"
+              [ngClass]="profile.status === 'Active' ? 'bg-success' : 'bg-danger'"
+            >
+              {{ profile.status }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- No Profile Found -->
+  <div *ngIf="!loading && !profile && !error" class="alert alert-warning text-center">
+    No profile data found.
+  </div>
+</div>
