@@ -292,6 +292,18 @@ public class ParcelService {
             dto.setFee(parcel.getFee());
             dto.setStatus(parcel.getStatus().toString());
 
+            if (parcel.getDeliveryMan() != null) {
+                dto.setDeliveryManId(parcel.getDeliveryMan().getId());
+                dto.setDelevaryManName(parcel.getDeliveryMan().getName());
+            } else {
+                dto.setDeliveryManId(0); // or 0, depending on your DTO type
+                dto.setDelevaryManName(null);
+            }
+
+
+
+
+
             // 🔥 Send side mapping
             if (parcel.getSendCountry() != null) {
                 dto.setSendCountry(new LocationResponseDTO(
@@ -398,6 +410,13 @@ public class ParcelService {
         dto.setStatus(parcel.getStatus().toString());
         dto.setCurrentHub(parcel.getCurrentHub());
         dto.setBookingDate(parcel.getBookingDate());
+        if (parcel.getDeliveryMan() != null) {
+            dto.setDeliveryManId(parcel.getDeliveryMan().getId());
+            dto.setDelevaryManName(parcel.getDeliveryMan().getName());
+        } else {
+            dto.setDeliveryManId(0); // or 0, depending on your DTO type
+            dto.setDelevaryManName(null);
+        }
 
         // Mapping sender country
         if(parcel.getSendCountry() != null){

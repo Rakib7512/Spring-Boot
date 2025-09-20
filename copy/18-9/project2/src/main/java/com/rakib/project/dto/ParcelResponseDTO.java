@@ -31,8 +31,9 @@ public class ParcelResponseDTO {
     private Date bookingDate;
     private String status;
 
-    private int pickupDeliveryManId;
-    private int deliveryManId;
+    private long pickupDeliveryManId;
+    private long deliveryManId;
+    private  String delevaryManName;
     private int bookingAgentId;
 
     //  এখন nested DTO
@@ -198,19 +199,19 @@ public class ParcelResponseDTO {
         this.status = status;
     }
 
-    public int getPickupDeliveryManId() {
+    public long getPickupDeliveryManId() {
         return pickupDeliveryManId;
     }
 
-    public void setPickupDeliveryManId(int pickupDeliveryManId) {
+    public void setPickupDeliveryManId(long pickupDeliveryManId) {
         this.pickupDeliveryManId = pickupDeliveryManId;
     }
 
-    public int getDeliveryManId() {
+    public long getDeliveryManId() {
         return deliveryManId;
     }
 
-    public void setDeliveryManId(int deliveryManId) {
+    public void setDeliveryManId(long deliveryManId) {
         this.deliveryManId = deliveryManId;
     }
 
@@ -284,5 +285,14 @@ public class ParcelResponseDTO {
 
     public void setReceivePoliceStation(LocationResponseDTO receivePoliceStation) {
         this.receivePoliceStation = receivePoliceStation;
+    }
+
+
+    public String getDelevaryManName() {
+        return delevaryManName;
+    }
+
+    public void setDelevaryManName(String delevaryManName) {
+        this.delevaryManName = delevaryManName;
     }
 }
