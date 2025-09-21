@@ -23,53 +23,6 @@
     </div>
   </div>
 
-<<<<<<< HEAD
-  <!-- Table -->
-  <div *ngIf="parcels.length > 0; else noData" class="table-responsive shadow-sm rounded-3">
-    <table class="table table-bordered table-striped table-hover mb-0">
-      <thead class="table-dark">
-        <tr>
-          <th>ID</th>
-          <th>Tracking ID</th>
-          <th>Sender</th>
-          <th>Receiver</th>
-          <th>Send Location</th>
-          <th>Receive Location</th>
-          <th>Fee</th>
-          <th>Delivery Man</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let p of parcels">
-          <td>{{ p.id }}</td>
-          <td>{{ p.trackingId }}</td>
-          <td>
-            {{ p.senderName }} <br />
-            <small class="text-muted">{{ p.senderPhone }}</small>
-          </td>
-          <td>
-            {{ p.receiverName }} <br />
-            <small class="text-muted">{{ p.receiverPhone }}</small>
-          </td>
-          <td>
-            {{ p.sendCountry?.name }}, {{ p.sendDivision?.name }},
-            {{ p.sendDistrict?.name }}, {{ p.sendPoliceStation?.name }}
-          </td>
-          <td>
-            {{ p.receiveCountry?.name }}, {{ p.receiveDivision?.name }},
-            {{ p.receiveDistrict?.name }}, {{ p.receivePoliceStation?.name }}
-          </td>
-          <td>{{ p.fee | currency:'BDT':'symbol' }}</td>
-          <td>{{ p.deliveryManId?.name }}</td>
-          <td>
-            <span class="badge rounded-pill bg-primary px-3 py-2">{{ p.status }}</span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-=======
   <!-- ✅ Table -->
   <table class="table table-bordered table-hover table-striped" *ngIf="parcels.length > 0; else noData">
     <thead class="table-dark">
@@ -107,7 +60,7 @@
         </td>
         <td>{{ p.fee | currency:'BDT':'symbol' }}</td>
         <td>
-        {{ p.delevaryManName }}
+          {{ p.delevaryManName }}
         </td>
         <td>
           <span class="badge bg-primary">{{ p.status }}</span>
@@ -115,7 +68,6 @@
       </tr>
     </tbody>
   </table>
->>>>>>> f645168754cfa6136af809caf2732bcea96ffbd7
 
   <!-- No Data Message -->
   <ng-template #noData>

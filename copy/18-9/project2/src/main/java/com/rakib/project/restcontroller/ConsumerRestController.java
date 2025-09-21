@@ -82,11 +82,24 @@ public class ConsumerRestController {
         System.out.println("Authenticated User: " + authentication.getName());
         System.out.println("Authorities: " + authentication.getAuthorities());
         String email = authentication.getName();
-        Optional<User> user =userRepo.findByEmail(email);
-        ConsumerResponseDTO consumer = consumerService.getProfileByConsumerId(user.get().getId());
-        return ResponseEntity.ok(consumer);
+        ConsumerResponseDTO consumer = mapToDTO(consumerService.findByEmail(email));
+        return new ResponseEntity<>(consumer, HttpStatus.OK);
 
     }
+
+    public ConsumerResponseDTO mapToDTO(Consumer consumer) {
+        ConsumerResponseDTO dto = new ConsumerResponseDTO();
+        dto.setId(consumer.getId());
+        dto.setName(consumer.getName());
+        dto.setEmail(consumer.getEmail());
+        dto.setPhone(consumer.getPhone());
+        dto.setGender(consumer.getGender());
+        dto.setAddress(consumer.getAddress());
+        dto.setNid(consumer.getNid());
+        dto.setPhoto(consumer.getPhoto());
+        return dto;
+    }
+
 
 
     @GetMapping("my-id")

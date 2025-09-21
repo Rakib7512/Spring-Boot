@@ -20,4 +20,6 @@ public interface IConsumerRepo extends JpaRepository<Consumer, Long> {
 
     @Query("SELECT c FROM Consumer c LEFT JOIN FETCH c.parcels WHERE c.id = :id")
     Optional<Consumer> findByIdWithParcels(@Param("id") Long id);
+
+    Consumer findByEmail(String email);
 }

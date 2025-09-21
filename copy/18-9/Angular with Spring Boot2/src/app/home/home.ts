@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,4 +9,15 @@ import { Component } from '@angular/core';
 })
 export class Home {
 
+  trackingNumber!: string;
+
+  constructor(
+    private router: Router
+  ){}
+
+  onSearch(): void {
+    if (this.trackingNumber.trim()) {
+      this.router.navigate(['/trackParcel', this.trackingNumber]);
+    }
+  }
 }

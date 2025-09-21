@@ -1,0 +1,94 @@
+<!-- ✅ TOP NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm border-bottom px-4">
+  <a class="navbar-brand fw-bold fs-3" href="#" style="color: #DAA520;">DHL Express</a>
+
+  <!-- Mobile Navbar Toggle -->
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Sidebar Toggle (Mobile Only) -->
+  <button class="btn btn-outline-secondary d-lg-none ms-2" id="toggleSidebar">☰</button>
+
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ms-auto align-items-center gap-2">
+
+      <ng-container *ngIf="userRole==='CONSUMER'">
+      <li><a class="dropdown-item" routerLink="user_profile">Profile</a></li>
+</ng-container>
+
+
+      <!-- 👤 User Panel -->
+      <ng-container *ngIf="userRole === 'ADMIN' || userRole==='EMPLOYEE'">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown" aria-expanded="false">👤 User
+            Panel</a>
+          <ul class="dropdown-menu shadow-sm">
+            <li><a class="dropdown-item" routerLink="employee-profile">Profile</a></li>
+            <li><a class="dropdown-item" routerLink="allusers">All Users</a></li>
+            <li><a class="dropdown-item" routerLink="registerConsumer">Consumer Registration</a></li>
+          </ul>
+        </li>
+      </ng-container>
+
+      <!-- 🛠 Admin Panel -->
+      <li class="nav-item dropdown" *ngIf="userRole != 'CONSUMER'">
+
+        <ng-container *ngIf="userRole === 'ADMIN' || userRole==='EMPLOYEE'">
+        <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown" aria-expanded="false">🛠 Admin
+          Panel</a>
+        <ul class="dropdown-menu shadow-sm">
+          <li><a class="dropdown-item" routerLink="viewParcel">View All Parcel</a></li>
+          <li><a class="dropdown-item" routerLink="viewEmp">View All Employees</a></li>
+          <li><a class="dropdown-item" routerLink="delevary">Delivery Parcel</a></li>
+          <li><a class="dropdown-item" routerLink="view_hub">View Hub</a></li>
+          <li><a class="dropdown-item" routerLink="transferHub">Transfer Hub</a></li>
+        </ul>
+        </ng-container>
+      </li>
+
+      <!-- 🚚 Operations -->
+       <ng-container *ngIf="userRole === 'ADMIN' || userRole==='EMPLOYEE' || userRole==='CONSUMER'">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown" aria-expanded="false">🚚
+          Operations</a>
+        <ul class="dropdown-menu shadow-sm">
+          <li><a class="dropdown-item" routerLink="addParcel">Book Parcel</a></li>
+          <li>
+            <form class="px-3 py-2" (submit)="onSearch()" role="search">
+              <input class="form-control form-control-sm rounded-pill mb-2" type="search" placeholder="Tracking Number"
+                [(ngModel)]="trackingNumber" name="tracking" required>
+              <button class="btn btn-sm btn-outline-warning rounded-pill w-100" type="submit">Track</button>
+            </form>
+          </li>
+        </ul>
+      </li>
+      </ng-container>
+
+      <!-- 🔔 Notifications -->
+      <li class="nav-item"  *ngIf="userRole != 'CONSUMER'">
+         <ng-container *ngIf="userRole === 'ADMIN' || userRole==='EMPLOYEE'">
+        <a class="nav-link text-dark" routerLink="notification">🔔 Notifications</a>
+        </ng-container>
+      </li>
+
+      <!-- Authentication Buttons -->
+      <ng-container *ngIf="userRole !== 'ADMIN' && userRole !== 'EMPLOYEE' && userRole !== 'CONSUMER'">
+        <li class="nav-item me-2">
+          <button class="btn btn-outline-success btn-sm px-4" routerLink="login">Login</button>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-primary btn-sm px-4 text-white fw-semibold shadow-sm"
+            style="background: linear-gradient(135deg, #007bff, #0056b3); border: none;"
+            routerLink="registerConsumer">Registration</a>
+        </li>
+      </ng-container>
+      <ng-container *ngIf="userRole === 'ADMIN' || userRole === 'EMPLOYEE' || userRole === 'CONSUMER'">
+        <li class="nav-item me-2">
+          <button class="btn btn-outline-danger btn-sm px-4" routerLink="/logout">Logout</button>
+        </li>
+      </ng-container>
+
+    </ul>
+  </div>
+</nav>

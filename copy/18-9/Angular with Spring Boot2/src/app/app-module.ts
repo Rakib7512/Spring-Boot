@@ -35,6 +35,8 @@ import { ConsumerProfileComponent } from './consumer/consumer-profile.component/
 import { AddNewParcel } from './add-new-parcel/add-new-parcel';
 import { EmployeeProfileComponent } from './employee/employee-profile.component/employee-profile.component';
 import { Finaldelevery } from './finaldelevery/finaldelevery';
+import { Header } from './header/header';
+import { Sidebare } from './sidebare/sidebare';
 
 
 
@@ -72,6 +74,8 @@ import { Finaldelevery } from './finaldelevery/finaldelevery';
     AddNewParcel,
     EmployeeProfileComponent,
     Finaldelevery,
+    Header,
+    Sidebare,
     
     
     

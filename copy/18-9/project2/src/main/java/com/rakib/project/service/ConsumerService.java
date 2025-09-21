@@ -88,6 +88,8 @@ public class ConsumerService {
         }).toList();
     }
 
-
+    public Consumer findByEmail(String email) {
+        return consumerRepository.findByEmail(email);
+    }
 
 }

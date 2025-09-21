@@ -1,17 +1,16 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { User } from '../model/user.model';
-import { AuthService } from './service/auth.service';
-import { NavigationEnd, Router } from '@angular/router';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { AuthService } from '../service/auth.service';
+import { User } from '../../model/user.model';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.html',
+  selector: 'app-header',
   standalone: false,
-  styleUrl: './app.css'
+  templateUrl: './header.html',
+  styleUrl: './header.css'
 })
-export class App implements OnInit {
+export class Header {
 
-  showHeader = true;
 
 
   //   userRole!: string;
@@ -60,20 +59,7 @@ export class App implements OnInit {
     private authService: AuthService,
     private router: Router,
     private cdr: ChangeDetectorRef
-  ) {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        const hiddenRoutes = ['/', '/login', '/registerConsumer'];
-
-        // Add dynamic check for product details
-        const isProductDetails = event.url.startsWith('/productdetails/');
-
-        this.showHeader = !(
-          hiddenRoutes.includes(event.url) || isProductDetails
-        );
-      }
-    });
-  }
+  ) { }
 
   ngOnInit(): void {
     this.authService.userRole$.subscribe(role => {
@@ -107,7 +93,4 @@ export class App implements OnInit {
       this.router.navigate(['/trackParcel', this.trackingNumber]);
     }
   }
-
-
 }
-

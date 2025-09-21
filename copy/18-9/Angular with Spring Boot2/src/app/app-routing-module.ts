@@ -29,6 +29,7 @@ import { AddNewParcel } from './add-new-parcel/add-new-parcel';
 import { Notifications } from './notifications/notifications';
 import { EmployeeProfileComponent } from './employee/employee-profile.component/employee-profile.component';
 import { Finaldelevery } from './finaldelevery/finaldelevery';
+import { Sidebare } from './sidebare/sidebare';
 
 
 
@@ -62,6 +63,7 @@ const routes: Routes = [
    {path:'addNewParcel', component:AddNewParcel},
    {path: 'notification', component: Notifications},
    {path: 'delevary', component: Finaldelevery},
+   {path: 'side', component: Sidebare},
  
 
 

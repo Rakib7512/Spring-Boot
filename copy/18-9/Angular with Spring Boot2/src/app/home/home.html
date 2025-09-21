@@ -1,22 +1,9 @@
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" href="#">QuickCourier</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-        <li class="nav-item"><a class="nav-link" href="#tracking">Tracking</a></li>
-        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
-        <li class="nav-item"><a class="nav-link" href="#pricing">Pricing</a></li>
-        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<!-- Back to Dashboard Button -->
+<div class="container py-3">
+  <a [routerLink]="'/side'" class="btn btn-secondary">
+    ← Back to Dashboard
+  </a>
+</div>
 
 <!-- Hero Section -->
 <section class="bg-primary text-white text-center py-5">
@@ -58,9 +45,10 @@
 <section id="tracking" class="bg-light py-5">
   <div class="container">
     <h2 class="text-center mb-4">Track Your Package</h2>
-    <form class="row justify-content-center">
+    <form class="row justify-content-center" (submit)="onSearch()" role="search">
       <div class="col-md-6">
-        <input type="text" class="form-control form-control-lg" placeholder="Enter Tracking Number">
+        <input class="form-control form-control-lg" placeholder="Enter Tracking Number" type="search"
+          [(ngModel)]="trackingNumber" name="tracking">
       </div>
       <div class="col-auto">
         <button type="submit" class="btn btn-primary btn-lg">Track</button>
@@ -75,10 +63,12 @@
     <h2 class="text-center mb-4">About Us</h2>
     <div class="row align-items-center">
       <div class="col-md-6">
-        <p>QuickCourier is committed to providing efficient and reliable delivery services across the country and beyond. With cutting-edge logistics technology and a dedicated team, we ensure that your parcels arrive safely and on time.</p>
+        <p>QuickCourier is committed to providing efficient and reliable delivery services across the country and
+          beyond. With cutting-edge logistics technology and a dedicated team, we ensure that your parcels arrive safely
+          and on time.</p>
       </div>
       <div class="col-md-6">
-        <img src="https://via.placeholder.com/500x300" alt="About Image" class="img-fluid rounded">
+        <img src="assets/images/17Z_2102.w023.n001.132B.p1.132.jpg" alt="About Image" class="img-fluid rounded">
       </div>
     </div>
   </div>
@@ -166,11 +156,10 @@
 <footer class="bg-dark text-white text-center py-4">
   <div class="container">
     <p>&copy; 2025 QuickCourier. All rights reserved.</p>
-    <p>Follow us on 
-      <a href="#" class="text-white text-decoration-underline">Facebook</a>, 
-      <a href="#" class="text-white text-decoration-underline">Twitter</a>, 
+    <p>Follow us on
+      <a href="#" class="text-white text-decoration-underline">Facebook</a>,
+      <a href="#" class="text-white text-decoration-underline">Twitter</a>,
       <a href="#" class="text-white text-decoration-underline">Instagram</a>
     </p>
   </div>
 </footer>
-

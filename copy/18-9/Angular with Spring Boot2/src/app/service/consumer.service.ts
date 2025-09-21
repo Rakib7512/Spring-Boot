@@ -46,7 +46,7 @@ export class ConsumerService {
   }
 
 
-   getConsumerProfileById(): Observable<User> {
+   getConsumerProfileById(): Observable<any> {
       let headers = new HttpHeaders();
   
       if (isPlatformBrowser(this.platformId)) {
@@ -59,7 +59,6 @@ export class ConsumerService {
   
       return this.http.get<User>(`${environment.apiBaseUrl}/consumer/profile`, { headers });
     }
-      // ✅ Consumer ID আনার মেথড
  getMyConsumerId(): Observable<number> {
   if (!isPlatformBrowser(this.platformId)) {
     return throwError(() => new Error('Not running in browser'));

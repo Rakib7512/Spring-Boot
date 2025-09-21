@@ -15,7 +15,7 @@ import { ParcelResponseDTO } from '../../../model/parcelResponseDTO.model';
 })
 export class Userprofile implements OnInit {
   parcels: any;
-   consumerId!: number; // ✅ এখানে লগইন করা user এর ID বসবে (auth থেকে আনবে)
+   consumerId!: number;
 
   profile: any = null;
   loading = true;
@@ -44,7 +44,6 @@ export class Userprofile implements OnInit {
     this.consumerService.getConsumerProfileById().subscribe({
       next: (data) => {
         this.profile = data;        
-
         console.log(this.profile);
         this.cdr.markForCheck();
         this.loading = false;

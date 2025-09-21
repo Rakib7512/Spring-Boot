@@ -6,10 +6,14 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav ms-auto">
+
+
+         <ng-container *ngIf="userRole === 'ADMIN' || userRole==='EMPLOYEE'">
       <li class="nav-item">
         <a class="nav-link text-white" routerLink="user_profile">Profile</a>
         <a class="nav-link text-white" routerLink="allusers">All User</a>
       </li>
+      </ng-container>
       <li class="nav-item">
         <a class="nav-link text-white" routerLink="registerConsumer">Consumer Registration</a>
       </li>
