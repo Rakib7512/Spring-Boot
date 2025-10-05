@@ -37,7 +37,8 @@ public class SecqurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers("/api/notifications/employee/**",
+                        req.requestMatchers("/auth/login",
+                                        "/api/notifications/employee/**",
                                         "/api/notifications/**",
                                         "/api/user/**",
                                         "/api/user/",
@@ -61,14 +62,13 @@ public class SecqurityConfig {
                                         "/api/parcels/tracking/**",
                                         "/api/parcels/trackingP/**",
 
-                                "api/parcels/history"
+                                        "api/parcels/history"
 
 
-
-                                        ).permitAll()
+                                ).permitAll()
 
                                 .requestMatchers("/api/user/all").hasAuthority("CONSUMER")
-                                .requestMatchers("/api/user/all").hasAnyRole("EMPLOYEE","CONSUMER")
+                                .requestMatchers("/api/user/all").hasAnyRole("EMPLOYEE", "CONSUMER")
                                 .anyRequest().authenticated()
                 )
                 .userDetailsService(userService)
@@ -97,7 +97,11 @@ public class SecqurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
+<<<<<<< HEAD
         configuration.setAllowedOrigins(List.of("http://localhost:4200", "http://localhost:5000"));
+=======
+        configuration.setAllowedOrigins(List.of("http://localhost:4200", "http://127.0.0.1:4200", "http://localhost:4500", "http://127.0.0.1:4500"));
+>>>>>>> 0a1ae9bc341b422f1b746e40976da7469849e04a
         configuration.setAllowedMethods(List.of("GET", "POST", "DELETE", "PUT", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Cache_Control", "Content-type"));
         configuration.setAllowCredentials(true);
