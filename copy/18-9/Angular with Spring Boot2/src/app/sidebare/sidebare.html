@@ -7,7 +7,7 @@
       <li><a class="nav-link text-dark" routerLink="/">🏠 Dashboard</a></li>
 
       <!-- 👥 Employee Panel (ADMIN only) -->
-      <li class="nav-item dropdown" *ngIf="userRole === 'ADMIN'">
+      <li class="nav-item dropdown" *ngIf="userRole === 'ADMIN' || userRole==='CONSUMER'">
         <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown">👥 Employee Panel</a>
         <ul class="dropdown-menu shadow-sm">
           <li><a class="dropdown-item" routerLink="addEmp">🧑‍💼 Add Employee</a></li>

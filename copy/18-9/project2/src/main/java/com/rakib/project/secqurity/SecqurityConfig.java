@@ -97,11 +97,10 @@ public class SecqurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-<<<<<<< HEAD
         configuration.setAllowedOrigins(List.of("http://localhost:4200", "http://localhost:5000"));
-=======
+
         configuration.setAllowedOrigins(List.of("http://localhost:4200", "http://127.0.0.1:4200", "http://localhost:4500", "http://127.0.0.1:4500"));
->>>>>>> 0a1ae9bc341b422f1b746e40976da7469849e04a
+
         configuration.setAllowedMethods(List.of("GET", "POST", "DELETE", "PUT", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Cache_Control", "Content-type"));
         configuration.setAllowCredentials(true);
