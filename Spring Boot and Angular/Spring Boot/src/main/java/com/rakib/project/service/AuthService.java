@@ -182,34 +182,7 @@ public class AuthService {
     }
 
 
-//    public void registerEmployee(User user, MultipartFile imageFile, Employee employeeData) {
-//        if (imageFile != null && !imageFile.isEmpty()) {
-//            // Save image for both User and Employee
-//            String filename = saveImage(imageFile, user);
-//            String employeePhoto = saveImageForEmployee(imageFile, employeeData);
-//            employeeData.setPhoto(employeePhoto);
-//            user.setPhoto(filename);
-//        }
-//
-//        // Encode password before saving User
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        user.setRole(Role.EMPLOYEE);
-//        user.setActive(false);
-//
-//        // Save User FIRST and get persisted instance
-//        User savedUser = userRepo.save(user);
-//
-//        // Now, associate saved User with JobSeeker and save JobSeeker
-//        employeeData.setUser(savedUser);
-//        employeeService.save(employeeData);
-//
-//        // Now generate token and save Token associated with savedUser
-//        String jwt = jwtService.generateToken(savedUser);
-//        saveUserToken(jwt, savedUser);
-//
-//        // Send Activation Email
-//        sendActivationEmail(savedUser);
-//    }
+
 
 
 

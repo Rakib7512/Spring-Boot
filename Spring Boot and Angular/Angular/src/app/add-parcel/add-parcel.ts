@@ -91,25 +91,57 @@ export class AddParcel implements OnInit {
     this.loadReceiverCountries();
   }
 
+  // ✅ Updated Advanced Fee Calculation
   calculateParcelFee(): void {
+    if (
+      !this.selectedSendCountry ||
+      !this.selectedSendDivision ||
+      !this.selectedSendDistrict ||
+      !this.selectedSendPoliceStation ||
+      !this.selectedReceiveCountry ||
+      !this.selectedReceiveDivision ||
+      !this.selectedReceiveDistrict ||
+      !this.selectedReceivePoliceStation
+    ) {
+      this.fee = 0;
+      this.showPaymentSection = false;
+      return;
+    }
+
     let baseFee = 0;
 
+    // ✅ Location-based fee rules
+    if (this.selectedSendPoliceStation === this.selectedReceivePoliceStation) {
+      baseFee = 60; // Same police station
+    } else if (
+      this.selectedSendDistrict === this.selectedReceiveDistrict &&
+      this.selectedSendPoliceStation !== this.selectedReceivePoliceStation
+    ) {
+      baseFee = 100; // Same district, different police station
+    } else if (
+      this.selectedSendDivision === this.selectedReceiveDivision &&
+      this.selectedSendDistrict !== this.selectedReceiveDistrict
+    ) {
+      baseFee = 200; // Same division, different district
+    } else if (
+      this.selectedSendCountry === this.selectedReceiveCountry &&
+      this.selectedSendDivision !== this.selectedReceiveDivision
+    ) {
+      baseFee = 300; // Same country, different division
+    } else if (this.selectedSendCountry !== this.selectedReceiveCountry) {
+      baseFee = 500; // Different country
+    }
+
+    // ✅ Add size multiplier
+    let multiplier = 1;
     switch (this.size) {
-      case 'SMALL': baseFee = 100; break;
-      case 'MEDIUM': baseFee = 300; break;
-      case 'LARGE': baseFee = 500; break;
-      case 'EXTRA_LARGE': baseFee = 800; break;
-      default: baseFee = 0;
+      case 'MEDIUM': multiplier = 1.2; break;
+      case 'LARGE': multiplier = 1.5; break;
+      case 'EXTRA_LARGE': multiplier = 2; break;
+      default: multiplier = 1; break;
     }
 
-    if (this.selectedSendCountry !== this.selectedReceiveCountry) {
-      this.fee = baseFee + 100;
-    } else if (this.selectedSendDivision !== this.selectedReceiveDivision) {
-      this.fee = baseFee + 50;
-    } else {
-      this.fee = baseFee;
-    }
-
+    this.fee = Math.round(baseFee * multiplier);
     this.showPaymentSection = this.fee > 0;
   }
 
@@ -127,14 +159,13 @@ export class AddParcel implements OnInit {
   }
 
   submitParcel() {
+    const consumerId = localStorage.getItem("consumerId");
 
-     // ✅ localStorage থেকে সরাসরি consumerId আনলাম
-  const consumerId = localStorage.getItem("consumerId");
+    if (!consumerId) {
+      alert("Consumer ID not found. Please login again.");
+      return;
+    }
 
-  if (!consumerId) {
-    alert("Consumer ID not found. Please login again.");
-    return;
-  }
     const parcelData = {
       senderName: this.senderName,
       senderPhone: this.senderPhone,
@@ -155,17 +186,17 @@ export class AddParcel implements OnInit {
       receivePoliceStation: { id: this.selectedReceivePoliceStation },
       size: this.size,
       fee: this.fee,
-      consumer: { id: Number(consumerId) }   // ✅ string → number convert
+      consumer: { id: Number(consumerId) }
     };
 
     this.parcelService.saveParcel(parcelData).subscribe({
       next: (data) => {
-        alert('Parcel created successfully!');
+        alert('✅ Parcel created successfully!');
         this.saveToLocalNotification(data);
       },
       error: (err) => {
         console.error(err);
-        alert('Error saving parcel.');
+        alert('❌ Error saving parcel.');
       }
     });
   }
@@ -190,23 +221,17 @@ export class AddParcel implements OnInit {
 
   saveToLocalNotification(parcel: any) {
     try {
-      if (typeof window !== 'undefined' && window.localStorage) {
-        const raw = localStorage.getItem('parcelNotifications');
-        let notifications = [];
+      const raw = localStorage.getItem('parcelNotifications');
+      let notifications = raw ? JSON.parse(raw) : [];
 
-        if (raw) {
-          notifications = JSON.parse(raw);
-        }
+      notifications.push({
+        message: `📦 New Parcel: ${parcel.senderName} ➔ ${parcel.receiverName}`,
+        parcelTrackingId: parcel.trackingId,
+        parcelId: parcel.id,
+        time: new Date().toLocaleString()
+      });
 
-        notifications.push({
-          message: `📦 New Parcel: ${parcel.senderName} ➔ ${parcel.receiverName}`,
-          parcelTrackingId: parcel.trackingId,
-          parcelId: parcel.id,
-          time: new Date().toLocaleString()
-        });
-
-        localStorage.setItem('parcelNotifications', JSON.stringify(notifications));
-      }
+      localStorage.setItem('parcelNotifications', JSON.stringify(notifications));
     } catch (e) {
       console.error('Error saving to localStorage:', e);
     }
