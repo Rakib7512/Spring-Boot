@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from '../../model/user.model';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -10,14 +12,21 @@ import { Router } from '@angular/router';
 export class Home {
 
   trackingNumber!: string;
+  
 
-  constructor(
-    private router: Router
-  ){}
+  userRole!: string | null;
+  currentUser: User | null = null;
+ constructor(
+    private authService: AuthService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   onSearch(): void {
     if (this.trackingNumber.trim()) {
       this.router.navigate(['/trackParcel', this.trackingNumber]);
     }
   }
+
+
 }
